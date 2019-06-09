@@ -2,47 +2,57 @@
 /**
  * Created by PhpStorm.
  * User: lukasbock
- * Date: 05.06.19
- * Time: 22:57
+ * Date: 08.06.19
+ * Time: 17:25
  */
 
-class Section
+class Contact
 {
     private $id;
     private $position;
     private $type;
     private $title;
     private $mutedtitle;
-    private $text;
     private $date;
 
-
+    private $name;
+    private $email;
+    private $phone;
+    private $message;
+    private $captcha;
 
     /**
-     * Section constructor.
+     * Contact constructor.
      * @param $id
      * @param $position
      * @param $type
      * @param $title
-     * @param $text
+     * @param $mutedtitle
      * @param $date
+     * @param $name
+     * @param $email
+     * @param $phone
+     * @param $message
+     * @param $captcha
      */
-    public function __construct($id, $position, $type, $title, $mutedtitle, $text, $date)
+    public function __construct($id, $position, $type, $title, $mutedtitle, $date, $name, $email, $phone, $message, $captcha)
     {
         $this->id = $id;
         $this->position = $position;
         $this->type = $type;
         $this->title = $title;
         $this->mutedtitle = $mutedtitle;
-        $this->text = $text;
         $this->date = $date;
+        $this->name = $name;
+        $this->email = $email;
+        $this->phone = $phone;
+        $this->message = $message;
+        $this->captcha = $captcha;
     }
 
     /**
      * @return mixed
      */
-
-
     public function getId()
     {
         return $this->id;
@@ -123,22 +133,6 @@ class Section
     /**
      * @return mixed
      */
-    public function getText()
-    {
-        return $this->text;
-    }
-
-    /**
-     * @param mixed $text
-     */
-    public function setText($text): void
-    {
-        $this->text = $text;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getDate()
     {
         return $this->date;
@@ -152,5 +146,84 @@ class Section
         $this->date = $date;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email): void
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param mixed $phone
+     */
+    public function setPhone($phone): void
+    {
+        $this->phone = $phone;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param mixed $message
+     */
+    public function setMessage($message): void
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCaptcha()
+    {
+        return $this->captcha;
+    }
+
+    /**
+     * @param mixed $captcha
+     */
+    public function setCaptcha($captcha): void
+    {
+        $this->captcha = $captcha;
+    }
 
 }

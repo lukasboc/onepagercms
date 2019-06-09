@@ -5,10 +5,10 @@
  * Date: 05.06.19
  * Time: 23:00
  */
-include_once "Section.php";
+include_once "Standard.php";
 include_once "Icons.php";
 
-class SectionActions
+class SectionActions implements ISectionActions
 {
     private $sectionarray = Array();
 
@@ -30,9 +30,9 @@ class SectionActions
         array_push($iconTexts, "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.");
 
 
-        $sectionone = new Section(0, 0, "standard", "Testsection", "Muted Title below Title", "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr", "05.06.2019");
+        $sectionone = new Standard(0, 0, "standard", "Testsection", "Muted Title below Title", "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr", "05.06.2019");
         $sectiontwo = new Icons(1, 1, "icons", "Iconsection", "Muted Title below Title", "05.06.2019", $icons, $iconHeadlines, $iconTexts);
-        $sectionthree = new Section(2, 2, "standard", "Testsection3", "Muted Title below Title", "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr", "06.06.2019");
+        $sectionthree = new Standard(2, 2, "standard", "Testsection3", "Muted Title below Title", "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr", "06.06.2019");
 
         array_push($this->sectionarray, $sectionone);
         array_push($this->sectionarray, $sectiontwo);
@@ -94,6 +94,91 @@ class SectionActions
                     echo '      </div>
     </div>
   </section>';
+                }
+                elseif ($this->sectionarray[$i]->getType() == "contact"){
+                    $namefield = "";
+                    $emailfield = "";
+                    $phonefield = "";
+                    if($this->sectionarray[$i]->getName()){
+                        $namefield = '
+                            <div class="form-group">
+                                <input class="form-control" id="name" type="text" placeholder="Your Name *" required="required" data-validation-required-message="Please enter your name.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            '
+                        ;
+                    }
+                    if($this->sectionarray[$i]->getEmail()){
+                        $emailfield = '
+                            <div class="form-group">
+                                <input class="form-control" id="email" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email address.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            '
+                        ;
+                    }
+                    if($this->sectionarray[$i]->getEmail()){
+                        $phonefield = '
+                           <div class="form-group">
+                                <input class="form-control" id="phone" type="tel" placeholder="Your Phone *" required="required" data-validation-required-message="Please enter your phone number.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            '
+                        ;
+                    }
+                    if($this->sectionarray[$i]->getCaptcha()){
+                        $captchafield = '
+                           <div class="form-group">
+                                <img id="captcha" src="../captcha/securimage_show.php" alt="CAPTCHA Image" />
+                                <input type="text" class="form-control" name="captcha_code" size="10" maxlength="6" />
+                                <a href="#" onclick="document.getElementById(\'captcha\').src = \'../captcha/securimage_show.php?\' + Math.random(); return false">[ Different Image ]</a>
+                            </div>
+                            '
+                        ;
+                    }
+                    echo'
+                        <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading text-uppercase">' . $this->sectionarray[$i]->getTitle() . '</h2>
+                <h3 class="section-subheading text-muted">' . $this->sectionarray[$i]->getMutedTitle() . '</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <form id="contactForm" name="sentMessage" novalidate="novalidate">
+                    <div class="row">
+                        <div class="col-md-6">
+                            ' . $namefield . $emailfield . $phonefield . '
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <textarea class="form-control" id="message" placeholder="Your Message *" required="required" data-validation-required-message="Please enter a message."></textarea>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-lg-12 text-center">
+                        ' . $captchafield . '
+                            <div id="success"></div>
+                            <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Send Message</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    ';
+
+
+
                 }
             }
         } else {
