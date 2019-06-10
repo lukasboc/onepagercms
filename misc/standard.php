@@ -48,7 +48,7 @@ $backgroundimage = "";
 
             <form action="../misc/changestandard.php" method="post" id="changeform">
                 <div class="form-group">
-                    <input type="hidden" id="id" class="form-control" name="id" readonly value="<?php echo $id ?>">
+                    <input type="hidden" id="id" class="form-control" name="id" readonly value="">
                 </div>
 
                 <div class="form-group">

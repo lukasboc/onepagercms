@@ -264,7 +264,7 @@ class SQLSectionActions implements ISectionActions
         $pos = $db->prepare("SELECT * FROM sections ORDER BY position DESC LIMIT 1;");
         $pos->execute();
         $max_pos = $pos->fetch();
-        $position = $max_pos["specialid"] + 1;
+        $position = $max_pos["position"] + 1;
 
 
         $insert = $db->prepare("INSERT INTO standard (`specialid`, `position`, `sectiontype`, `title`, `mutedtitle`, `text`, `date`) VALUES (:sid, :position, :sectiontype, :title, :mutedtitle, :text, :date)");
@@ -296,7 +296,7 @@ class SQLSectionActions implements ISectionActions
             $section->bindValue(':position', $newposition);
 
             if($section->execute()){
-                header('Location: ../core/sections.php');
+                echo "New Section Created.";
             }else {
                 echo "<h1>Oh oh!</h1><p>Hier ist was schiefgegangen: <b>" . "\nPDO::errorInfo():\n";
                 print_r($insert->errorInfo());
