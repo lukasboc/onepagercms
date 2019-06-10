@@ -15,17 +15,17 @@ echo '
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="home.php">Overview<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="../core/home.php">Overview<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="sections.php">Sections</a>
+                <a class="nav-link" href="../core/sections.php">Sections</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="settings.php">Settings</a>
+                <a class="nav-link" href="../core/settings.php">Settings</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="account.php">Account</a>
+                <a class="nav-link" href="../core/account.php">Account</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="../misc/logout.php">Logout</a>

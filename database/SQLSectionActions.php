@@ -8,6 +8,8 @@
 
 include "ISectionActions.php";
 include "Standard.php";
+include "Icons.php";
+include "Contact.php";
 
 class SQLSectionActions implements ISectionActions
 {
@@ -23,23 +25,49 @@ class SQLSectionActions implements ISectionActions
         $r = $prepare->fetchAll();
 
         for ($i = 0; $i < sizeof($r); $i++) {
-            if($r[$i][1] == "standard"){
-                $prepstandard = $db->prepare('select * from standard where specialid=:specialid');
-                $prepstandard->bindValue(':specialid', $r[$i][2]);
-                $prepstandard->execute();
-                $selection = $prepstandard->fetchAll();
 
-                $standard = new Standard($selection[$i][0], $selection[$i][1], $selection[$i][2], $selection[$i][3], $selection[$i][4], $selection[$i][5], $selection[$i][6]);
+            if($r[$i][1] == "standard"){
+                $selection = $this->getEntryFromStandardTable($r[$i][2]);
+                $standard = new Standard($selection[0][0], $selection[0][1], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $selection[0][6]);
                 array_push($secation_array, $standard);
             }
 
             if($r[$i][1] == "icons"){
-                $prepstandard = $db->prepare('select * from icons where specialid=:specialid');
-                $prepstandard->bindValue(':specialid', $r[$i][2]);
-                $prepstandard->execute();
-                $selection = $prepstandard->fetchAll();
+                $selection = $this->getEntryFromIconsTable($r[$i][2]);
 
-                $icons = new Icons($selection[$i][0], $selection[$i][1], $selection[$i][2], $selection[$i][3], $selection[$i][4], $selection[$i][5], $selection[$i][6], $selection[$i][7], $selection[$i][8]);
+                $iconArray = array(
+                    $selection[0][6],
+                    $selection[0][7],
+                    $selection[0][8],
+                    $selection[0][9],
+                    $selection[0][10],
+                    $selection[0][11],
+                    $selection[0][12],
+                    $selection[0][13],
+                );
+                $iconHeadlineArray = array(
+                    $selection[0][14],
+                    $selection[0][15],
+                    $selection[0][16],
+                    $selection[0][17],
+                    $selection[0][18],
+                    $selection[0][19],
+                    $selection[0][20],
+                    $selection[0][21],
+                );
+
+                $iconTextArray = array(
+                    $selection[0][22],
+                    $selection[0][23],
+                    $selection[0][24],
+                    $selection[0][25],
+                    $selection[0][26],
+                    $selection[0][27],
+                    $selection[0][28],
+                    $selection[0][29],
+                );
+
+                $icons = new Icons($selection[0][0], $selection[0][1], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $iconArray, $iconHeadlineArray, $iconTextArray);
                 array_push($secation_array, $icons);
 
             }
@@ -50,11 +78,233 @@ class SQLSectionActions implements ISectionActions
                 $prepstandard->execute();
                 $selection = $prepstandard->fetchAll();
 
-                $contact = new Contact($selection[$i][0], $selection[$i][1], $selection[$i][2], $selection[$i][3], $selection[$i][4], $selection[$i][5], $selection[$i][6], $selection[$i][7], $selection[$i][8]);
+                $contact = new Contact($selection[0][0], $selection[0][1], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $selection[0][6], $selection[0][7], $selection[0][8], $selection[0][9], $selection[0][10]);
                 array_push($secation_array, $contact);
             }
         }
         return $secation_array;
+    }
+    private function getEntryFromStandardTable($sid){
+        include '../database/connect.php';
+
+        $prepstandard = $db->prepare('select * from standard where specialid=:specialid');
+        $prepstandard->bindValue(':specialid', $sid);
+        $prepstandard->execute();
+        $selection = $prepstandard->fetchAll();
+        return $selection;
+    }
+
+    private function getEntryFromIconsTable($sid){
+        include '../database/connect.php';
+
+        $prepstandard = $db->prepare('select * from icons where specialid=:specialid');
+        $prepstandard->bindValue(':specialid', $sid);
+        $prepstandard->execute();
+        $selection = $prepstandard->fetchAll();
+        return $selection;
+
+    }
+
+    public function showAllSections(){
+        $sectionarray = $this->getAllSections();
+        if (sizeof($sectionarray) > 0) {
+            for ($i = 0; $i < sizeof($sectionarray); $i++) {
+                if ($i % 2 == 0) {
+                    $bgcolor = "";
+                } else {
+                    $bgcolor = "bg-light ";
+                }
+                if ($sectionarray[$i]->getType() == "standard") {
+                    $this->showStandardSection($i, $bgcolor, $sectionarray);
+                } elseif ($sectionarray[$i]->getType() == "icons") {
+                   $this->showIconsSection($i, $bgcolor, $sectionarray);
+                }
+                elseif ($sectionarray[$i]->getType() == "contact"){
+                    $this->showContactSection($i, $bgcolor, $sectionarray);
+                }
+            }
+        } else {
+            echo "There are no sections configured.";
+        }
+
+    }
+
+    private function showStandardSection($i, $bgcolor, $sectionarray){
+        echo '
+                  <section class="' . $bgcolor . 'page-section" id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">' . $sectionarray[$i]->getTitle() . '</h2>
+          <h3 class="section-subheading text-muted">' . $sectionarray[$i]->getMutedTitle() . '</h3>
+        </div>
+      </div>
+      <div class="row text-center">' . $sectionarray[$i]->getText() . '
+
+      </div>
+    </div>
+  </section>
+                ';
+    }
+
+    private function showIconsSection($i, $bgcolor, $sectionarray){
+    echo '
+                      <section class="' . $bgcolor . 'page-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">' . $sectionarray[$i]->getTitle() . '</h2>
+          <h3 class="section-subheading text-muted">' . $sectionarray[$i]->getMutedTitle() . '</h3>
+        </div>
+      </div>
+      <div class="row text-center">';
+    for ($h = 0; $h < count(array_filter($sectionarray[$i]->getIcons())); $h++) {
+        echo '
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas ' . $sectionarray[$i]->getIcons()[$h] . ' fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">' . $sectionarray[$i]->getIconHeadline()[$h] . '</h4>
+          <p class="text-muted">'. $sectionarray[$i]->getIconTexts()[$h] . '</p>
+        </div>
+                    ';
+    }
+        echo '      </div>
+    </div>
+  </section>';
+    }
+
+    private function showContactSection($i, $bgcolor, $sectionarray){
+        $namefield = "";
+        $emailfield = "";
+        $phonefield = "";
+        $captchafield = "";
+        if($sectionarray[$i]->getName()){
+            $namefield = '
+                            <div class="form-group">
+                                <input class="form-control" id="name" type="text" placeholder="Your Name *" required="required" data-validation-required-message="Please enter your name.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            '
+            ;
+        }
+        if($sectionarray[$i]->getEmail()){
+            $emailfield = '
+                            <div class="form-group">
+                                <input class="form-control" id="email" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email address.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            '
+            ;
+        }
+        if($sectionarray[$i]->getEmail()){
+            $phonefield = '
+                           <div class="form-group">
+                                <input class="form-control" id="phone" type="tel" placeholder="Your Phone *" required="required" data-validation-required-message="Please enter your phone number.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            '
+            ;
+        }
+        if($sectionarray[$i]->getCaptcha()){
+            $captchafield = '
+                           <div class="form-group">
+                                <img id="captcha" src="../captcha/securimage_show.php" alt="CAPTCHA Image" />
+                                <input type="text" class="form-control" name="captcha_code" size="10" maxlength="6" />
+                                <a href="#" onclick="document.getElementById(\'captcha\').src = \'../captcha/securimage_show.php?\' + Math.random(); return false">[ Different Image ]</a>
+                            </div>
+                            '
+            ;
+        }
+        echo'
+        <section class="' . $bgcolor . 'page-section">
+                        <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading text-uppercase">' . $sectionarray[$i]->getTitle() . '</h2>
+                <h3 class="section-subheading text-muted">' . $sectionarray[$i]->getMutedTitle() . '</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <form id="contactForm" name="sentMessage" novalidate="novalidate">
+                    <div class="row">
+                        <div class="col-md-6">
+                            ' . $namefield . $emailfield . $phonefield . '
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <textarea class="form-control" id="message" placeholder="Your Message *" required="required" data-validation-required-message="Please enter a message."></textarea>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-lg-12 text-center">
+                        ' . $captchafield . '
+                            <div id="success"></div>
+                            <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Send Message</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </section>';
+    }
+
+    public function addNewStandardEntry($title, $mutedtitle, $text){
+        include '../database/connect.php';
+
+        $count = $db->prepare("SELECT * FROM standard ORDER BY specialid DESC LIMIT 1;");
+        $count->execute();
+        $number_of_rows = $count->fetch();
+        $number = $number_of_rows["specialid"] + 1;
+
+        $pos = $db->prepare("SELECT * FROM sections ORDER BY position DESC LIMIT 1;");
+        $pos->execute();
+        $max_pos = $pos->fetch();
+        $position = $max_pos["specialid"] + 1;
+
+
+        $insert = $db->prepare("INSERT INTO standard (`specialid`, `position`, `sectiontype`, `title`, `mutedtitle`, `text`, `date`) VALUES (:sid, :position, :sectiontype, :title, :mutedtitle, :text, :date)");
+
+        $insert->bindValue(':sid', $number);
+        $insert->bindValue(':position', $position);
+        $insert->bindValue(':sectiontype', 'standard');
+        $insert->bindValue(':title', $title);
+        $insert->bindValue(':mutedtitle', $mutedtitle);
+        $insert->bindValue(':text', $text);
+        $insert->bindValue(':date', date("m.d.Y"));
+
+        if ($insert->execute()) {
+            $ncount = $db->prepare("SELECT * FROM sections ORDER BY id DESC LIMIT 1;");
+            $ncount->execute();
+            $tnumber_of_rows = $ncount->fetch();
+            $gnumber = $tnumber_of_rows["id"] + 1;
+
+            $maxpos = $db->prepare("SELECT * FROM sections ORDER BY position DESC LIMIT 1;");
+            $maxpos->execute();
+            $maximumposition = $maxpos->fetch();
+            $newposition = $maximumposition["position"] + 1;
+
+            $section = $db->prepare("INSERT INTO sections (`id`, `type`, `specialid`, `position`) VALUES (:id, :type, :specialid, :position)");
+
+            $section->bindValue(':id', $gnumber);
+            $section->bindValue(':type', 'standard');
+            $section->bindValue(':specialid', $position);
+            $section->bindValue(':position', $newposition);
+
+            if($section->execute()){
+                header('Location: ../core/sections.php');
+            }else {
+                echo "<h1>Oh oh!</h1><p>Hier ist was schiefgegangen: <b>" . "\nPDO::errorInfo():\n";
+                print_r($insert->errorInfo());
+            }
+        } else {
+            echo "<h1>Oh oh!</h1><p>Hier ist was schiefgegangen: <b>" . "\nPDO::errorInfo():\n";
+            print_r($insert->errorInfo());
+        }
 
     }
 }

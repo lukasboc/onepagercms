@@ -77,7 +77,7 @@ for($i=0; sizeof($sections) > $i; $i++){
     <form action="../misc/newsection.php" method="post">
         <div class="form-group">
     <label for="types">Type:</label>
-    <select class="form-control col-1" id="types">
+    <select class="form-control col-1" name="type" id="types">
         <option>standard</option>
         <option>icons</option>
         <option>contact</option>

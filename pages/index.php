@@ -53,7 +53,7 @@ require_once "../database/SQLSectionActions.php";
 <!-- Sections -->
 <?php
 $sectionactions = new SQLSectionActions();
-$sectionactions->getAllSections()
+$sectionactions->showAllSections()
 ?>
 
 <!-- Contact -->
