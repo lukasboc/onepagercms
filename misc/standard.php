@@ -63,14 +63,14 @@ $backgroundimage = "";
                 </div>
 
                 <div class="form-group">
-                    <label for="openinghours">Muted Title:</label>
+                    <label for="mutedtitle"">Muted Title:</label>
                     <input type="text" id=mutedtitle" class="form-control" required
                            name="mutedtitle"
                            >
                 </div>
 
                 <div class="form-group">
-                    <label for="description">Text:</label>
+                    <label for="text">Text:</label>
                     <textarea rows="4" id="text" class="form-control" required form="changeform"
                               name="text"
                               cols="73"></textarea>
