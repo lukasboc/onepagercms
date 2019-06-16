@@ -1,78 +1,52 @@
-body {
-    background: lightgray;
+.login-container{
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
-form {
-    width: 60%;
-    margin: 60px auto;
-    background: #efefef;
-    padding: 60px 120px 80px 120px;
+.login-form-1{
+    padding: 5%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form-1 h3{
     text-align: center;
-    -webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
-    box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+    color: #333;
 }
-label {
-    display: block;
-    position: relative;
-    margin: 40px 0px;
+.login-form-2{
+    padding: 5%;
+    background: #0062cc;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
 }
-.label-txt {
-    position: absolute;
-    top: -1.6em;
-    padding: 10px;
-    font-family: sans-serif;
-    font-size: .8em;
-    letter-spacing: 1px;
-    color: rgb(120,120,120);
-    transition: ease .3s;
+.login-form-2 h3{
+    text-align: center;
+    color: #fff;
 }
-.input {
-    width: 100%;
-    padding: 10px;
-    background: transparent;
+.login-container form{
+    padding: 10%;
+}
+.btnSubmit
+{
+    width: 50%;
+    border-radius: 1rem;
+    padding: 1.5%;
     border: none;
-    outline: none;
-}
-
-.line-box {
-    position: relative;
-    width: 100%;
-    height: 2px;
-    background: #BCBCBC;
-}
-
-.line {
-    position: absolute;
-    width: 0%;
-    height: 2px;
-    top: 0px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #8BC34A;
-    transition: ease .6s;
-}
-
-.input:focus + .line-box .line {
-    width: 100%;
-}
-
-.label-active {
-    top: -3em;
-}
-
-button {
-    display: inline-block;
-    padding: 12px 24px;
-    background: rgb(220,220,220);
-    font-weight: bold;
-    color: rgb(120,120,120);
-    border: none;
-    outline: none;
-    border-radius: 3px;
     cursor: pointer;
-    transition: ease .3s;
 }
-
-button:hover {
-    background: #8BC34A;
-    color: #ffffff;
+.login-form-1 .btnSubmit{
+    font-weight: 600;
+    color: #fff;
+    background-color: #0062cc;
+}
+.login-form-2 .btnSubmit{
+    font-weight: 600;
+    color: #0062cc;
+    background-color: #fff;
+}
+.login-form-2 .ForgetPwd{
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+}
+.login-form-1 .ForgetPwd{
+    color: #0062cc;
+    font-weight: 600;
+    text-decoration: none;
 }

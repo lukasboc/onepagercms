@@ -3,7 +3,7 @@
 
 <?php
 require_once "inc/head.php";
-require_once "../database/SQLSectionActions.php";
+require '../database/SQLSectionActions.php';
 ?>
 
 <body id="page-top">

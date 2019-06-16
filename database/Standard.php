@@ -16,8 +16,6 @@ class Standard
     private $text;
     private $date;
 
-
-
     /**
      * Section constructor.
      * @param $id

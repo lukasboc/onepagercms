@@ -55,7 +55,7 @@ for($i=0; sizeof($sections) > $i; $i++){
     </div>
     <div class="col-3">
          <div class="form-group">
-      <form method="post" action="../misc/editsection.php">
+      <form method="post" action="../misc/changesection.php">
       <input type="hidden" name="id" value="' . $sections[$i]->getId() . '">
       <input type="hidden" name="type" value="' . $sections[$i]->getType() . '">
       <input type="submit" name="action" value="Edit" class="btn btn-primary">

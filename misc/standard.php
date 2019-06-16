@@ -1,4 +1,6 @@
 <?php
+include "../database/SQLSectionActions.php";
+
 if(isset($_GET['action'])){
     $headline = $_GET['action'];
 } else {
@@ -11,6 +13,11 @@ $Text = "";
 $sid = "";
 $id = "";
 $backgroundimage = "";
+
+if(isset($_GET['id'])){
+    $sectionactions2 = new SQLSectionActions();
+    $sectionactions2->getSectionByID($_GET['id']);
+}
 
 ?>
 <!DOCTYPE html>

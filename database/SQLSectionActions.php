@@ -6,10 +6,10 @@
  * Time: 21:54
  */
 
-include "ISectionActions.php";
-include "Standard.php";
-include "Icons.php";
-include "Contact.php";
+include "../database/ISectionActions.php";
+include "../database/Standard.php";
+include "../database/Icons.php";
+include "../database/Contact.php";
 
 class SQLSectionActions implements ISectionActions
 {
@@ -304,6 +304,25 @@ class SQLSectionActions implements ISectionActions
         } else {
             echo "<h1>Oh oh!</h1><p>Hier ist was schiefgegangen: <b>" . "\nPDO::errorInfo():\n";
             print_r($insert->errorInfo());
+        }
+
+    }
+
+    public function getSectionByID($id){
+        include '../database/connect.php';
+
+        $prepstandard = $db->prepare('select * from sections where id=:id');
+        $prepstandard->bindValue(':id', $id);
+        $prepstandard->execute();
+        $selection = $prepstandard->fetch();
+
+        if($selection['type'] == 'standard'){
+        $getfromspecial = $db->prepare('select * from standard where specialid=:specialid');
+        $getfromspecial->bindValue(':specialid', $selection['specialid']);
+        $getfromspecial->execute();
+        $section = $getfromspecial->fetch();
+
+        return $section;
         }
 
     }
