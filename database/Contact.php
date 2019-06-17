@@ -20,6 +20,7 @@ class Contact
     private $phone;
     private $message;
     private $captcha;
+    private $superid;
 
     /**
      * Contact constructor.
@@ -35,7 +36,7 @@ class Contact
      * @param $message
      * @param $captcha
      */
-    public function __construct($id, $position, $type, $title, $mutedtitle, $date, $name, $email, $phone, $message, $captcha)
+    public function __construct($id, $position, $type, $title, $mutedtitle, $date, $name, $email, $phone, $message, $captcha, $superid)
     {
         $this->id = $id;
         $this->position = $position;
@@ -48,6 +49,7 @@ class Contact
         $this->phone = $phone;
         $this->message = $message;
         $this->captcha = $captcha;
+        $this->superid = $superid;
     }
 
     /**
@@ -224,6 +226,22 @@ class Contact
     public function setCaptcha($captcha): void
     {
         $this->captcha = $captcha;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSuperid()
+    {
+        return $this->superid;
+    }
+
+    /**
+     * @param mixed $superid
+     */
+    public function setSuperid($superid): void
+    {
+        $this->superid = $superid;
     }
 
 }

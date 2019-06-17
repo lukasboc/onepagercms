@@ -17,6 +17,7 @@ class Icons
     private $icons = Array();
     private $iconHeadline = Array();
     private $iconTexts = Array();
+    private $superid;
 
     /**
      * Icons constructor.
@@ -29,7 +30,7 @@ class Icons
      * @param array $icons
      * @param array $iconHeadline
      */
-    public function __construct($id, $position, $type, $title, $mutedtitle, $date, array $icons, array $iconHeadline, array $iconTexts)
+    public function __construct($id, $position, $type, $title, $mutedtitle, $date, array $icons, array $iconHeadline, array $iconTexts, $superid)
     {
         $this->id = $id;
         $this->position = $position;
@@ -40,7 +41,7 @@ class Icons
         $this->icons = $icons;
         $this->iconHeadline = $iconHeadline;
         $this->iconTexts = $iconTexts;
-
+        $this->superid = $superid;
     }
 
     /**
@@ -185,6 +186,22 @@ class Icons
     public function setIconTexts(array $iconTexts): void
     {
         $this->iconTexts = $iconTexts;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSuperid()
+    {
+        return $this->superid;
+    }
+
+    /**
+     * @param mixed $superid
+     */
+    public function setSuperid($superid): void
+    {
+        $this->superid = $superid;
     }
 
 

@@ -9,14 +9,19 @@ if(isset($_GET['action'])){
 }
 $title = "";
 $mutedTitle = "";
-$Text = "";
+$text = "";
 $sid = "";
 $id = "";
 $backgroundimage = "";
 
 if(isset($_GET['id'])){
-    $sectionactions2 = new SQLSectionActions();
-    $sectionactions2->getSectionByID($_GET['id']);
+    $sectionactions = new SQLSectionActions();
+    $section = $sectionactions->getSectionByID($_GET['id']);
+
+    $sid = $section['specialid'];
+    $title = $section['title'];
+    $mutedTitle = $section['mutedtitle'];
+    $text = $section['text'];
 }
 
 ?>
@@ -55,7 +60,7 @@ if(isset($_GET['id'])){
 
             <form action="../misc/changestandard.php" method="post" id="changeform">
                 <div class="form-group">
-                    <input type="hidden" id="id" class="form-control" name="id" readonly value="">
+                    <input type="hidden" id="id" class="form-control" name="id" readonly value="<?php echo $sid ?>">
                 </div>
 
                 <div class="form-group">
@@ -65,14 +70,14 @@ if(isset($_GET['id'])){
 
                 <div class="form-group">
                     <label for="title">Title:</label>
-                    <input type="text" id="title" class="form-control" required name="title"
+                    <input type="text" id="title" class="form-control" required name="title" value="<?php echo $title ?>"
                            >
                 </div>
 
                 <div class="form-group">
                     <label for="mutedtitle"">Muted Title:</label>
                     <input type="text" id=mutedtitle" class="form-control" required
-                           name="mutedtitle"
+                           name="mutedtitle" value="<?php echo $mutedTitle ?>"
                            >
                 </div>
 
@@ -80,7 +85,7 @@ if(isset($_GET['id'])){
                     <label for="text">Text:</label>
                     <textarea rows="4" id="text" class="form-control" required form="changeform"
                               name="text"
-                              cols="73"></textarea>
+                              cols="73"><?php echo $text ?></textarea>
                 </div>
 
 

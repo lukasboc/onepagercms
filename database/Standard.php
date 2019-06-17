@@ -15,6 +15,7 @@ class Standard
     private $mutedtitle;
     private $text;
     private $date;
+    private $superid;
 
     /**
      * Section constructor.
@@ -25,7 +26,7 @@ class Standard
      * @param $text
      * @param $date
      */
-    public function __construct($id, $position, $type, $title, $mutedtitle, $text, $date)
+    public function __construct($id, $position, $type, $title, $mutedtitle, $text, $date, $superid)
     {
         $this->id = $id;
         $this->position = $position;
@@ -34,6 +35,7 @@ class Standard
         $this->mutedtitle = $mutedtitle;
         $this->text = $text;
         $this->date = $date;
+        $this->superid = $superid;
     }
 
     /**
@@ -148,6 +150,22 @@ class Standard
     public function setDate($date): void
     {
         $this->date = $date;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSuperid()
+    {
+        return $this->superid;
+    }
+
+    /**
+     * @param mixed $superid
+     */
+    public function setSuperid($superid): void
+    {
+        $this->superid = $superid;
     }
 
 

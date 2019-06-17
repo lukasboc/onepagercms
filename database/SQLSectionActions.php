@@ -28,7 +28,8 @@ class SQLSectionActions implements ISectionActions
 
             if($r[$i][1] == "standard"){
                 $selection = $this->getEntryFromStandardTable($r[$i][2]);
-                $standard = new Standard($selection[0][0], $selection[0][1], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $selection[0][6]);
+                $superid = $this->getSuperIDForStandardEntry($selection[0]['specialid']);
+                $standard = new Standard($selection[0][0], $selection[0][1], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $selection[0][6], $superid[0][0]);
                 array_push($secation_array, $standard);
             }
 
@@ -66,8 +67,9 @@ class SQLSectionActions implements ISectionActions
                     $selection[0][28],
                     $selection[0][29],
                 );
+                $superid = $this->getSuperIDForIconsEntry($selection[0]['specialid']);
 
-                $icons = new Icons($selection[0][0], $selection[0][1], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $iconArray, $iconHeadlineArray, $iconTextArray);
+                $icons = new Icons($selection[0][0], $selection[0][1], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $iconArray, $iconHeadlineArray, $iconTextArray, $superid[0]['id']);
                 array_push($secation_array, $icons);
 
             }
@@ -78,7 +80,9 @@ class SQLSectionActions implements ISectionActions
                 $prepstandard->execute();
                 $selection = $prepstandard->fetchAll();
 
-                $contact = new Contact($selection[0][0], $selection[0][1], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $selection[0][6], $selection[0][7], $selection[0][8], $selection[0][9], $selection[0][10]);
+                $superid = $this->getSuperIDForContactEntry($selection[0]['specialid']);
+
+                $contact = new Contact($selection[0][0], $selection[0][1], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $selection[0][6], $selection[0][7], $selection[0][8], $selection[0][9], $selection[0][10], $superid[0]['id']);
                 array_push($secation_array, $contact);
             }
         }
@@ -93,6 +97,39 @@ class SQLSectionActions implements ISectionActions
         $selection = $prepstandard->fetchAll();
         return $selection;
     }
+    private function getSuperIDForStandardEntry($sid){
+        include '../database/connect.php';
+
+        $prepstandard = $db->prepare('select id from sections where specialid=:specialid AND type=:type');
+        $prepstandard->bindValue(':specialid', $sid);
+        $prepstandard->bindValue(':type', 'standard');
+        $prepstandard->execute();
+        $selection = $prepstandard->fetchAll();
+        return $selection;
+    }
+
+    private function getSuperIDForIconsEntry($sid){
+        include '../database/connect.php';
+
+        $prepstandard = $db->prepare('select id from sections where specialid=:specialid AND type=:type');
+        $prepstandard->bindValue(':specialid', $sid);
+        $prepstandard->bindValue(':type', 'icons');
+        $prepstandard->execute();
+        $selection = $prepstandard->fetchAll();
+        return $selection;
+    }
+
+    private function getSuperIDForContactEntry($sid){
+        include '../database/connect.php';
+
+        $prepstandard = $db->prepare('select id from sections where specialid=:specialid AND type=:type');
+        $prepstandard->bindValue(':specialid', $sid);
+        $prepstandard->bindValue(':type', 'contact');
+        $prepstandard->execute();
+        $selection = $prepstandard->fetchAll();
+        return $selection;
+    }
+
 
     private function getEntryFromIconsTable($sid){
         include '../database/connect.php';
@@ -296,7 +333,8 @@ class SQLSectionActions implements ISectionActions
             $section->bindValue(':position', $newposition);
 
             if($section->execute()){
-                echo "New Section Created.";
+                header("Location: ../core/sections.php");
+
             }else {
                 echo "<h1>Oh oh!</h1><p>Hier ist was schiefgegangen: <b>" . "\nPDO::errorInfo():\n";
                 print_r($insert->errorInfo());
@@ -323,6 +361,46 @@ class SQLSectionActions implements ISectionActions
         $section = $getfromspecial->fetch();
 
         return $section;
+        }
+
+    }
+
+    public function getSectionBySID($sid){
+        include '../database/connect.php';
+
+            $getfromspecial = $db->prepare('select * from standard where specialid=:specialid');
+            $getfromspecial->bindValue(':specialid', $sid);
+            $getfromspecial->execute();
+            $section = $getfromspecial->fetch();
+            return $section;
+    }
+
+
+    public function deleteStandardEntry($sid){
+        include '../database/connect.php';
+
+        $select = $db->prepare("DELETE FROM sections
+                                   WHERE `specialid`=:sid");
+
+        $select->bindValue(':sid', $sid);
+
+        if ($select->execute()) {
+            header("Location: ../core/sections.php");
+        } else {
+            echo '<h1>An Error occurred!</h1><p>Please try again: ' . print_r($select->errorInfo()) . '</p>';
+            header("refresh:3;url=../core/sections.php");
+        }
+
+        $delete = $db->prepare("DELETE FROM standard
+                                   WHERE `specialid`=:sid");
+
+        $delete->bindValue(':sid', $sid);
+
+        if ($delete->execute()) {
+            header("Location: ../core/sections.php");
+        } else {
+            echo '<h1>An Error occurred!</h1><p>Please try again: ' . $select->errorInfo() . '</p>';
+            header("refresh:3;url=../core/sections.php");
         }
 
     }

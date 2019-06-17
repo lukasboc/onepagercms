@@ -3,8 +3,8 @@ if(isset($_GET['action'])){
     $headline = $_GET['action'];
 } else {
     $headline = $_POST['action'];
-
 }
+
 $title = "";
 $mutedTitle = "";
 $Text = "";

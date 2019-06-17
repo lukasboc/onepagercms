@@ -54,14 +54,9 @@ for($i=0; sizeof($sections) > $i; $i++){
       ' . $sections[$i]->getTitle() . '
     </div>
     <div class="col-3">
-         <div class="form-group">
-      <form method="post" action="../misc/changesection.php">
-      <input type="hidden" name="id" value="' . $sections[$i]->getId() . '">
-      <input type="hidden" name="type" value="' . $sections[$i]->getType() . '">
-      <input type="submit" name="action" value="Edit" class="btn btn-primary">
-      <input type="submit" name="action" value="Delete" class="btn btn-secondary">
-
-</form>
+<div class="btn-group">
+      <a href="../misc/changesection.php?id=' . $sections[$i]->getSuperid() . '&action=Edit&type=' . $sections[$i]->getType() . '" class="btn btn-primary" role="button">Edit</a>
+      <a href="../misc/changesection.php?id=' . $sections[$i]->getSuperid() . '&action=Delete&type=' . $sections[$i]->getType() . '" class="btn btn-light" role="button">Delete</a>
 </div>
     </div>
   </div>
