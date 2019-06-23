@@ -12,6 +12,20 @@ $sid = "";
 $id = "";
 $backgroundimage = "";
 
+if(isset($_GET['id'])){
+    $id = $_GET['id'];
+    include "../database/SQLSectionActions.php";
+    $actions = new SQLSectionActions();
+    $section = $actions->getSectionByID($id);
+
+    $title = $section->getTitle();
+    $mutedTitle = $section->getMutedtitle();
+    $iconamount = sizeof($section->getIcons());
+    $icons = $section->getIcons();
+    $iconheadlines = $section->getIconHeadline();
+    $icontexts = $section->getIconTexts();
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,7 +45,7 @@ $backgroundimage = "";
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
                 <div class="form-group">
                     <img class="img-fluid" src="<?php echo $backgroundimage ?>"><br>
-                    <label for="image-upload">Bild hochladen:</label>
+                    <label for="image-upload">Background-Image:</label>
                     <input type="hidden" id="id" class="form-control" name="id" readonly
                            value="<?php echo $id ?>">
                     <input type="hidden" id="action" class="form-control" name="action" readonly
@@ -53,136 +67,62 @@ $backgroundimage = "";
 
                 <div class="form-group">
                     <label for="title">Title:</label>
-                    <input type="text" id="title" class="form-control" required name="title"
+                    <input type="text" id="title" class="form-control" required name="title" value="<?php echo $title ?>"
                     >
                 </div>
 
                 <div class="form-group">
                     <label for="mutedtitle"">Muted Title:</label>
                     <input type="text" id=mutedtitle" class="form-control" required
-                           name="mutedtitle"
+                           name="mutedtitle" value="<?php echo $mutedTitle ?>"
                     >
                 </div>
 
                 <div class="form-group">
                     <label for="description">Amount of Icons:</label>
-                    <select id="amound-of-sections" name="amound-of-sections">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
+                    <select class="form-control" id="amound-of-sections" name="amound-of-sections">
+                        <?php
+                        for($i = 1; $i < 9; $i++){
+                            if ($i == $iconamount){
+                                $select = "selected";
+                            } else{
+                                $select = "";
+                            }
+                            echo '<option ' . $select . ' value="' . $i .  '">' . $i . '</option>';
+                        }
+                        ?>
                     </select>
                 </div>
 
-
-                <div class="form-group">
-                    <label for="icon-1">Icon 1:</label>
-                    <input type="text" id=icon-1" class="form-control"
-                           name="icon-1">
-                    <label for="icon-1-headline">Icon 1 Headline:</label>
-                    <input type="text" id=icon-1-headline" class="form-control"
-                           name="icon-1-headline">
-                    <label for="icon-1-text">Icon 1 Text:</label>
+                <?php
+                for ($i = 1; $i < 9; $i++){
+                    if(isset($icons[$i-1])){
+                        $icon = $icons[$i-1];
+                        $iconheadline = $iconheadlines[$i-1];
+                        $icontext = $icontexts[$i-1];
+                    }
+                    else {
+                        $icon = "";
+                        $iconheadline = "";
+                        $icontext = "";
+                    }
+                    echo '
+                    <div class="form-group iconoption" id="' . $i . '">
+                    <h2>Icon ' . $i . '</h2>
+                    <input type="text" id=icon-' . $i . '" class="form-control mb-3"
+                           name="icon-' . $i . '" placeholder="Icon" value="' . $icon . '">
+                    <div class="alert alert-info" role="alert">
+                        Example: fa-shopping-cart
+                    </div>
+                            <input type="text" id=icon-' . $i . '-headline" class="form-control mb-3"
+                           name="icon-' . $i . '-headline" placeholder="Headline" value="' . $iconheadline . '">
                     <input type="text" id=icon-1-text" class="form-control"
-                           name="icon-1-text">
+                           name="icon-' . $i . '-text" placeholder="Text" value="' . $icontext . '">
 
                 </div>
-
-                <div class="form-group">
-                    <label for="icon-2">Icon 2:</label>
-                    <input type="text" id=icon-2" class="form-control"
-                           name="icon-2">
-                    <label for="icon-2-headline">Icon 2 Headline:</label>
-                    <input type="text" id=icon-1-headline" class="form-control"
-                           name="icon-2-headline">
-                    <label for="icon-2-text">Icon 2 Text:</label>
-                    <input type="text" id=icon-1-text" class="form-control"
-                           name="icon-2-text">
-
-                </div>
-
-                <div class="form-group">
-                    <label for="icon-3">Icon 3:</label>
-                    <input type="text" id=icon-3" class="form-control"
-                           name="icon-3">
-                    <label for="icon-3-headline">Icon 3 Headline:</label>
-                    <input type="text" id=icon-3-headline" class="form-control"
-                           name="icon-3-headline">
-                    <label for="icon-3-text">Icon 3 Text:</label>
-                    <input type="text" id=icon-3-text" class="form-control"
-                           name="icon-3-text">
-
-                </div>
-
-                <div class="form-group">
-                    <label for="icon-4">Icon 4:</label>
-                    <input type="text" id=icon-4" class="form-control"
-                           name="icon-4">
-                    <label for="icon-4-headline">Icon 4 Headline:</label>
-                    <input type="text" id=icon-1-headline" class="form-control"
-                           name="icon-4-headline">
-                    <label for="icon-4-text">Icon 4 Text:</label>
-                    <input type="text" id=icon-4-text" class="form-control"
-                           name="icon-4-text">
-
-                </div>
-
-                <div class="form-group">
-                    <label for="icon-5">Icon 5:</label>
-                    <input type="text" id=icon-5" class="form-control"
-                           name="icon-5">
-                    <label for="icon-5-headline">Icon 5 Headline:</label>
-                    <input type="text" id=icon-5-headline" class="form-control"
-                           name="icon-5-headline">
-                    <label for="icon-5-text">Icon 5 Text:</label>
-                    <input type="text" id=icon-5-text" class="form-control"
-                           name="icon-5-text">
-
-                </div>
-
-                <div class="form-group">
-                    <label for="icon-6">Icon 6:</label>
-                    <input type="text" id=icon-6" class="form-control"
-                           name="icon-6">
-                    <label for="icon-6-headline">Icon 6 Headline:</label>
-                    <input type="text" id=icon-6-headline" class="form-control"
-                           name="icon-6-headline">
-                    <label for="icon-6-text">Icon 6 Text:</label>
-                    <input type="text" id=icon-6-text" class="form-control"
-                           name="icon-6-text">
-
-                </div>
-
-                <div class="form-group">
-                    <label for="icon-7">Icon 7:</label>
-                    <input type="text" id=icon-7" class="form-control"
-                           name="icon-7">
-                    <label for="icon-7-headline">Icon 7 Headline:</label>
-                    <input type="text" id=icon-1-headline" class="form-control"
-                           name="icon-7-headline">
-                    <label for="icon-7-text">Icon 7 Text:</label>
-                    <input type="text" id=icon-7-text" class="form-control"
-                           name="icon-7-text">
-
-                </div>
-
-                <div class="form-group">
-                    <label for="icon-8">Icon 8:</label>
-                    <input type="text" id=icon-8" class="form-control"
-                           name="icon-8">
-                    <label for="icon-8-headline">Icon 8 Headline:</label>
-                    <input type="text" id=icon-8-headline" class="form-control"
-                           name="icon-8-headline">
-                    <label for="icon-8-text">Icon 8 Text:</label>
-                    <input type="text" id=icon-8-text" class="form-control"
-                           name="icon-8-text">
-
-                </div>
-
+                    ';
+                }
+                ?>
                 <div class="form-group">
                     <input type="hidden" id="image" class="form-control" required name="image" readonly
                            value="">
@@ -198,5 +138,71 @@ $backgroundimage = "";
         <div class="col"></div>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $("select").change(function(){
+            $(this).find("option:selected").each(function(){
+                if($(this).attr("value")=="1"){
+                    $(".iconoption").not("#1").hide();
+                    $("#1").show();
+                }else if($(this).attr("value")=="2"){
+                    $(".iconoption").not("#2").hide();
+                    $("#1").show();
+                    $("#2").show();
+                }else if($(this).attr("value")=="3"){
+                    $(".iconoption").not("#3").hide();
+                    $("#1").show();
+                    $("#2").show();
+                    $("#3").show();
+                }else if($(this).attr("value")=="4"){
+                    $(".iconoption").not("#4").hide();
+                    $("#1").show();
+                    $("#2").show();
+                    $("#3").show();
+                    $("#4").show();
+                }else if($(this).attr("value")=="5"){
+                    $(".iconoption").not("#5").hide();
+                    $("#1").show();
+                    $("#2").show();
+                    $("#3").show();
+                    $("#4").show();
+                    $("#5").show();
+                }else if($(this).attr("value")=="6"){
+                    $(".iconoption").not("#6").hide();
+                    $("#1").show();
+                    $("#2").show();
+                    $("#3").show();
+                    $("#4").show();
+                    $("#5").show();
+                    $("#6").show();
+
+                }else if($(this).attr("value")=="7"){
+                    $(".iconoption").not("#7").hide();
+                    $("#1").show();
+                    $("#2").show();
+                    $("#3").show();
+                    $("#4").show();
+                    $("#5").show();
+                    $("#6").show();
+                    $("#7").show();
+
+                }else if($(this).attr("value")=="8"){
+                    $(".iconoption").not("#8").hide();
+                    $("#1").show();
+                    $("#2").show();
+                    $("#3").show();
+                    $("#4").show();
+                    $("#5").show();
+                    $("#6").show();
+                    $("#7").show();
+                    $("#8").show();
+                } else{
+                    $(".iconoption").hide();
+                }
+            });
+        }).change();
+    });
+</script>
 </body>
 </html>

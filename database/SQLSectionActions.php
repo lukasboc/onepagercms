@@ -360,7 +360,27 @@ class SQLSectionActions implements ISectionActions
         $getfromspecial->execute();
         $section = $getfromspecial->fetch();
 
-        return $section;
+        $standard = new Standard($section['specialid'], $section['position'], 'standard', $section['title'], $section['mutedtitle'], $section['text'], $section['date'], $id);
+
+        return $standard;
+        } elseif ($selection['type'] == 'icons'){
+            $getfromspecial = $db->prepare('select * from icons where specialid=:specialid');
+            $getfromspecial->bindValue(':specialid', $selection['specialid']);
+            $getfromspecial->execute();
+            $section = $getfromspecial->fetch();
+            $iconarray = Array();
+            $iconheadlinearray = Array();
+            $icontextarray = Array();
+            for($i = 6; $i < 14; $i++){
+                if($section[$i] != null){
+                    array_push($iconarray, $section[$i]);
+                    array_push($iconheadlinearray, $section[$i+8]);
+                    array_push($icontextarray, $section[$i+16]);
+                }
+            }
+            $icons = new Icons($section['specialid'], $section['position'], 'icons', $section['title'], $section['mutedtitle'], $section['date'], $iconarray, $iconheadlinearray, $icontextarray, $id);
+
+            return $icons;
         }
 
     }

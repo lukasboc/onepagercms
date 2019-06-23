@@ -18,10 +18,10 @@ if(isset($_GET['id'])){
     $sectionactions = new SQLSectionActions();
     $section = $sectionactions->getSectionByID($_GET['id']);
 
-    $sid = $section['specialid'];
-    $title = $section['title'];
-    $mutedTitle = $section['mutedtitle'];
-    $text = $section['text'];
+    $sid = $section->getSuperid();
+    $title = $section->getTitle();
+    $mutedTitle = $section->getMutedtitle();
+    $text = $section->getText();
 }
 
 ?>

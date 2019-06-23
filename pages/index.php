@@ -42,9 +42,9 @@ require '../database/SQLSectionActions.php';
 <header class="masthead">
     <div class="container">
         <div class="intro-text">
-            <div class="intro-lead-in">Welcome To Our Studio!</div>
-            <div class="intro-heading text-uppercase">It's Nice To Meet You</div>
-            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Tell Me More</a>
+            <div class="intro-lead-in">Welcome To OnePager CMS</div>
+            <div class="intro-heading text-uppercase">CMS for OnePager-Sites</div>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Download now</a>
         </div>
     </div>
 </header>
