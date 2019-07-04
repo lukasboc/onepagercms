@@ -60,7 +60,7 @@ if(isset($_GET['id'])){
 
             </form>
 
-            <form action="../misc/changestandard.php" method="post" id="changeform">
+            <form action="../misc/changeicons.php" method="post" id="changeform">
                 <div class="form-group">
                     <input type="hidden" id="id" class="form-control" name="id" readonly value="">
                 </div>

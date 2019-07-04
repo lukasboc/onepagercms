@@ -290,6 +290,55 @@ class SQLSectionActions implements ISectionActions
     </section>';
     }
 
+    public function getSectionByID($id){
+        include '../database/connect.php';
+
+        $prepstandard = $db->prepare('select * from sections where id=:id');
+        $prepstandard->bindValue(':id', $id);
+        $prepstandard->execute();
+        $selection = $prepstandard->fetch();
+
+        if($selection['type'] == 'standard'){
+        $getfromspecial = $db->prepare('select * from standard where specialid=:specialid');
+        $getfromspecial->bindValue(':specialid', $selection['specialid']);
+        $getfromspecial->execute();
+        $section = $getfromspecial->fetch();
+
+        $standard = new Standard($section['specialid'], $section['position'], 'standard', $section['title'], $section['mutedtitle'], $section['text'], $section['date'], $id);
+
+        return $standard;
+        } elseif ($selection['type'] == 'icons'){
+            $getfromspecial = $db->prepare('select * from icons where specialid=:specialid');
+            $getfromspecial->bindValue(':specialid', $selection['specialid']);
+            $getfromspecial->execute();
+            $section = $getfromspecial->fetch();
+            $iconarray = Array();
+            $iconheadlinearray = Array();
+            $icontextarray = Array();
+            for($i = 6; $i < 14; $i++){
+                if($section[$i] != null){
+                    array_push($iconarray, $section[$i]);
+                    array_push($iconheadlinearray, $section[$i+8]);
+                    array_push($icontextarray, $section[$i+16]);
+                }
+            }
+            $icons = new Icons($section['specialid'], $section['position'], 'icons', $section['title'], $section['mutedtitle'], $section['date'], $iconarray, $iconheadlinearray, $icontextarray, $id);
+
+            return $icons;
+        }
+
+    }
+
+    public function getSectionBySID($sid){
+        include '../database/connect.php';
+
+            $getfromspecial = $db->prepare('select * from standard where specialid=:specialid');
+            $getfromspecial->bindValue(':specialid', $sid);
+            $getfromspecial->execute();
+            $section = $getfromspecial->fetch();
+            return $section;
+    }
+
     public function addNewStandardEntry($title, $mutedtitle, $text){
         include '../database/connect.php';
 
@@ -346,56 +395,232 @@ class SQLSectionActions implements ISectionActions
 
     }
 
-    public function getSectionByID($id){
+    public function addNewIconsEntry($title, $mutedtitle, $iconarray, $iconheadlinearray, $icontextarray)
+    {
         include '../database/connect.php';
 
-        $prepstandard = $db->prepare('select * from sections where id=:id');
-        $prepstandard->bindValue(':id', $id);
-        $prepstandard->execute();
-        $selection = $prepstandard->fetch();
+        $count = $db->prepare("SELECT * FROM icons ORDER BY specialid DESC LIMIT 1;");
+        $count->execute();
+        $number_of_rows = $count->fetch();
+        $number = $number_of_rows["specialid"] + 1;
 
-        if($selection['type'] == 'standard'){
-        $getfromspecial = $db->prepare('select * from standard where specialid=:specialid');
-        $getfromspecial->bindValue(':specialid', $selection['specialid']);
-        $getfromspecial->execute();
-        $section = $getfromspecial->fetch();
+        $pos = $db->prepare("SELECT * FROM sections ORDER BY position DESC LIMIT 1;");
+        $pos->execute();
+        $max_pos = $pos->fetch();
+        $position = $max_pos["position"] + 1;
 
-        $standard = new Standard($section['specialid'], $section['position'], 'standard', $section['title'], $section['mutedtitle'], $section['text'], $section['date'], $id);
 
-        return $standard;
-        } elseif ($selection['type'] == 'icons'){
-            $getfromspecial = $db->prepare('select * from icons where specialid=:specialid');
-            $getfromspecial->bindValue(':specialid', $selection['specialid']);
-            $getfromspecial->execute();
-            $section = $getfromspecial->fetch();
-            $iconarray = Array();
-            $iconheadlinearray = Array();
-            $icontextarray = Array();
-            for($i = 6; $i < 14; $i++){
-                if($section[$i] != null){
-                    array_push($iconarray, $section[$i]);
-                    array_push($iconheadlinearray, $section[$i+8]);
-                    array_push($icontextarray, $section[$i+16]);
-                }
+        $insert = $db->prepare("INSERT INTO icons (`specialid`, `position`, `sectiontype`, `title`, `mutedtitle`,  `date`, `iconone`, `icontwo`, `iconthree`, `iconfour`, `iconfive`, `iconsix`, `iconseven`, `iconeight`, `iconheadlineone`, `iconheadlinetwo`, `iconheadlinethree`, `iconheadlinefour`, `iconheadlinefive`, `iconheadlinesix`, `iconheadlineseven`, `iconheadlineeight`, `icontextone`, `icontexttwo`, `icontextthree`, `icontextfour`, `icontextfive`, `icontextsix`, `icontextseven`, `icontexteight`) VALUES (:sid, :position, :sectiontype, :title, :mutedtitle, :date, :iconone, :icontwo, :iconthree, :iconfour, :iconfive, :iconsix, :iconseven, :iconeight, :iconheadlineone, :iconheadlinetwo, :iconheadlinethree, :iconheadlinefour, :iconheadlinefive, :iconheadlinesix, :iconheadlineseven, :iconheadlineeight, :icontextone, :icontexttwo, :icontextthree, :icontextfour, :icontextfive, :icontextsix, :icontextseven, :icontexteight)");
+
+        $insert->bindValue(':sid', $number);
+        $insert->bindValue(':position', $position);
+        $insert->bindValue(':sectiontype', 'icons');
+        $insert->bindValue(':title', $title);
+        $insert->bindValue(':mutedtitle', $mutedtitle);
+        $insert->bindValue(':date', date("m.d.Y"));
+        $insert->bindValue(':iconone', $iconarray[0]);
+        $insert->bindValue(':icontwo', $iconarray[1]);
+        $insert->bindValue(':iconthree', $iconarray[2]);
+        $insert->bindValue(':iconfour', $iconarray[3]);
+        $insert->bindValue(':iconfive', $iconarray[4]);
+        $insert->bindValue(':iconsix', $iconarray[5]);
+        $insert->bindValue(':iconseven', $iconarray[6]);
+        $insert->bindValue(':iconeight', $iconarray[7]);
+
+        $insert->bindValue(':iconheadlineone', $iconheadlinearray[0]);
+        $insert->bindValue(':iconheadlinetwo', $iconheadlinearray[1]);
+        $insert->bindValue(':iconheadlinethree', $iconheadlinearray[2]);
+        $insert->bindValue(':iconheadlinefour', $iconheadlinearray[3]);
+        $insert->bindValue(':iconheadlinefive', $iconheadlinearray[4]);
+        $insert->bindValue(':iconheadlinesix', $iconheadlinearray[5]);
+        $insert->bindValue(':iconheadlineseven', $iconheadlinearray[6]);
+        $insert->bindValue(':iconheadlineeight', $iconheadlinearray[7]);
+
+        $insert->bindValue(':icontextone', $icontextarray[0]);
+        $insert->bindValue(':icontexttwo', $icontextarray[1]);
+        $insert->bindValue(':icontextthree', $icontextarray[2]);
+        $insert->bindValue(':icontextfour', $icontextarray[3]);
+        $insert->bindValue(':icontextfive', $icontextarray[4]);
+        $insert->bindValue(':icontextsix', $icontextarray[5]);
+        $insert->bindValue(':icontextseven', $icontextarray[6]);
+        $insert->bindValue(':icontexteight', $icontextarray[7]);
+
+        if ($insert->execute()) {
+            $ncount = $db->prepare("SELECT * FROM sections ORDER BY id DESC LIMIT 1;");
+            $ncount->execute();
+            $tnumber_of_rows = $ncount->fetch();
+            $gnumber = $tnumber_of_rows["id"] + 1;
+
+            $maxpos = $db->prepare("SELECT * FROM sections ORDER BY position DESC LIMIT 1;");
+            $maxpos->execute();
+            $maximumposition = $maxpos->fetch();
+            $newposition = $maximumposition["position"] + 1;
+
+            $section = $db->prepare("INSERT INTO sections (`id`, `type`, `specialid`, `position`) VALUES (:id, :type, :specialid, :position)");
+
+            $section->bindValue(':id', $gnumber);
+            $section->bindValue(':type', 'icons');
+            $section->bindValue(':specialid', $number);
+            $section->bindValue(':position', $newposition);
+
+            if($section->execute()){
+                header("Location: ../core/sections.php");
+
+            }else {
+                echo "<h1>Oh oh!</h1><p>Hier ist was schiefgegangen: <b>" . "\nPDO::errorInfo():\n";
+                print_r($insert->errorInfo());
             }
-            $icons = new Icons($section['specialid'], $section['position'], 'icons', $section['title'], $section['mutedtitle'], $section['date'], $iconarray, $iconheadlinearray, $icontextarray, $id);
+        } else {
+            echo "<h1>Oh oh!</h1><p>Hier ist was schiefgegangen: <b>" . "\nPDO::errorInfo():\n";
+            print_r($insert->errorInfo());
+        }
+    }
 
-            return $icons;
+    public function addNewContactEntry($title, $mutedtitle, $text, $name, $email, $message, $captcha){
+        include '../database/connect.php';
+
+        $count = $db->prepare("SELECT * FROM contact ORDER BY specialid DESC LIMIT 1;");
+        $count->execute();
+        $number_of_rows = $count->fetch();
+        $number = $number_of_rows["specialid"] + 1;
+
+        $pos = $db->prepare("SELECT * FROM sections ORDER BY position DESC LIMIT 1;");
+        $pos->execute();
+        $max_pos = $pos->fetch();
+        $position = $max_pos["position"] + 1;
+
+        $insert = $db->prepare("INSERT INTO contact (`specialid`, `position`, `sectiontype`, `title`, `mutedtitle`, `text`, `date`, `name`, `email`, `message`, `captcha`) VALUES (:sid, :position, :sectiontype, :title, :mutedtitle, :text, :date, :name, :email, :message, :captcha)");
+
+        $insert->bindValue(':sid', $number);
+        $insert->bindValue(':position', $position);
+        $insert->bindValue(':sectiontype', 'standard');
+        $insert->bindValue(':title', $title);
+        $insert->bindValue(':mutedtitle', $mutedtitle);
+        $insert->bindValue(':text', $text);
+        $insert->bindValue(':date', date("m.d.Y"));
+        $insert->bindValue(':name', $name);
+        $insert->bindValue(':email', $email);
+        $insert->bindValue(':message', $message);
+        $insert->bindValue(':captcha', $captcha);
+
+        if ($insert->execute()) {
+            $ncount = $db->prepare("SELECT * FROM sections ORDER BY id DESC LIMIT 1;");
+            $ncount->execute();
+            $tnumber_of_rows = $ncount->fetch();
+            $gnumber = $tnumber_of_rows["id"] + 1;
+
+            $maxpos = $db->prepare("SELECT * FROM sections ORDER BY position DESC LIMIT 1;");
+            $maxpos->execute();
+            $maximumposition = $maxpos->fetch();
+            $newposition = $maximumposition["position"] + 1;
+
+            $section = $db->prepare("INSERT INTO sections (`id`, `type`, `specialid`, `position`) VALUES (:id, :type, :specialid, :position)");
+
+            $section->bindValue(':id', $gnumber);
+            $section->bindValue(':type', 'contact');
+            $section->bindValue(':specialid', $position);
+            $section->bindValue(':position', $newposition);
+
+            if($section->execute()){
+                header("Location: ../core/sections.php");
+            }else {
+                echo "<h1>Oh oh!</h1><p>Hier ist was schiefgegangen: <b>" . "\nPDO::errorInfo():\n";
+                print_r($insert->errorInfo());
+            }
+        } else {
+            echo "<h1>Oh oh!</h1><p>Hier ist was schiefgegangen: <b>" . "\nPDO::errorInfo():\n";
+            print_r($insert->errorInfo());
         }
 
     }
 
-    public function getSectionBySID($sid){
+//Edit
+
+    public function editStandardEntry($sid, $title, $mutedtitle, $text){
+        include '../database/connect.php';
+        try {
+            $update = $db->prepare("UPDATE standard SET title = :title, mutedtitle = :mutedtitle, text = :text, date = :date WHERE specialid = :sid;");
+
+            $update->bindValue(':sid', $sid);
+            $update->bindValue(':title', $title);
+            $update->bindValue(':mutedtitle', $mutedtitle);
+            $update->bindValue(':text', $text);
+            $update->bindValue(':date', date("Y-m-d H:i:s"));
+            $update->execute() ? true : false;
+        } catch (Exception $exception){
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
+    public function editIconsEntry($sid, $title, $mutedtitle, $iconarray, $iconheadlinearray, $icontextarray)
+    {
         include '../database/connect.php';
 
-            $getfromspecial = $db->prepare('select * from standard where specialid=:specialid');
-            $getfromspecial->bindValue(':specialid', $sid);
-            $getfromspecial->execute();
-            $section = $getfromspecial->fetch();
-            return $section;
+        try {
+            $update = $db->prepare("UPDATE icons SET title = :title, mutedtitle = :mutedtitle, date = :date, iconone = :iconone, icontwo = :icontwo, iconthree = :iconthree, iconfour = :iconfour, iconfive = :iconfive, iconsix = :iconsix, iconseven = :iconseven, iconeight = :iconeight, iconheadlineone = :iconheadlineone, iconheadlinetwo = :iconheadlinetwo, iconheadlinethree = :iconheadlinethree, iconheadlinefour = :iconheadlinefour, iconheadlinefive = :iconheadlinefive, iconheadlinesix = :iconheadlinesix, iconheadlineseven = :iconheadlineseven, iconheadlineeight = :iconheadlineeight, icontextone = :icontextone, icontexttwo = :icontexttwo, icontextthree = :icontextthree, icontextfour = :icontextfour, icontextfive = :icontextfive, icontextsix = :icontextsix, icontextseven = :icontextseven, icontexteight = :icontexteight  WHERE specialid = :sid;");
+
+            $update->bindValue(':sid', $sid);
+            $update->bindValue(':title', $title);
+            $update->bindValue(':mutedtitle', $mutedtitle);
+            $update->bindValue(':date', date("Y-m-d H:i:s"));
+
+            $update->bindValue(':iconone', $iconarray[0]);
+            $update->bindValue(':icontwo', $iconarray[1]);
+            $update->bindValue(':iconthree', $iconarray[2]);
+            $update->bindValue(':iconfour', $iconarray[3]);
+            $update->bindValue(':iconfive', $iconarray[4]);
+            $update->bindValue(':iconsix', $iconarray[5]);
+            $update->bindValue(':iconseven', $iconarray[6]);
+            $update->bindValue(':iconeight', $iconarray[7]);
+
+            $update->bindValue(':iconheadlineone', $iconheadlinearray[0]);
+            $update->bindValue(':iconheadlinetwo', $iconheadlinearray[1]);
+            $update->bindValue(':iconheadlinethree', $iconheadlinearray[2]);
+            $update->bindValue(':iconheadlinefour', $iconheadlinearray[3]);
+            $update->bindValue(':iconheadlinefive', $iconheadlinearray[4]);
+            $update->bindValue(':iconheadlinesix', $iconheadlinearray[5]);
+            $update->bindValue(':iconheadlineseven', $iconheadlinearray[6]);
+            $update->bindValue(':iconheadlineeight', $iconheadlinearray[7]);
+
+            $update->bindValue(':icontextone', $icontextarray[0]);
+            $update->bindValue(':icontexttwo', $icontextarray[1]);
+            $update->bindValue(':icontextthree', $icontextarray[2]);
+            $update->bindValue(':icontextfour', $icontextarray[3]);
+            $update->bindValue(':icontextfive', $icontextarray[4]);
+            $update->bindValue(':icontextsix', $icontextarray[5]);
+            $update->bindValue(':icontextseven', $icontextarray[6]);
+            $update->bindValue(':icontexteight', $icontextarray[7]);
+
+            if($update->execute()){
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $exception){
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
     }
 
+    public function editContactEntry($sid, $title, $mutedtitle, $text, $name, $email, $message, $captcha){
+        include '../database/connect.php';
+        try {
+            $update = $db->prepare("UPDATE contact SET title = :title, mutedtitle = :mutedtitle, text = :text, date = :date, name = :name, email = :email, message = :message, captcha = :captcja WHERE specialid = :sid;");
 
+            $update->bindValue(':sid', $sid);
+            $update->bindValue(':title', $title);
+            $update->bindValue(':mutedtitle', $mutedtitle);
+            $update->bindValue(':text', $text);
+            $update->bindValue(':date', date("Y-m-d H:i:s"));
+            $update->bindValue(':name', $name);
+            $update->bindValue(':email', $email);
+            $update->bindValue(':message', $message);
+            $update->bindValue(':captcha', $captcha);
+
+            $update->execute() ? true : false;
+        } catch (Exception $exception){
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
+    // Delete
     public function deleteStandardEntry($sid){
         include '../database/connect.php';
 
@@ -412,6 +637,64 @@ class SQLSectionActions implements ISectionActions
         }
 
         $delete = $db->prepare("DELETE FROM standard
+                                   WHERE `specialid`=:sid");
+
+        $delete->bindValue(':sid', $sid);
+
+        if ($delete->execute()) {
+            header("Location: ../core/sections.php");
+        } else {
+            echo '<h1>An Error occurred!</h1><p>Please try again: ' . $select->errorInfo() . '</p>';
+            header("refresh:3;url=../core/sections.php");
+        }
+
+    }
+
+    public function deleteIconsEntry($sid){
+        include '../database/connect.php';
+
+        $select = $db->prepare("DELETE FROM sections
+                                   WHERE `specialid`=:sid");
+
+        $select->bindValue(':sid', $sid);
+
+        if ($select->execute()) {
+            header("Location: ../core/sections.php");
+        } else {
+            echo '<h1>An Error occurred!</h1><p>Please try again: ' . print_r($select->errorInfo()) . '</p>';
+            header("refresh:3;url=../core/sections.php");
+        }
+
+        $delete = $db->prepare("DELETE FROM icons
+                                   WHERE `specialid`=:sid");
+
+        $delete->bindValue(':sid', $sid);
+
+        if ($delete->execute()) {
+            header("Location: ../core/sections.php");
+        } else {
+            echo '<h1>An Error occurred!</h1><p>Please try again: ' . $select->errorInfo() . '</p>';
+            header("refresh:3;url=../core/sections.php");
+        }
+
+    }
+
+    public function deleteContactEntry($sid){
+        include '../database/connect.php';
+
+        $select = $db->prepare("DELETE FROM sections
+                                   WHERE `specialid`=:sid");
+
+        $select->bindValue(':sid', $sid);
+
+        if ($select->execute()) {
+            header("Location: ../core/sections.php");
+        } else {
+            echo '<h1>An Error occurred!</h1><p>Please try again: ' . print_r($select->errorInfo()) . '</p>';
+            header("refresh:3;url=../core/sections.php");
+        }
+
+        $delete = $db->prepare("DELETE FROM contact
                                    WHERE `specialid`=:sid");
 
         $delete->bindValue(':sid', $sid);
