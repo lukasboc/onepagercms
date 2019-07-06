@@ -1,6 +1,10 @@
 <?php
 
-$id = $_POST['id'];
+if (isset($_POST['id'])) {
+    $id = $_POST['id'];
+} else {
+    $id = $_GET['id'];
+}
 $title = $_POST['title'];
 $mutedtitle = $_POST['mutedtitle'];
 $amound_of_secitons = $_POST['amound-of-sections'];

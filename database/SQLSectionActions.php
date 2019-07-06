@@ -130,6 +130,19 @@ class SQLSectionActions implements ISectionActions
         return $selection;
     }
 
+    private function getSpecialIdForIconsEntry($id)
+    {
+        include '../database/connect.php';
+
+        $select = $db->prepare('select specialid from sections where id=:id AND type=:type');
+        $select->bindValue(':id', $id);
+        $select->bindValue(':type', 'icons');
+        $select->execute();
+        $selection = $select->fetchAll();
+        return $selection;
+
+    }
+
 
     private function getEntryFromIconsTable($sid){
         include '../database/connect.php';
@@ -551,9 +564,13 @@ class SQLSectionActions implements ISectionActions
             echo 'Something went wrong: ' . $exception->getMessage();
         }
     }
-    public function editIconsEntry($sid, $title, $mutedtitle, $iconarray, $iconheadlinearray, $icontextarray)
+
+    public function editIconsEntry($id, $title, $mutedtitle, $iconarray, $iconheadlinearray, $icontextarray)
     {
         include '../database/connect.php';
+
+        $selection = $this->getSpecialIdForIconsEntry($id);
+        $sid = $selection[0]['specialid'];
 
         try {
             $update = $db->prepare("UPDATE icons SET title = :title, mutedtitle = :mutedtitle, date = :date, iconone = :iconone, icontwo = :icontwo, iconthree = :iconthree, iconfour = :iconfour, iconfive = :iconfive, iconsix = :iconsix, iconseven = :iconseven, iconeight = :iconeight, iconheadlineone = :iconheadlineone, iconheadlinetwo = :iconheadlinetwo, iconheadlinethree = :iconheadlinethree, iconheadlinefour = :iconheadlinefour, iconheadlinefive = :iconheadlinefive, iconheadlinesix = :iconheadlinesix, iconheadlineseven = :iconheadlineseven, iconheadlineeight = :iconheadlineeight, icontextone = :icontextone, icontexttwo = :icontexttwo, icontextthree = :icontextthree, icontextfour = :icontextfour, icontextfive = :icontextfive, icontextsix = :icontextsix, icontextseven = :icontextseven, icontexteight = :icontexteight  WHERE specialid = :sid;");
@@ -621,8 +638,12 @@ class SQLSectionActions implements ISectionActions
         }
     }
     // Delete
-    public function deleteStandardEntry($sid){
+    public function deleteStandardEntry($id)
+    {
         include '../database/connect.php';
+
+        $selection = $this->getSpecialIdForIconsEntry($id);
+        $sid = $selection[0]['specialid'];
 
         $select = $db->prepare("DELETE FROM sections
                                    WHERE `specialid`=:sid");
@@ -650,8 +671,12 @@ class SQLSectionActions implements ISectionActions
 
     }
 
-    public function deleteIconsEntry($sid){
+    public function deleteIconsEntry($id)
+    {
         include '../database/connect.php';
+
+        $selection = $this->getSpecialIdForIconsEntry($id);
+        $sid = $selection[0]['specialid'];
 
         $select = $db->prepare("DELETE FROM sections
                                    WHERE `specialid`=:sid");
@@ -679,8 +704,12 @@ class SQLSectionActions implements ISectionActions
 
     }
 
-    public function deleteContactEntry($sid){
+    public function deleteContactEntry($id)
+    {
         include '../database/connect.php';
+
+        $selection = $this->getSpecialIdForIconsEntry($id);
+        $sid = $selection[0]['specialid'];
 
         $select = $db->prepare("DELETE FROM sections
                                    WHERE `specialid`=:sid");

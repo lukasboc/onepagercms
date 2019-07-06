@@ -62,7 +62,7 @@ if(isset($_GET['id'])){
 
             <form action="../misc/changeicons.php" method="post" id="changeform">
                 <div class="form-group">
-                    <input type="hidden" id="id" class="form-control" name="id" readonly value="">
+                    <input type="hidden" id="id" class="form-control" name="id" readonly value="<?php echo $id ?>">
                 </div>
 
                 <div class="form-group">
