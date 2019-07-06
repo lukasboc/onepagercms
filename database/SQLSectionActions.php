@@ -228,8 +228,9 @@ class SQLSectionActions implements ISectionActions
     private function showContactSection($i, $bgcolor, $sectionarray){
         $namefield = "";
         $emailfield = "";
-        $phonefield = "";
+        $messagefield = "";
         $captchafield = "";
+
         if($sectionarray[$i]->getName()){
             $namefield = '
                             <div class="form-group">
@@ -248,10 +249,10 @@ class SQLSectionActions implements ISectionActions
                             '
             ;
         }
-        if($sectionarray[$i]->getEmail()){
-            $phonefield = '
+        if ($sectionarray[$i]->getMessage()) {
+            $messagefield = '
                            <div class="form-group">
-                                <input class="form-control" id="phone" type="tel" placeholder="Your Phone *" required="required" data-validation-required-message="Please enter your phone number.">
+                                <textarea class="form-control" id="message" placeholder="Your Message *" required="required" data-validation-required-message="Please enter a message."></textarea>
                                 <p class="help-block text-danger"></p>
                             </div>
                             '
@@ -274,20 +275,21 @@ class SQLSectionActions implements ISectionActions
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading text-uppercase">' . $sectionarray[$i]->getTitle() . '</h2>
                 <h3 class="section-subheading text-muted">' . $sectionarray[$i]->getMutedTitle() . '</h3>
+                <div class="text-center mb-5">' . $sectionarray[$i]->getText() . '
+
+      </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-lg-12">
                 <form id="contactForm" name="sentMessage" novalidate="novalidate">
                     <div class="row">
                         <div class="col-md-6">
-                            ' . $namefield . $emailfield . $phonefield . '
+                            ' . $namefield . $emailfield . '
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <textarea class="form-control" id="message" placeholder="Your Message *" required="required" data-validation-required-message="Please enter a message."></textarea>
-                                <p class="help-block text-danger"></p>
-                            </div>
+                            ' . $messagefield . '
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-lg-12 text-center">
@@ -506,7 +508,7 @@ class SQLSectionActions implements ISectionActions
 
         $insert->bindValue(':sid', $number);
         $insert->bindValue(':position', $position);
-        $insert->bindValue(':sectiontype', 'standard');
+        $insert->bindValue(':sectiontype', 'contact');
         $insert->bindValue(':title', $title);
         $insert->bindValue(':mutedtitle', $mutedtitle);
         $insert->bindValue(':text', $text);
@@ -531,7 +533,7 @@ class SQLSectionActions implements ISectionActions
 
             $section->bindValue(':id', $gnumber);
             $section->bindValue(':type', 'contact');
-            $section->bindValue(':specialid', $position);
+            $section->bindValue(':specialid', $number);
             $section->bindValue(':position', $newposition);
 
             if($section->execute()){

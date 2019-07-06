@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="opcms.lubomedia" uploadOnCheckin="29adcc74-a4ce-46c7-a91d-08f5916e1aee">
+    <serverData>
+      <paths name="opcms.lubomedia">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/web" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myUploadOnCheckinName" value="opcms.lubomedia" />
+  </component>
+</project>

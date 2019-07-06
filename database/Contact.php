@@ -13,11 +13,11 @@ class Contact
     private $type;
     private $title;
     private $mutedtitle;
+    private $text;
     private $date;
 
     private $name;
     private $email;
-    private $phone;
     private $message;
     private $captcha;
     private $superid;
@@ -36,17 +36,17 @@ class Contact
      * @param $message
      * @param $captcha
      */
-    public function __construct($id, $position, $type, $title, $mutedtitle, $date, $name, $email, $phone, $message, $captcha, $superid)
+    public function __construct($id, $position, $type, $title, $mutedtitle, $text, $date, $name, $email, $message, $captcha, $superid)
     {
         $this->id = $id;
         $this->position = $position;
         $this->type = $type;
         $this->title = $title;
         $this->mutedtitle = $mutedtitle;
+        $this->text = $text;
         $this->date = $date;
         $this->name = $name;
         $this->email = $email;
-        $this->phone = $phone;
         $this->message = $message;
         $this->captcha = $captcha;
         $this->superid = $superid;
@@ -130,6 +130,22 @@ class Contact
     public function setMutedtitle($mutedtitle): void
     {
         $this->mutedtitle = $mutedtitle;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    /**
+     * @param mixed $text
+     */
+    public function setText($text): void
+    {
+        $this->text = $text;
     }
 
     /**
