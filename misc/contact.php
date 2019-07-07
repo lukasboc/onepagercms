@@ -89,22 +89,33 @@ if (isset($_GET['id'])) {
                 </div>
 
                 <div class="form-group custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="name" name="name">
+                    <input type="checkbox" class="custom-control-input" id="name" name="name" <?php if ($name == 'on') {
+                        echo 'checked';
+                    } ?>>
                     <label class="custom-control-label" for="name">Name Field</label>
                 </div>
 
                 <div class="form-group custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="email" name="email">
+                    <input type="checkbox" class="custom-control-input" id="email"
+                           name="email" <?php if ($email == 'on') {
+                        echo 'checked';
+                    } ?>>
                     <label class="custom-control-label" for="email">E-Mail Field</label>
                 </div>
 
                 <div class="form-group custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="message" name="message">
+                    <input type="checkbox" class="custom-control-input" id="message"
+                           name="message" <?php if ($message == 'on') {
+                        echo 'checked';
+                    } ?>>
                     <label class="custom-control-label" for="message">Message Field</label>
                 </div>
 
                 <div class="form-group custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="captcha" name="captcha">
+                    <input type="checkbox" class="custom-control-input" id="captcha"
+                           name="captcha" <?php if ($captcha == 'on') {
+                        echo 'checked';
+                    } ?>>
                     <label class="custom-control-label" for="captcha">Captcha</label>
                 </div>
 

@@ -143,6 +143,19 @@ class SQLSectionActions implements ISectionActions
 
     }
 
+    private function getSpecialIdForContactEntry($id)
+    {
+        include '../database/connect.php';
+
+        $select = $db->prepare('select specialid from sections where id=:id AND type=:type');
+        $select->bindValue(':id', $id);
+        $select->bindValue(':type', 'contact');
+        $select->execute();
+        $selection = $select->fetchAll();
+        return $selection;
+
+    }
+
 
     private function getEntryFromIconsTable($sid){
         include '../database/connect.php';
@@ -305,7 +318,8 @@ class SQLSectionActions implements ISectionActions
     </section>';
     }
 
-    public function getSectionByID($id){
+    public function getSectionByID($id)
+    {
         include '../database/connect.php';
 
         $prepstandard = $db->prepare('select * from sections where id=:id');
@@ -313,16 +327,16 @@ class SQLSectionActions implements ISectionActions
         $prepstandard->execute();
         $selection = $prepstandard->fetch();
 
-        if($selection['type'] == 'standard'){
-        $getfromspecial = $db->prepare('select * from standard where specialid=:specialid');
-        $getfromspecial->bindValue(':specialid', $selection['specialid']);
-        $getfromspecial->execute();
-        $section = $getfromspecial->fetch();
+        if ($selection['type'] == 'standard') {
+            $getfromspecial = $db->prepare('select * from standard where specialid=:specialid');
+            $getfromspecial->bindValue(':specialid', $selection['specialid']);
+            $getfromspecial->execute();
+            $section = $getfromspecial->fetch();
 
-        $standard = new Standard($section['specialid'], $section['position'], 'standard', $section['title'], $section['mutedtitle'], $section['text'], $section['date'], $id);
+            $standard = new Standard($section['specialid'], $section['position'], 'standard', $section['title'], $section['mutedtitle'], $section['text'], $section['date'], $id);
 
-        return $standard;
-        } elseif ($selection['type'] == 'icons'){
+            return $standard;
+        } elseif ($selection['type'] == 'icons') {
             $getfromspecial = $db->prepare('select * from icons where specialid=:specialid');
             $getfromspecial->bindValue(':specialid', $selection['specialid']);
             $getfromspecial->execute();
@@ -330,18 +344,37 @@ class SQLSectionActions implements ISectionActions
             $iconarray = Array();
             $iconheadlinearray = Array();
             $icontextarray = Array();
-            for($i = 6; $i < 14; $i++){
-                if($section[$i] != null){
+            for ($i = 6; $i < 14; $i++) {
+                if ($section[$i] != null) {
                     array_push($iconarray, $section[$i]);
-                    array_push($iconheadlinearray, $section[$i+8]);
-                    array_push($icontextarray, $section[$i+16]);
+                    array_push($iconheadlinearray, $section[$i + 8]);
+                    array_push($icontextarray, $section[$i + 16]);
                 }
             }
             $icons = new Icons($section['specialid'], $section['position'], 'icons', $section['title'], $section['mutedtitle'], $section['date'], $iconarray, $iconheadlinearray, $icontextarray, $id);
 
             return $icons;
-        }
+        } elseif ($selection['type'] == 'contact') {
+            include '../database/connect.php';
 
+            $prepstandard = $db->prepare('select * from sections where id=:id');
+            $prepstandard->bindValue(':id', $id);
+            $prepstandard->execute();
+            $selection = $prepstandard->fetch();
+
+            if ($selection['type'] == 'contact') {
+                $getfromspecial = $db->prepare('select * from contact where specialid=:specialid');
+                $getfromspecial->bindValue(':specialid', $selection['specialid']);
+                $getfromspecial->execute();
+                $section = $getfromspecial->fetch();
+
+                $contact = new Contact($section['specialid'], $section['position'], 'contact', $section['title'], $section['mutedtitle'], $section['text'], $section['date'], $section['name'], $section['email'], $section['message'], $section['captcha'], $id);
+
+                return $contact;
+
+            }
+
+        }
     }
 
     public function getSectionBySID($sid){
@@ -619,10 +652,15 @@ class SQLSectionActions implements ISectionActions
         }
     }
 
-    public function editContactEntry($sid, $title, $mutedtitle, $text, $name, $email, $message, $captcha){
+    public function editContactEntry($id, $title, $mutedtitle, $text, $name, $email, $message, $captcha)
+    {
         include '../database/connect.php';
+
+        $selection = $this->getSpecialIdForContactEntry($id);
+        $sid = $selection[0]['specialid'];
+
         try {
-            $update = $db->prepare("UPDATE contact SET title = :title, mutedtitle = :mutedtitle, text = :text, date = :date, name = :name, email = :email, message = :message, captcha = :captcja WHERE specialid = :sid;");
+            $update = $db->prepare("UPDATE contact SET title = :title, mutedtitle = :mutedtitle, text = :text, date = :date, name = :name, email = :email, message = :message, captcha = :captcha WHERE specialid = :sid;");
 
             $update->bindValue(':sid', $sid);
             $update->bindValue(':title', $title);
@@ -634,7 +672,11 @@ class SQLSectionActions implements ISectionActions
             $update->bindValue(':message', $message);
             $update->bindValue(':captcha', $captcha);
 
-            $update->execute() ? true : false;
+            if ($update->execute()) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception $exception){
             echo 'Something went wrong: ' . $exception->getMessage();
         }

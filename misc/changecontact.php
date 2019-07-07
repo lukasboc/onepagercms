@@ -8,10 +8,10 @@ if (isset($_POST['id'])) {
 $title = $_POST['title'];
 $mutedtitle = $_POST['mutedtitle'];
 $text = $_POST['text'];
-$name = $_POST['name'];
-$email = $_POST['email'];
-$message = $_POST['message'];
-$captcha = $_POST['captcha'];
+(isset($_POST['name'])) ? $name = $_POST['name'] : $name = false;
+(isset($_POST['email'])) ? $email = $_POST['email'] : $email = false;
+(isset($_POST['message'])) ? $message = $_POST['message'] : $message = false;
+(isset($_POST['captcha'])) ? $captcha = $_POST['captcha'] : $captcha = false;
 
 if ($_POST['action'] == "New") {
     include '../database/SQLSectionActions.php';
