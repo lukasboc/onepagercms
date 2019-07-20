@@ -31,6 +31,9 @@ echo '
                 <a class="nav-link" href="../core/preview.php">Preview</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="../core/faq.php">FAQ</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="../misc/logout.php">Logout</a>
             </li>
         </ul>
