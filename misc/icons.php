@@ -1,9 +1,7 @@
 <?php
-if(isset($_GET['action'])){
-    $headline = $_GET['action'];
-} else {
-    $headline = $_POST['action'];
-}
+$headline = (isset($_GET['action'])) ? $_GET['action'] : $_POST['action'];
+$writeable = ($headline == "Delete") ? "readonly" : "";
+$disabled = ($headline == "Delete") ? "disabled" : "";
 
 $title = "";
 $mutedTitle = "";
@@ -50,12 +48,12 @@ if(isset($_GET['id'])){
                            value="<?php echo $id ?>">
                     <input type="hidden" id="action" class="form-control" name="action" readonly
                            value="<?php echo $sid ?>">
-                    <input name="background-upload" class="form-control-file" type="file"/>
+                    <input name="background-upload" class="form-control-file" type="file" <?php echo $disabled ?>>
                 </div>
                 <div class="form-group">
 
                     <input type='submit' class="btn btn-secondary" name='upload'
-                           id='image-upload' value='Upload'>
+                           id='image-upload' value='Upload' <?php echo $disabled ?>>
                 </div>
 
             </form>
@@ -80,7 +78,8 @@ if(isset($_GET['id'])){
 
                 <div class="form-group">
                     <label for="description">Amount of Icons:</label>
-                    <select class="form-control" id="amound-of-sections" name="amound-of-sections">
+                    <select class="form-control" id="amound-of-sections"
+                            name="amound-of-sections" <?php echo $writeable ?>>
                         <?php
                         for($i = 1; $i < 9; $i++){
                             if ($i == $iconamount){
@@ -110,14 +109,16 @@ if(isset($_GET['id'])){
                     <div class="form-group iconoption" id="' . $i . '">
                     <h2>Icon ' . $i . '</h2>
                     <input type="text" id=icon-' . $i . '" class="form-control mb-3"
-                           name="icon-' . $i . '" placeholder="Icon" value="' . $icon . '">
+                           name="icon-' . $i . '" placeholder="Icon" value="' . $icon . '" ' . $writeable . '>';
+                    if ($i == 1) echo '
                     <div class="alert alert-info" role="alert">
                         Example: fa-shopping-cart
-                    </div>
+                    </div> ';
+                    echo '
                             <input type="text" id=icon-' . $i . '-headline" class="form-control mb-3"
-                           name="icon-' . $i . '-headline" placeholder="Headline" value="' . $iconheadline . '">
+                           name="icon-' . $i . '-headline" placeholder="Headline" value="' . $iconheadline . '" ' . $writeable . '>
                     <input type="text" id=icon-1-text" class="form-control"
-                           name="icon-' . $i . '-text" placeholder="Text" value="' . $icontext . '">
+                           name="icon-' . $i . '-text" placeholder="Text" value="' . $icontext . '" ' . $writeable . '>
 
                 </div>
                     ';

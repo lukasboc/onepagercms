@@ -1,10 +1,8 @@
 <?php
-if (isset($_GET['action'])) {
-    $headline = $_GET['action'];
-} else {
-    $headline = $_POST['action'];
+$headline = (isset($_GET['action'])) ? $_GET['action'] : $_POST['action'];
+$writeable = ($headline == "Delete") ? "readonly" : "";
+$disabled = ($headline == "Delete") ? "disabled" : "";
 
-}
 $title = "";
 $mutedTitle = "";
 $text = "";
@@ -52,12 +50,12 @@ if (isset($_GET['id'])) {
                            value="<?php echo $id ?>">
                     <input type="hidden" id="action" class="form-control" name="action" readonly
                            value="<?php echo $sid ?>">
-                    <input name="background-upload" class="form-control-file" type="file"/>
+                    <input name="background-upload" class="form-control-file" type="file" <?php echo $disabled ?>>
                 </div>
                 <div class="form-group">
 
                     <input type='submit' class="btn btn-secondary" name='upload'
-                           id='image-upload' value='Upload'>
+                           id='image-upload' value='Upload' <?php echo $disabled ?>>
                 </div>
 
             </form>
@@ -70,28 +68,27 @@ if (isset($_GET['id'])) {
                 <div class="form-group">
                     <label for="title">Title:</label>
                     <input type="text" id="title" class="form-control" required name="title"
-                           value="<?php echo $title ?>"
+                           value="<?php echo $title ?>" <?php echo $writeable ?>
                     >
                 </div>
 
                 <div class="form-group">
                     <label for="mutedtitle"">Muted Title:</label>
                     <input type="text" id=mutedtitle" class="form-control" required
-                           name="mutedtitle" value="<?php echo $mutedTitle ?>"
-                    >
+                           name="mutedtitle" value="<?php echo $mutedTitle ?>" <?php echo $writeable ?>>
                 </div>
 
                 <div class="form-group">
                     <label for="text">Text:</label>
                     <textarea rows="4" id="text" class="form-control" required form="changeform"
                               name="text"
-                              cols="73"><?php echo $text ?></textarea>
+                              cols="73" <?php echo $writeable ?>><?php echo $text ?></textarea>
                 </div>
 
                 <div class="form-group custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="name" name="name" <?php if ($name == 'on') {
                         echo 'checked';
-                    } ?>>
+                    } ?> <?php echo $disabled ?>>
                     <label class="custom-control-label" for="name">Name Field</label>
                 </div>
 
@@ -99,7 +96,7 @@ if (isset($_GET['id'])) {
                     <input type="checkbox" class="custom-control-input" id="email"
                            name="email" <?php if ($email == 'on') {
                         echo 'checked';
-                    } ?>>
+                    } ?> <?php echo $disabled ?>>
                     <label class="custom-control-label" for="email">E-Mail Field</label>
                 </div>
 
@@ -107,7 +104,7 @@ if (isset($_GET['id'])) {
                     <input type="checkbox" class="custom-control-input" id="message"
                            name="message" <?php if ($message == 'on') {
                         echo 'checked';
-                    } ?>>
+                    } ?> <?php echo $disabled ?>>
                     <label class="custom-control-label" for="message">Message Field</label>
                 </div>
 
@@ -115,7 +112,7 @@ if (isset($_GET['id'])) {
                     <input type="checkbox" class="custom-control-input" id="captcha"
                            name="captcha" <?php if ($captcha == 'on') {
                         echo 'checked';
-                    } ?>>
+                    } ?> <?php echo $disabled ?>>
                     <label class="custom-control-label" for="captcha">Captcha</label>
                 </div>
 

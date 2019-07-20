@@ -1,12 +1,9 @@
 <?php
 include "../database/SQLSectionActions.php";
+$headline = (isset($_GET['action'])) ? $_GET['action'] : $_POST['action'];
+$writeable = ($headline == "Delete") ? "readonly" : "";
+$disabled = ($headline == "Delete") ? "disabled" : "";
 
-if(isset($_GET['action'])){
-    $headline = $_GET['action'];
-} else {
-    $headline = $_POST['action'];
-
-}
 $title = "";
 $mutedTitle = "";
 $text = "";
@@ -48,12 +45,12 @@ if(isset($_GET['id'])){
                            value="<?php echo $id ?>">
                     <input type="hidden" id="action" class="form-control" name="action" readonly
                            value="<?php echo $sid ?>">
-                    <input name="background-upload" class="form-control-file" type="file"/>
+                    <input name="background-upload" class="form-control-file" type="file" <?php echo $disabled ?>>
                 </div>
                 <div class="form-group">
 
                     <input type='submit' class="btn btn-secondary" name='upload'
-                           id='image-upload' value='Upload'>
+                           id='image-upload' value='Upload' <?php echo $disabled ?>>
                 </div>
 
             </form>
@@ -70,20 +67,22 @@ if(isset($_GET['id'])){
 
                 <div class="form-group">
                     <label for="title">Title:</label>
-                    <input type="text" id="title" class="form-control" required name="title" value="<?php echo $title ?>"
+                    <input type="text" id="title" class="form-control" required name="title"
+                           value="<?php echo $title ?>" <?php echo $writeable ?>
                            >
                 </div>
 
                 <div class="form-group">
                     <label for="mutedtitle"">Muted Title:</label>
-                    <input type="text" id=mutedtitle" class="form-control" required
+                    <input type="text" id=mutedtitle" class="form-control" required <?php echo $writeable ?>
                            name="mutedtitle" value="<?php echo $mutedTitle ?>"
                            >
                 </div>
 
                 <div class="form-group">
                     <label for="text">Text:</label>
-                    <textarea rows="4" id="text" class="form-control" required form="changeform"
+                    <textarea rows="4" id="text" class="form-control" required
+                              form="changeform" <?php echo $writeable ?>
                               name="text"
                               cols="73"><?php echo $text ?></textarea>
                 </div>
