@@ -114,6 +114,11 @@ if (isset($_GET['id'])) {
                         echo 'checked';
                     } ?> <?php echo $disabled ?>>
                     <label class="custom-control-label" for="captcha">Captcha</label>
+                    <a href="../core/faq.php" data-toggle="tooltip"
+                       title="API-Key has to be set. For more help read FAQ." class="text-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </a>
+
                 </div>
 
                 <div class="form-group">
