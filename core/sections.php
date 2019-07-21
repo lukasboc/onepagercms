@@ -67,7 +67,7 @@ for($i=0; sizeof($sections) > $i; $i++){
 ?>
         <input type="submit" name="action" value="Save positions" class="btn btn-warning">
     </form>
-<h1>New Section</h1>
+    <h1 class="mt-4">New Section</h1>
 
     <form action="../misc/newsection.php" method="post">
         <div class="form-group">
