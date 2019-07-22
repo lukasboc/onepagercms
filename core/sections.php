@@ -41,7 +41,7 @@ $sections = $sectionactions->getAllSections();
                 <?php echo $headeractions->getHeaderTitle(); ?>
             </div>
             <div class="col-3">
-                <a href="../misc/changeheader.php" class="btn btn-primary" role="button">Edit</a>
+                <a href="../misc/header.php?action=Edit" class="btn btn-primary" role="button">Edit</a>
             </div>
         </div>
     <?php
