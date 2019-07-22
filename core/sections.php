@@ -28,6 +28,18 @@ $sections = $sectionactions->getAllSections();
     </div>
 
     <form method="post" action="../misc/positions.php">
+        <div class="row">
+            <div class="col-1">
+
+            </div>
+            <div class="col-2">
+                Header
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
     <?php
 for($i=0; sizeof($sections) > $i; $i++){
     echo'
