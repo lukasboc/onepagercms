@@ -10,6 +10,11 @@ $sid = "";
 $id = "";
 $backgroundimage = "";
 
+$name = "";
+$email = "";
+$message = "";
+$captcha = "";
+
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     include "../database/SQLSectionActions.php";
@@ -40,7 +45,7 @@ if (isset($_GET['id'])) {
 
         </div>
         <div class="col-6">
-            <h1><?php echo "$headline" ?> Icons-Section</h1>
+            <h1><?php echo "$headline" ?> Contact-Section</h1>
 
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
                 <div class="form-group">

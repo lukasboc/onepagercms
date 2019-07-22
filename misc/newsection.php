@@ -6,7 +6,7 @@ if($type == "standard") {
 } elseif ($type == "icons"){
     header('Location: icons.php?action=New');
 } elseif ($type == "contact"){
-    header('Location: contact.php?action=New');
+    header('Location: ../misc/contact.php?action=New');
 }
 
 ?>

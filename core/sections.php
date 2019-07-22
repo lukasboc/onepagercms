@@ -79,7 +79,6 @@ for($i=0; sizeof($sections) > $i; $i++){
     </select>
     </div>
     <input type="submit" name="action" value="New Section" class="btn btn-success">
-
     </form>
 </div>
 </body>
