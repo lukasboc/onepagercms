@@ -7,7 +7,9 @@
 <div class="container">
 <?php
 include "../database/SQLSectionActions.php";
+include "../database/SQLHeaderActions.php";
 $sectionactions = new SQLSectionActions();
+$headeractions = new SQLHeaderActions();
 $sections = $sectionactions->getAllSections();
 ?>
     <h1>Sections</h1>
@@ -28,7 +30,7 @@ $sections = $sectionactions->getAllSections();
     </div>
 
     <form method="post" action="../misc/positions.php">
-        <div class="row">
+        <div class="row pb-3">
             <div class="col-1">
 
             </div>
@@ -36,9 +38,11 @@ $sections = $sectionactions->getAllSections();
                 Header
             </div>
             <div class="col">
-
+                <?php echo $headeractions->getHeaderTitle(); ?>
             </div>
-
+            <div class="col-3">
+                <a href="../misc/changeheader.php" class="btn btn-primary" role="button">Edit</a>
+            </div>
         </div>
     <?php
 for($i=0; sizeof($sections) > $i; $i++){
