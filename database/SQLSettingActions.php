@@ -24,4 +24,18 @@ class SQLSettingActions
 
     }
 
+    public function getSettingValue($setting)
+    {
+        include '../database/connect.php';
+
+        try {
+            $select = $db->prepare("SELECT value FROM settings WHERE setting = :setting;");
+            $select->bindValue(':setting', $setting);
+            $select->execute();
+            $value = $select->fetch();
+            return $value[0];
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
 }

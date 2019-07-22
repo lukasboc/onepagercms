@@ -10,6 +10,7 @@ include "../database/ISectionActions.php";
 include "../database/Standard.php";
 include "../database/Icons.php";
 include "../database/Contact.php";
+include "../database/SQLSettingActions.php";
 
 class SQLSectionActions implements ISectionActions
 {
@@ -194,7 +195,7 @@ class SQLSectionActions implements ISectionActions
 
     private function showStandardSection($i, $bgcolor, $sectionarray){
         echo '
-                  <section class="' . $bgcolor . 'page-section" id="services">
+                  <section class="' . $bgcolor . 'page-section" id="' . $sectionarray[$i]->getTitle() . '">
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
@@ -212,11 +213,11 @@ class SQLSectionActions implements ISectionActions
 
     private function showIconsSection($i, $bgcolor, $sectionarray){
     echo '
-                      <section class="' . $bgcolor . 'page-section">
+                      <section class="' . $bgcolor . 'page-section" id="' . $sectionarray[$i]->getTitle() . '">
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-uppercase">' . $sectionarray[$i]->getTitle() . '</h2>
+          <h2 class="section-heading text-uppercase" >' . $sectionarray[$i]->getTitle() . '</h2>
           <h3 class="section-subheading text-muted">' . $sectionarray[$i]->getMutedTitle() . '</h3>
         </div>
       </div>
@@ -239,6 +240,7 @@ class SQLSectionActions implements ISectionActions
     }
 
     private function showContactSection($i, $bgcolor, $sectionarray){
+        $settingsActions = new SQLSettingActions();
         $namefield = "";
         $emailfield = "";
         $messagefield = "";
@@ -273,16 +275,12 @@ class SQLSectionActions implements ISectionActions
         }
         if($sectionarray[$i]->getCaptcha()){
             $captchafield = '
-                           <div class="form-group">
-                                <img id="captcha" src="../captcha/securimage_show.php" alt="CAPTCHA Image" />
-                                <input type="text" class="form-control" name="captcha_code" size="10" maxlength="6" />
-                                <a href="#" onclick="document.getElementById(\'captcha\').src = \'../captcha/securimage_show.php?\' + Math.random(); return false">[ Different Image ]</a>
-                            </div>
-                            '
+                           <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                           <div class="g-recaptcha" data-sitekey="' . $settingsActions->getSettingValue("recaptcha_key") . '"></div>'
             ;
         }
         echo'
-        <section class="' . $bgcolor . 'page-section">
+        <section class="' . $bgcolor . 'page-section" id="' . $sectionarray[$i]->getTitle() . '">
                         <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
@@ -316,6 +314,40 @@ class SQLSectionActions implements ISectionActions
         </div>
     </div>
     </section>';
+    }
+
+    public function showNavigation()
+    {
+        $titles = $this->getAllTitles();
+        echo "
+<nav class=\"navbar navbar-expand-lg navbar-dark fixed-top\" id=\"mainNav\">
+    <div class=\"container\">
+        <a class=\"navbar-brand js-scroll-trigger\" href=\"#page-top\">Start Bootstrap</a>
+        <button class=\"navbar-toggler navbar-toggler-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarResponsive\" aria-controls=\"navbarResponsive\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">
+            Menu
+            <i class=\"fas fa-bars\"></i>
+        </button>
+        <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">
+            <ul class=\"navbar-nav text-uppercase ml-auto\">";
+        for ($i = 0; $i < sizeof($titles); $i++) {
+            echo "<li class=\"nav-item\">
+                    <a class=\"nav-link js-scroll-trigger\" href=\"#" . $titles[$i] . "\">" . $titles[$i] . "</a>
+                </li>";
+        }
+        echo "</ul>
+        </div>
+    </div>
+</nav>";
+    }
+
+    public function getAllTitles()
+    {
+        $titleArray = Array();
+        $allSections = $this->getAllSections();
+        for ($i = 0; $i < sizeof($allSections); $i++) {
+            array_push($titleArray, $allSections[$i]->getTitle());
+        }
+        return $titleArray;
     }
 
     public function getSectionByID($id)
