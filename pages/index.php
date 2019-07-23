@@ -3,14 +3,49 @@
 
 <?php
 require_once "inc/head.php";
-require '../database/SQLSectionActions.php';
-require '../database/SQLHeaderActions.php';
+include '../database/SQLSectionActions.php';
+include '../database/SQLHeaderActions.php';
+include_once '../database/SQLSettingActions.php';
 $sectionactions = new SQLSectionActions();
 $headeractions = new SQLHeaderActions();
+$settingactions = new SQLSettingActions();
 ?>
-
 <body id="page-top">
+<style>
+    .text-primary {
+        color: <?php echo $settingactions->getSettingValue("text-primary") ?> !important
+    }
 
+    a {
+        color: <?php echo $settingactions->getSettingValue("text-primary") ?>
+    }
+
+    a:hover {
+        color: <?php echo $settingactions->getSettingValue("text-primary") ?>
+    }
+
+    ::selection {
+        background: <?php echo $settingactions->getSettingValue("text-primary") ?>;
+    }
+
+    #mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
+        color: <?php echo $settingactions->getSettingValue("text-primary") ?>;
+    }
+
+    ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons li a:hover {
+        background-color: <?php echo $settingactions->getSettingValue("text-primary") ?>
+    }
+
+    .btn-primary {
+        background-color: <?php echo $settingactions->getSettingValue("button-color") ?>;
+        border-color: <?php echo $settingactions->getSettingValue("button-color") ?>;
+    }
+
+    .btn-primary:active, .btn-primary:focus, .btn-primary:hover {
+        background-color: <?php echo $settingactions->getSettingValue("button-color") ?> !important;
+        border-color: <?php echo $settingactions->getSettingValue("button-color") ?> !important;
+    }
+</style>
 <!-- Navigation -->
 <?php
 $sectionactions->showNavigation();
