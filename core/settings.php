@@ -4,7 +4,7 @@ $settingActions = new SQLSettingActions();
 $captchaKey = ($settingActions->getSettingValue("recaptcha_key") != null && $settingActions->getSettingValue("recaptcha_key") != "") ? $settingActions->getSettingValue("recaptcha_key") : "";
 $logocss = ($settingActions->getSettingValue("logo_css") != null && $settingActions->getSettingValue("logo_css") != "") ? $settingActions->getSettingValue("logo_css") : "";
 $logo = ($settingActions->getSettingValue("logo") != null && $settingActions->getSettingValue("logo") != "") ? $settingActions->getSettingValue("logo") : "";
-
+$uploadedLogo = (isset($_GET['logo'])) ? $_GET['logo'] : "";
 ?>
 
 <!DOCTYPE html>
@@ -32,11 +32,13 @@ $logo = ($settingActions->getSettingValue("logo") != null && $settingActions->ge
     <h2>Logo</h2>
     <form enctype="multipart/form-data" action="../misc/logoupload.php" method="post" id="uploadform">
         <div class="form-group">
-            <img class="img-fluid mb-2 text-right" style="height: 100px" src="<?php echo $logo ?>"><br>
+            <label>Preview:</label><br>
+            <img class="img-fluid mb-2 text-right" style="height: 100px; max-width: 500px;"
+                 src="<?php echo ($uploadedLogo != "") ? $uploadedLogo : $logo ?>"><br>
+            <label>Upload-Area:</label>
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <input type='submit' class="btn btn-success" name='upload'
-                           id='image-upload' value='Upload'>
+                    <input type='submit' class="btn btn-success" id='image-upload' value='Upload'>
                 </div>
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" id="inputGroupFile01"
@@ -47,8 +49,9 @@ $logo = ($settingActions->getSettingValue("logo") != null && $settingActions->ge
         </div>
     </form>
     <form method="post" action="../misc/changelogo.php">
+        <label>Happy with the preview? Safe:</label>
         <input type="hidden" id="action" class="form-control" name="logo" readonly
-               value="<?php echo $logo ?>">
+               value="<?php echo $uploadedLogo ?>">
         <div class="form-group">
             <input type='submit' class="btn btn-primary" name='save'
                    id='save' value='Save'>
