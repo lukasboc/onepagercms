@@ -1,5 +1,5 @@
 <?php
-include "../database/SQLSectionActions.php";
+include "../database/SQLHeaderActions.php";
 $headline = (isset($_GET['action'])) ? $_GET['action'] : $_POST['action'];
 $writeable = ($headline == "Delete") ? "readonly" : "";
 $disabled = ($headline == "Delete") ? "disabled" : "";
@@ -11,15 +11,10 @@ $sid = "";
 $id = "";
 $backgroundimage = "";
 
-if (isset($_GET['id'])) {
-    $sectionactions = new SQLSectionActions();
-    $section = $sectionactions->getSectionByID($_GET['id']);
+$headeractions = new SQLHeaderActions();
 
-    $sid = $section->getSuperid();
-    $title = $section->getTitle();
-    $mutedTitle = $section->getMutedtitle();
-    $text = $section->getText();
-}
+$title = $headeractions->getHeaderTitle();
+$mutedTitle = $headeractions->getHeaderMutedtitle();
 
 ?>
 <!DOCTYPE html>
@@ -55,7 +50,7 @@ if (isset($_GET['id'])) {
 
             </form>
 
-            <form action="../misc/changestandard.php" method="post" id="changeform">
+            <form action="../misc/changeheader.php" method="post" id="changeform">
                 <div class="form-group">
                     <input type="hidden" id="id" class="form-control" name="id" readonly value="<?php echo $sid ?>">
                 </div>
@@ -78,16 +73,6 @@ if (isset($_GET['id'])) {
                            name="mutedtitle" value="<?php echo $mutedTitle ?>"
                     >
                 </div>
-
-                <div class="form-group">
-                    <label for="text">Text:</label>
-                    <textarea rows="4" id="text" class="form-control" required
-                              form="changeform" <?php echo $writeable ?>
-                              name="text"
-                              cols="73"><?php echo $text ?></textarea>
-                </div>
-
-
                 <div class="form-group">
                     <input type="hidden" id="image" class="form-control" required name="image" readonly
                            value="">

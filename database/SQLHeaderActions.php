@@ -55,5 +55,20 @@ class SQLHeaderActions
 
     }
 
+    public function editHeaderEntry($mutedTitle, $title)
+    {
+        include '../database/connect.php';
+
+        try {
+            $update = $db->prepare("UPDATE header SET mutedtitle = :mutedtitle, title = :title WHERE specialid = :specialid;");
+            $update->bindValue(':mutedtitle', $mutedTitle);
+            $update->bindValue(':title', $title);
+            $update->bindValue(':specialid', 0);
+            return ($update->execute()) ? true : false;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
+
 
 }
