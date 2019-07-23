@@ -146,7 +146,7 @@ img::-moz-selection {
         -webkit-transition: padding-top .3s, padding-bottom .3s;
         transition: padding-top .3s, padding-bottom .3s;
         border: none;
-        background-color: transparent
+        background-color: rgba(33, 37, 41, 0.9);
     }
 
     #mainNav .navbar-brand {
