@@ -1,15 +1,15 @@
 <?php
 include "../database/SQLSettingActions.php";
 
-$recaptchakey = $_POST['recaptcha_key'] ?? null;
+$logocss = $_POST['logocss'] ?? null;
 $settingactions = new SQLSettingActions();
 
-if ($recaptchakey == null || strlen($recaptchakey === 0)) {
+if ($logocss == null || strlen($logocss === 0)) {
     header('Location: ../core/error.php?reason=criticalinput');
     die();
 }
 
-if ($settingactions->updateSettingValue('recaptcha_key', $recaptchakey)) {
+if ($settingactions->updateSettingValue('logo_css', $logocss)) {
     header('Location: ../core/settings.php');
 } else {
     header('Location: ../core/error.php?reason=criticalinput');

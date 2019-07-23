@@ -7,7 +7,6 @@ require '../database/SQLSectionActions.php';
 require '../database/SQLHeaderActions.php';
 $sectionactions = new SQLSectionActions();
 $headeractions = new SQLHeaderActions();
-
 ?>
 
 <body id="page-top">
