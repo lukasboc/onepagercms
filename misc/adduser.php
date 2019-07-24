@@ -66,4 +66,5 @@ if ($userActions->register($username, $generatedPass, $email)) {
 
 // verschicke die E-Mail
     mail($receiver, $subject, $message, implode("\r\n", $header));
+    header('Location: ../core/settings.php');
 } else header('Location: ../core/error.php?reason=dberror');
