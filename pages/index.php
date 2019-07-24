@@ -32,6 +32,10 @@ $settingactions = new SQLSettingActions();
         color: <?php echo $settingactions->getSettingValue("text-primary") ?>;
     }
 
+    #mainNav .navbar-toggler {
+        background-color: <?php echo $settingactions->getSettingValue("text-primary") ?>;
+    }
+
     ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons li a:hover {
         background-color: <?php echo $settingactions->getSettingValue("text-primary") ?>
     }
