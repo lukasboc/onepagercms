@@ -34,8 +34,7 @@ class SQLUserActions
 
     public function register($username, $password, $email): bool
     {
-        require_once "../database/connect.php";
-
+        include '../database/connect.php';
         $hash = password_hash($password . secret, PASSWORD_BCRYPT, array('cost' => 15));
 
         $count = $db->prepare("SELECT * FROM users ORDER BY uid DESC LIMIT 1;");
