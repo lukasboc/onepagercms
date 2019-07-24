@@ -2,13 +2,13 @@
 <html lang="de">
 
 <?php
-require_once "inc/head.php";
 include '../database/SQLSectionActions.php';
 include '../database/SQLHeaderActions.php';
 include_once '../database/SQLSettingActions.php';
 $sectionactions = new SQLSectionActions();
 $headeractions = new SQLHeaderActions();
 $settingactions = new SQLSettingActions();
+require_once "inc/head.php";
 ?>
 <body id="page-top">
 <style>

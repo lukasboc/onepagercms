@@ -7,6 +7,7 @@ $logo = ($settingActions->getSettingValue("logo") != null && $settingActions->ge
 $uploadedLogo = (isset($_GET['logo'])) ? $_GET['logo'] : "";
 $primaryColor = ($settingActions->getSettingValue('text-primary') != null && $settingActions->getSettingValue('text-primary') != "") ? $settingActions->getSettingValue('text-primary') : "";
 $buttonColor = ($settingActions->getSettingValue('button-color') != null && $settingActions->getSettingValue('button-color') != "") ? $settingActions->getSettingValue('button-color') : "";
+$websiteTitle = ($settingActions->getSettingValue('website-title') != null && $settingActions->getSettingValue('website-title') != "") ? $settingActions->getSettingValue('website-title') : "";
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +18,20 @@ $buttonColor = ($settingActions->getSettingValue('button-color') != null && $set
 <?php include_once "inc/header.php" ?>
 <div class="container">
     <h1>Settings</h1>
+    <h2>Website-Title</h2>
+    <form method="post" action="../misc/changewebsitetitle.php">
+        <div class="form-group">
+            <label>Title:</label>
+            <div class="input-group">
+                <input type="text" name="title" class="form-control"
+                       value="<?php echo $websiteTitle ?>">
+                <div class="input-group-append">
+                    <input type='submit' class="btn btn-primary" name='titleform'
+                           id='change' value='Update'>
+                </div>
+            </div>
+        </div>
+    </form>
     <h2>Colors</h2>
     <form method="post" action="../misc/changeprimarycolor.php">
         <div class="form-group">
