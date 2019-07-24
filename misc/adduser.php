@@ -44,6 +44,10 @@ if ($userActions->register($username, $generatedPass, $email)) {
   <p>this mail gives you access to a OPCMS-Website. Data:</p>
   <table>
     <tr>
+    <th>RemoteHost</th><td>' . $_SERVER["REMOTE_HOST"] . '</td>
+    </tr>
+    <tr>
+    <th>SERVER_NAME</th><td>' . $_SERVER["SERVER_NAME"] . '</td>
     </tr>
     <tr>
       <th>Username</th><td>' . $username . '</td>
