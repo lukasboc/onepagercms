@@ -14,26 +14,42 @@ class SQLFooterActions
         <footer class=\"footer\">
     <div class=\"container\">
         <div class=\"row align-items-center\">
-            <div class=\"col-md-4\">
-                <span class=\"copyright\">&copy; OnePagerCMS 2019</span>
+            <div class=\"col-md-4\">";
+        echo ($this->getFooterEntry('copyright')) ? "<span class=\"copyright\">&copy; OnePagerCMS 2019</span>" : "";
+        echo "
             </div>
             <div class=\"col-md-4\">
-                <ul class=\"list-inline social-buttons\">
+                <ul class=\"list-inline social-buttons\">";
+        echo (strlen($this->getFooterEntry("twitter_page")) > 0) ? "
                     <li class=\"list-inline-item\">
-                        <a href=\"#\">
-                            <i class=\"fab fa-twitter\"></i>
+                        <a target='_blank' href=\"http://twitter.com/" . $this->getFooterEntry("twitter_page") . "\">
+                            <i class=\"fab fa-twitter\" ></i>
                         </a>
-                    </li>
+                    </li>" : "";
+
+        echo (strlen($this->getFooterEntry("facebook_page")) > 0) ? "
                     <li class=\"list-inline-item\">
-                        <a href=\"#\">
-                            <i class=\"fab fa-facebook-f\"></i>
+                        <a target='_blank' href=\"http://facebook.com/" . $this->getFooterEntry("facebook_page") . "\">
+                            <i class=\"fab fa-facebook-f\" ></i>
                         </a>
-                    </li>
+                    </li>" : "";
+
+        echo (strlen($this->getFooterEntry("linkedin_page")) > 0) ? "
                     <li class=\"list-inline-item\">
-                        <a href=\"#\">
-                            <i class=\"fab fa-linkedin-in\"></i>
+                        <a target='_blank' href=\"http://linkedin.com/" . $this->getFooterEntry("linkedin_page") . "\">
+                            <i class=\"fab fa-linkedin-in\" ></i>
                         </a>
-                    </li>
+                    </li>" : "";
+
+        echo (strlen($this->getFooterEntry("custom_icon")) > 0 && strlen($this->getFooterEntry("custom_page")) > 0) ? "
+                    <li class=\"list-inline-item\">
+                        <a target='_blank' href=\"" . $this->getFooterEntry("custom_page") . "\">
+                            <i class=\"" . $this->getFooterEntry('custom_icon') . "\" ></i>
+                        </a>
+                    </li>" : "";
+
+
+        echo "
                 </ul>
             </div>
             <div class=\"col-md-4\">
@@ -73,12 +89,12 @@ class SQLFooterActions
         include '../database/connect.php';
 
         try {
-            $update = $db->prepare("UPDATE footer SET custom =:custom, facebook_page=:facebook, twitter_page =:twitter, linkedin_page =:linkedin_page, custom_page =:own, copyright =:copyright, custom_icon =:own_icon WHERE fid = :fid;");
+            $update = $db->prepare("UPDATE footer SET custom =:custom, facebook_page=:facebook, twitter_page =:twitter, linkedin_page =:linkedin, custom_page =:own, copyright =:copyright, custom_icon =:own_icon WHERE fid = :fid;");
             $update->bindValue(':fid', 0);
             $update->bindValue(':custom', $custom);
             $update->bindValue(':facebook', $facebook);
             $update->bindValue(':twitter', $twitter);
-            $update->bindValue(':linkedin_page', $linked);
+            $update->bindValue(':linkedin', $linked);
             $update->bindValue(':own', $own);
             $update->bindValue(':copyright', $copyright);
             $update->bindValue(':own_icon', $ownIcon);

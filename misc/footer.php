@@ -55,37 +55,37 @@ $customIcon = $footeractions->getFooterEntry('custom_icon');
 
             <form action="../misc/changefooter.php" method="post" id="changeform">
                 <div class="form-group">
-                    <input type="hidden" id="specialid" class="form-control" name="author" readonly>
+                    <input type="hidden" id="specialid" class="form-control" readonly>
                 </div>
 
                 <div class="form-group">
-                    <label for="title">Custom Text:</label>
-                    <input type="text" id="custom" class="form-control" name="custom"
+                    <label for="custonText">Custom Text:</label>
+                    <input type="text" id="custonText" class="form-control" name="custom"
                            value="<?php echo $customtext ?>" <?php echo $writeable ?>>
                 </div>
 
                 <div class="form-group">
-                    <label for="mutedtitle"">Facebook:</label>
-                    <input type="text" id=mutedtitle" class="form-control" <?php echo $writeable ?>
+                    <label for="facebook">Facebook:</label>
+                    <input type="text" id="facebook" class="form-control" <?php echo $writeable ?>
                            name="facebook" value="<?php echo $facebook ?>">
                 </div>
 
                 <div class="form-group">
-                    <label for="mutedtitle"">Twitter:</label>
-                    <input type="text" id=mutedtitle" class="form-control" <?php echo $writeable ?>
+                    <label for="twitter">Twitter:</label>
+                    <input type="text" id="twitter" class="form-control" <?php echo $writeable ?>
                            name="twitter" value="<?php echo $twitter ?>">
                 </div>
 
                 <div class="form-group">
-                    <label for="mutedtitle"">LinkedIn:</label>
-                    <input type="text" id=mutedtitle" class="form-control" <?php echo $writeable ?>
-                           name="twitter" value="<?php echo $linkedin ?>">
+                    <label for="linkedin"">LinkedIn:</label>
+                    <input type="text" id="linkedin" class="form-control" <?php echo $writeable ?>
+                           name="linkedin" value="<?php echo $linkedin ?>">
                 </div>
 
-                <label for="mutedtitle"">Custom Link:</label>
+                <label for="customLink">Custom Link:</label>
                 <div class="form-row">
                     <div class="form-group col-md-5">
-                        <input type="text" class="form-control" name="customIcon" placeholder="fa-shopping-cart"
+                        <input type="text" class="form-control" name="customIcon" placeholder="fas fa-shopping-cart"
                                value="<?php echo $customIcon ?>">
                     </div>
                     <div class="form-group col-md">
