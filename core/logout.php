@@ -17,4 +17,4 @@ echo "
 </body>
 </html>
 ";
-header("refresh:555;url=../index.php");
+header("refresh:3;url=../index.php");
