@@ -53,6 +53,7 @@ if ($userActions->register($username, $generatedPass, $email)) {
       <th>Password</th><td>' . $generatedPass . '</td>
     </tr>
   </table>
+  <p>The password was generated and nobody knows it except for you. Nonetheless, we recommend to change it.</p>
   <p>Have fun!</p>
 </body>
 </html>
