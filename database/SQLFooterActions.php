@@ -1,0 +1,91 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: lukasbock
+ * Date: 23.07.19
+ * Time: 00:52
+ */
+
+class SQLFooterActions
+{
+    public function showFooter()
+    {
+        echo "
+        <footer class=\"footer\">
+    <div class=\"container\">
+        <div class=\"row align-items-center\">
+            <div class=\"col-md-4\">
+                <span class=\"copyright\">&copy; OnePagerCMS 2019</span>
+            </div>
+            <div class=\"col-md-4\">
+                <ul class=\"list-inline social-buttons\">
+                    <li class=\"list-inline-item\">
+                        <a href=\"#\">
+                            <i class=\"fab fa-twitter\"></i>
+                        </a>
+                    </li>
+                    <li class=\"list-inline-item\">
+                        <a href=\"#\">
+                            <i class=\"fab fa-facebook-f\"></i>
+                        </a>
+                    </li>
+                    <li class=\"list-inline-item\">
+                        <a href=\"#\">
+                            <i class=\"fab fa-linkedin-in\"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class=\"col-md-4\">
+                <ul class=\"list-inline quicklinks\">
+                    <li class=\"list-inline-item\">
+                        <a href=\"#\">Privacy Policy</a>
+                    </li>
+                    <li class=\"list-inline-item\">
+                        <a href=\"#\">Terms of Use</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+        ";
+    }
+
+    public function getFooterEntry($var)
+    {
+        include '../database/connect.php';
+
+        try {
+            $selval = $db->prepare("SELECT $var FROM footer WHERE fid =:fid;");
+            $selval->bindValue(':fid', 0);
+            $selval->execute();
+            $val = $selval->fetch();
+            return $val[$var];
+
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
+
+    public function editFooterEntry($custom, $facebook, $twitter, $linked, $own, $copyright, $ownIcon)
+    {
+        include '../database/connect.php';
+
+        try {
+            $update = $db->prepare("UPDATE footer SET custom =:custom, facebook_page=:facebook, twitter_page =:twitter, linkedin_page =:linkedin_page, custom_page =:own, copyright =:copyright, custom_icon =:own_icon WHERE fid = :fid;");
+            $update->bindValue(':fid', 0);
+            $update->bindValue(':custom', $custom);
+            $update->bindValue(':facebook', $facebook);
+            $update->bindValue(':twitter', $twitter);
+            $update->bindValue(':linkedin_page', $linked);
+            $update->bindValue(':own', $own);
+            $update->bindValue(':copyright', $copyright);
+            $update->bindValue(':own_icon', $ownIcon);
+            return ($update->execute()) ? true : false;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
+
+}

@@ -81,6 +81,22 @@ for($i=0; sizeof($sections) > $i; $i++){
     ';
 }
 ?>
+        <div class="row pb-3">
+            <div class="col-1">
+
+            </div>
+            <div class="col-2">
+                Footer
+            </div>
+            <div class="col">
+                -
+            </div>
+            <div class="col-3">
+                <a href="../misc/footer.php?action=Edit" class="btn btn-primary" role="button">Edit</a>
+            </div>
+        </div>
+
+
         <input type="submit" name="action" value="Save positions" class="btn btn-warning">
     </form>
     <h1 class="mt-4">New Section</h1>
