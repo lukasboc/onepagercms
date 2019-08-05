@@ -326,7 +326,7 @@ class SQLSectionActions implements ISectionActions
         echo "
 <nav class=\"navbar navbar-expand-lg navbar-dark fixed-top\" id=\"mainNav\">
     <div class=\"container\">
-        <a class=\"navbar-brand js-scroll-trigger\" href=\"#page-top\"><img style=\" " . $logoCSS . "\" src=\"" . $logo . "\"></a>
+        <a class=\"navbar-brand js-scroll-trigger\" href=\"index.php#page-top\"><img style=\" " . $logoCSS . "\" src=\"" . $logo . "\"></a>
         <button class=\"navbar-toggler navbar-toggler-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarResponsive\" aria-controls=\"navbarResponsive\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">
             Menu
             <i class=\"fas fa-bars\"></i>
@@ -335,7 +335,7 @@ class SQLSectionActions implements ISectionActions
             <ul class=\"navbar-nav text-uppercase ml-auto\">";
         for ($i = 0; $i < sizeof($titles); $i++) {
             echo "<li class=\"nav-item\">
-                    <a class=\"nav-link js-scroll-trigger\" href=\"#" . $titles[$i] . "\">" . $titles[$i] . "</a>
+                    <a class=\"nav-link js-scroll-trigger\" href=\"index.php#" . $titles[$i] . "\">" . $titles[$i] . "</a>
                 </li>";
         }
         echo "</ul>
