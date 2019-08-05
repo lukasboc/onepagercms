@@ -32,10 +32,9 @@ class SQLUserActions
         }
     }
 
-    public function register($username, $password, $confirmationpassword, $isAuthor) :bool
+    public function register($username, $password, $email): bool
     {
-        require_once "../database/connect.php";
-
+        include '../database/connect.php';
         $hash = password_hash($password . secret, PASSWORD_BCRYPT, array('cost' => 15));
 
         $count = $db->prepare("SELECT * FROM users ORDER BY uid DESC LIMIT 1;");
@@ -45,12 +44,13 @@ class SQLUserActions
 
 
         $insert = $db->prepare("INSERT INTO users 
-         (`uid`, `username`, `password`) VALUES (:uid, :username, :password)");
+         (`uid`, `username`, `password`, `email`) VALUES (:uid, :username, :password, :email)");
 
 
         $insert->bindValue(':uid', $number);
         $insert->bindValue(':username', $username);
         $insert->bindValue(':password', $hash);
+        $insert->bindValue(':email', $email);
 
         if ($insert->execute()) {
             return true;
@@ -60,4 +60,47 @@ class SQLUserActions
 
     }
 
+    public function getAllUsernames()
+    {
+        include '../database/connect.php';
+        try {
+            $selusrn = $db->prepare("SELECT username FROM users;");
+            $selusrn->execute();
+            $usernames = $selusrn->fetchAll();
+            return $usernames;
+
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
+
+    public function checkForSpecificUsername($username)
+    {
+        include '../database/connect.php';
+        try {
+            $selusrn = $db->prepare("SELECT count(username) FROM users WHERE username = :username;");
+            $selusrn->bindValue(':username', $username);
+            $selusrn->execute();
+            $count = $selusrn->fetch();
+            return $count;
+
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+
+    }
+
+    public function checkForSpecificEmail($email)
+    {
+        include '../database/connect.php';
+        try {
+            $selusrn = $db->prepare("SELECT count(email) FROM users WHERE email = :email;");
+            $selusrn->bindValue(':email', $email);
+            $selusrn->execute();
+            $count = $selusrn->fetch();
+            return $count;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
 }
