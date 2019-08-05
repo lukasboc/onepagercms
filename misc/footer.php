@@ -37,7 +37,7 @@ $customIcon = $footeractions->getFooterEntry('custom_icon');
 
         </div>
         <div class="col-6">
-            <h1><?php echo "$headline" ?>Footer-Section</h1>
+            <h1><?php echo "$headline" ?> Footer-Section</h1>
 
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
                 <div class="form-group">
@@ -57,13 +57,13 @@ $customIcon = $footeractions->getFooterEntry('custom_icon');
                 <div class="form-group">
                     <input type="hidden" id="specialid" class="form-control" readonly>
                 </div>
-
+                <h3>Text</h3>
                 <div class="form-group">
                     <label for="custonText">Custom Text:</label>
                     <input type="text" id="custonText" class="form-control" name="custom"
                            value="<?php echo $customtext ?>" <?php echo $writeable ?>>
                 </div>
-
+                <h3>Icons</h3>
                 <div class="form-group">
                     <label for="facebook">Facebook:</label>
                     <input type="text" id="facebook" class="form-control" <?php echo $writeable ?>
@@ -93,6 +93,8 @@ $customIcon = $footeractions->getFooterEntry('custom_icon');
                                placeholder="http://www.domain-name.tld" value="<?php echo $customPage ?>">
                     </div>
                 </div>
+
+                <h3>Copyright</h3>
 
                 <div class="form-group custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="copyright"

@@ -54,12 +54,19 @@ class SQLFooterActions
             </div>
             <div class=\"col-md-4\">
                 <ul class=\"list-inline quicklinks\">
-                    <li class=\"list-inline-item\">
-                        <a href=\"#\">Privacy Policy</a>
-                    </li>
-                    <li class=\"list-inline-item\">
-                        <a href=\"#\">Terms of Use</a>
-                    </li>
+                ";
+        include_once "../database/SQLAdditionalPagesActions.php";
+        $pagesActions = new SQLAdditionalPagesActions();
+        $footerPages = $pagesActions->getAllFooterPages();
+
+        for ($i = 0; $i < sizeof($footerPages); $i++) {
+            echo "
+            <li class=\"list-inline-item\">
+                <a href=\"additionalpage.php?id=" . $footerPages[$i]['id'] . "\">" . $footerPages[$i]['title'] . "</a>
+            </li>
+            ";
+        }
+        echo "
                 </ul>
             </div>
         </div>
