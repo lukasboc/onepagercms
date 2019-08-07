@@ -19,5 +19,6 @@ $headline = $erroractions->showErrorHeadline($reason);
 
 
 </div>
+<?php include_once "inc/footer.php" ?>
 </body>
 </html>

@@ -51,5 +51,6 @@ include_once "../core/inc/header.php" ?>
     ';
     } ?>
 </div>
+<?php include_once "inc/footer.php" ?>
 </body>
 </html>

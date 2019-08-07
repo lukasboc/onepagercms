@@ -113,5 +113,6 @@ for($i=0; sizeof($sections) > $i; $i++){
     <input type="submit" name="action" value="New Section" class="btn btn-success">
     </form>
 </div>
+<?php include_once "inc/footer.php" ?>
 </body>
 </html>
