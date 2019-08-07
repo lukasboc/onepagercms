@@ -22,10 +22,7 @@ class SQLUserActions
         $select->execute();
         $nachricht = $select->fetch();
 
-
         if (password_verify($password . secret, $nachricht["password"])) {
-            session_start();
-            $_SESSION['profile'] = $username;
             return true;
         } else {
             return false;
@@ -103,4 +100,35 @@ class SQLUserActions
             echo 'Something went wrong: ' . $exception->getMessage();
         }
     }
+
+    public function getEmailByUsername($username)
+    {
+        include '../database/connect.php';
+        try {
+            $selusrn = $db->prepare("SELECT email FROM users WHERE username = :username;");
+            $selusrn->bindValue(':username', $username);
+            $selusrn->execute();
+            $usnm = $selusrn->fetch();
+            return $usnm[0];
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
+
+    public function changePassword($username, $newpassword)
+    {
+        include '../database/connect.php';
+
+        try {
+            $hash = password_hash($newpassword . secret, PASSWORD_BCRYPT, array('cost' => 15));
+
+            $update = $db->prepare("UPDATE users SET  password =:password  WHERE username = :username;");
+            $update->bindValue(':username', $username);
+            $update->bindValue(':password', $hash);
+            return ($update->execute()) ? true : false;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
+
 }

@@ -118,42 +118,6 @@ $websiteTitle = ($settingActions->getSettingValue('website-title') != null && $s
         </div>
     </form>
 
-    <h2>Users</h2>
-    <h3>Current Users:</h3>
-    <ul class="list-group list-group-flush w-50 p-3">
-        <?php
-        $array = $userActions->getAllUsernames();
-        for ($i = 0; $i < sizeof($array); $i++) {
-            echo "<li class=\"list-group-item\">" . $array[$i]['username'] . "</li>";
-        }
-        ?>
-    </ul>
-
-    <h3>New User:</h3>
-    <form method="post" action="../misc/adduser.php">
-        <div class="form-group row">
-            <label for="username" class="col-sm-2 col-form-label">Username:</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="username" placeholder="Username" name="username">
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="email" class="col-sm-2 col-form-label">E-Mail:</label>
-            <div class="col-sm-10">
-                <input type="email" class="form-control" id="email" placeholder="E-Mail" name="email">
-                <small id="emailHelp" class="form-text text-muted">A generated password and the entered username will be
-                    send to this adress.
-                </small>
-            </div>
-        </div>
-        <div class="form-group text-center">
-            <input type='submit' class="btn btn-primary" name='createUser'
-                   id='change' value='Create'>
-        </div>
-
-
-    </form>
-
 </div>
 
 </div>

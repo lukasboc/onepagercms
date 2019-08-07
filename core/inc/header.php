@@ -27,10 +27,13 @@ echo '
                 <a class="nav-link" href="../core/preview.php">Preview</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="../core/faq.php">FAQ</a>
+                <a class="nav-link" href="../core/additionalPages.php">Additional Pages</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="../core/additionalPages.php">Additional Pages</a>
+                <a class="nav-link" href="../core/account.php">Account</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../core/faq.php">FAQ</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="../core/logout.php">Logout</a>
