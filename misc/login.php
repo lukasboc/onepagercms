@@ -12,6 +12,8 @@ if (isset($_POST['login'])) {
         $useractions = new SQLUserActions();
         $success = $useractions->login($_POST["username"], $_POST["password"]);
         if($success){
+            session_start();
+            $_SESSION['profile'] = $_POST["username"];
             header("Location: ../core/home.php");
         } else {
             echo "

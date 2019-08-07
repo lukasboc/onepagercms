@@ -1,0 +1,7 @@
+.rssCard {
+    float: left;
+}
+
+.rssCard:last-of-type {
+    float: none;
+}

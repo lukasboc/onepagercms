@@ -1,9 +1,9 @@
 <?php
-include "../database/SQLErrorActions.php";
+include "../database/SQLSuccessActions.php";
 $reason = $_GET['reason'] ?? "none";
-$erroractions = new SQLErrorActions();
-$message = $erroractions->showErrorMessage($reason);
-$headline = $erroractions->showErrorHeadline($reason);
+$successactions = new SQLSuccessActions();
+$message = $successactions->showSuccessMessage($reason);
+$headline = $successactions->showSuccessHeadline($reason);
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,11 +13,9 @@ $headline = $erroractions->showErrorHeadline($reason);
 <?php include_once "inc/header.php" ?>
 <div class="container">
     <h1><?php echo $headline ?></h1>
-    <div class="alert alert-danger">
+    <div class="alert alert-success">
         <?php echo $message ?>
     </div>
-
-
 </div>
 <?php include_once "inc/footer.php" ?>
 </body>

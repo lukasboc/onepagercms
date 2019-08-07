@@ -8,6 +8,6 @@
 
 <iframe class="embed-responsive-item" style="width: 100vw;height: 100vh; border: 0;"
         src="../pages/index.php"></iframe>
-
+<?php include_once "inc/footer.php" ?>
 </body>
 </html>
