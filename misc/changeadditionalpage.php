@@ -12,7 +12,7 @@ if ($_POST['action'] == "Edit") {
 } elseif ($_POST['action'] == "Delete") {
     include '../database/SQLAdditionalPagesActions.php';
     $pagesActions = new SQLAdditionalPagesActions();
-    ($pagesActions->deletePageEntry($id)) ? header('Location: ../core/additionalpages.php') : header('Location: ../core/error.php?reason=dberror');
+    ($pagesActions->deletePageEntry($id)) ? header('Location: ../core/additionalPages.php') : header('Location: ../core/error.php?reason=dberror');
 } elseif ($_POST['action'] == "New") {
     include '../database/SQLAdditionalPagesActions.php';
     $pagesActions = new SQLAdditionalPagesActions();
