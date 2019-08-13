@@ -15,7 +15,6 @@ if ($_POST['action'] == "Edit") {
     ($pagesActions->deletePageEntry($id)) ? header('Location: ../core/additionalPages.php') : header('Location: ../core/error.php?reason=dberror');
 } elseif ($_POST['action'] == "New") {
     include '../database/SQLAdditionalPagesActions.php';
-    //Kommentar
     $pagesActions = new SQLAdditionalPagesActions();
     ($pagesActions->newPageEntry($title, $content, $showInFooter)) ? header('Location: ../core/additionalPages.php') : header('Location: ../core/error.php?reason=dberror');
 } else {
