@@ -12,7 +12,7 @@ class SQLUserActions
 {
     public function login($username, $password) : bool
     {
-        require_once '../database/connect.php';
+        include '../database/connect.php';
 
         $select = $db->prepare("SELECT `username`, `password`
                                    FROM users
@@ -133,12 +133,11 @@ class SQLUserActions
 
     public function changeEmail($username, $password, $newMail)
     {
-        include '../database/connect.php';
-
         try {
             if (!$this->login($username, $password)) {
                 return false;
             }
+            include '../database/connect.php';
             $update = $db->prepare("UPDATE users SET email =:email  WHERE username = :username;");
             $update->bindValue(':username', $username);
             $update->bindValue(':email', $newMail);
