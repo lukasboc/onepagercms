@@ -50,26 +50,28 @@ $userActions = new SQLUserActions();
         <div class="form-group row">
             <label for="oldemail" class="col-sm-2 col-form-label">Current E-Mail:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="oldpassword" readonly
+                <input type="email" class="form-control" id="oldemail" name="oldemail" readonly
                        value="<?php echo $userActions->getEmailByUsername($userid) ?>">
             </div>
         </div>
         <div class="form-group row">
-            <label for="newpassword1" class="col-sm-2 col-form-label">New E-Mail:</label>
+            <label for="newemail1" class="col-sm-2 col-form-label">New E-Mail:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="newpassword1" required placeholder="New E-Mail">
+                <input type="email" class="form-control" id="newemail1" name="newemailOne" required
+                       placeholder="New E-Mail">
             </div>
         </div>
         <div class="form-group row">
-            <label for="newpassword2" class="col-sm-2 col-form-label">Confirmation:</label>
+            <label for="newemail2" class="col-sm-2 col-form-label">Confirmation:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="newpassword2" required placeholder="Confirm E-Mail">
+                <input type="email" class="form-control" id="newemail2" name="newemailTwo" required
+                       placeholder="Confirm E-Mail">
             </div>
         </div>
         <div class="form-group row">
-            <label for="password" class="col-sm-2 col-form-label">Enter Password:</label>
+            <label for="mailpassword" class="col-sm-2 col-form-label">Enter Password:</label>
             <div class="col-sm-10">
-                <input type="password" class="form-control" id="password" name="password" required
+                <input type="password" class="form-control" id="mailpassword" name="password" required
                        placeholder="Password">
                 <small id="passwordHelp" class="form-text text-muted">Just to make sure it's really you.
                 </small>

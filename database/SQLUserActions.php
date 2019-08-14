@@ -131,4 +131,21 @@ class SQLUserActions
         }
     }
 
+    public function changeEmail($username, $password, $newMail)
+    {
+        include '../database/connect.php';
+
+        try {
+            if (!$this->login($username, $password)) {
+                return false;
+            }
+            $update = $db->prepare("UPDATE users SET email =:email  WHERE username = :username;");
+            $update->bindValue(':username', $username);
+            $update->bindValue(':email', $newMail);
+            return ($update->execute()) ? true : false;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
+
 }
