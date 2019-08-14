@@ -24,6 +24,9 @@ echo '
                 <a class="nav-link" href="../core/settings.php">Settings</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="../core/design.php">Design</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="../core/preview.php">Preview</a>
             </li>
             <li class="nav-item">

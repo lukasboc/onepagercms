@@ -51,6 +51,8 @@ require_once "inc/head.php";
         background-color: <?php echo $settingactions->getSettingValue("button-color") ?> !important;
         border-color: <?php echo $settingactions->getSettingValue("button-color") ?> !important;
     }
+
+    <?php echo $settingactions->getSettingValue("custom-css") ?>
 </style>
 <!-- Navigation -->
 <?php $sectionactions->showNavigation() ?>

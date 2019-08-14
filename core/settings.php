@@ -7,8 +7,6 @@ $captchaKey = ($settingActions->getSettingValue("recaptcha_key") != null && $set
 $logocss = ($settingActions->getSettingValue("logo_css") != null && $settingActions->getSettingValue("logo_css") != "") ? $settingActions->getSettingValue("logo_css") : "";
 $logo = ($settingActions->getSettingValue("logo") != null && $settingActions->getSettingValue("logo") != "") ? $settingActions->getSettingValue("logo") : "";
 $uploadedLogo = (isset($_GET['logo'])) ? $_GET['logo'] : "";
-$primaryColor = ($settingActions->getSettingValue('text-primary') != null && $settingActions->getSettingValue('text-primary') != "") ? $settingActions->getSettingValue('text-primary') : "";
-$buttonColor = ($settingActions->getSettingValue('button-color') != null && $settingActions->getSettingValue('button-color') != "") ? $settingActions->getSettingValue('button-color') : "";
 $websiteTitle = ($settingActions->getSettingValue('website-title') != null && $settingActions->getSettingValue('website-title') != "") ? $settingActions->getSettingValue('website-title') : "";
 ?>
 
@@ -29,33 +27,6 @@ $websiteTitle = ($settingActions->getSettingValue('website-title') != null && $s
                        value="<?php echo $websiteTitle ?>">
                 <div class="input-group-append">
                     <input type='submit' class="btn btn-primary" name='titleform'
-                           id='change' value='Update'>
-                </div>
-            </div>
-        </div>
-    </form>
-    <h2>Colors</h2>
-    <form method="post" action="../misc/changeprimarycolor.php">
-        <div class="form-group">
-            <label for="primaryColor">Primary:</label>
-            <div class="input-group">
-                <input type="text" name="primaryColor" id="primaryColor" class="form-control"
-                       value="<?php echo $primaryColor ?>">
-                <div class="input-group-append">
-                    <input type='submit' class="btn btn-primary" name='action'
-                           id='change' value='Update'>
-                </div>
-            </div>
-        </div>
-    </form>
-    <form method="post" action="../misc/changebuttoncolor.php">
-        <div class="form-group">
-            <label for="buttonColor">Buttons:</label>
-            <div class="input-group">
-                <input type="text" name="buttonColor" id="buttonColor" class="form-control"
-                       value="<?php echo $buttonColor ?>">
-                <div class="input-group-append">
-                    <input type='submit' class="btn btn-primary" name='action'
                            id='change' value='Update'>
                 </div>
             </div>
