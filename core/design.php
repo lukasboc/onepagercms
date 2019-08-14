@@ -45,15 +45,15 @@ $customcss = ($settingActions->getSettingValue("custom-css") != null && $setting
     <h2>Custom CSS</h2>
     <form method="post" action="../misc/changecustomcss.php">
         <div class="form-group row">
-            <label for="newpassword2" class="col-sm-2 col-form-label">CSS:</label>
+            <label for="customcss" class="col-sm-2 col-form-label">CSS:</label>
             <div class="col-sm-10">
-                <textarea class="form-control" id="newpassword2" name="newpassword2" required
+                <textarea class="form-control" id="customcss" name="customcss"
                           placeholder=".class { <?= "\n" ?>   ...<?= "\n" ?>} "
                           rows="10"><?php echo $customcss ?></textarea>
             </div>
         </div>
         <div class="form-group text-center">
-            <input class="btn btn-success" type="submit" name="chanepassword" value="Save">
+            <input class="btn btn-success" type="submit" name="changecustomcss" value="Save">
         </div>
     </form>
 

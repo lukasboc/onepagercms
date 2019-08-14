@@ -20,11 +20,12 @@ echo '
             <li class="nav-item">
                 <a class="nav-link" href="../core/sections.php">Sections</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../core/settings.php">Settings</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../core/design.php">Design</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Customize</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="../core/settings.php">Settings</a>
+                    <a class="dropdown-item" href="../core/design.php">Design</a>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="../core/preview.php">Preview</a>
