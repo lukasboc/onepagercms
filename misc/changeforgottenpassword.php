@@ -2,7 +2,7 @@
 $username = $_POST['username'] ?? null;
 $email = $_POST['email'] ?? null;
 
-if (strlen($username) == 0 || $username == null && strlen($email) == 0 || $email == null) {
+if ($username == null && $email == null) {
     header('Location: ../misc/error.php?reason=criticalinput');
     die();
 }
