@@ -34,13 +34,13 @@ if ($userActions->changePassword($username, $generatedPass, $email)) {
   <p>you resetted you password. This mail gives you a temporary password. Your new login credentials:</p>
   <table>
     <tr>
-    <th>Host</th><td>' . $_SERVER["SERVER_NAME"] . '</td>
+    <th style="text-align:left">Host</th><td>' . $_SERVER["SERVER_NAME"] . '</td>
     </tr>
     <tr>
-      <th>Username</th><td>' . $username . '</td>
+      <th style="text-align:left">Username</th><td>' . $username . '</td>
     </tr>
     <tr>
-      <th>Password</th><td>' . $generatedPass . '</td>
+      <th style="text-align:left">Password</th><td>' . $generatedPass . '</td>
     </tr>
   </table>
   <p>The password was generated and nobody knows it except for you. Nonetheless, we recommend to change it.</p>
