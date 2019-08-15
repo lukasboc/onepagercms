@@ -8,10 +8,8 @@ header("refresh:7; url= " . $_SERVER['HTTP_REFERER']);
 ?>
 <!DOCTYPE html>
 <html>
-<?php require_once "inc/head.php" ?>
+<?php require_once "../core/inc/head.php" ?>
 <body>
-
-<?php include_once "inc/header.php" ?>
 <div class="container">
     <div class="alert alert-danger mt-3">
         <h1 class="alert-heading"><?php echo $headline ?></h1>
@@ -20,6 +18,5 @@ header("refresh:7; url= " . $_SERVER['HTTP_REFERER']);
         <p>Redirecting..</p>
     </div>
 </div>
-<?php include_once "inc/footer.php" ?>
 </body>
 </html>

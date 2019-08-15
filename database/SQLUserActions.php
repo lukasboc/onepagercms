@@ -115,6 +115,20 @@ class SQLUserActions
         }
     }
 
+    public function getUsernameByEmail($email)
+    {
+        include '../database/connect.php';
+        try {
+            $selem = $db->prepare("SELECT username FROM users WHERE email = :email;");
+            $selem->bindValue(':email', $email);
+            $selem->execute();
+            $em = $selem->fetch();
+            return $em[0];
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
+
     public function changePassword($username, $newpassword)
     {
         include '../database/connect.php';
