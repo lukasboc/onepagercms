@@ -10,13 +10,15 @@ if ($username == null && $email == null) {
 include_once "../database/SQLUserActions.php";
 $userActions = new SQLUserActions();
 
-if (!$userActions->checkForSpecificUsername($username) && !$userActions->checkForSpecificEmail($email)) {
+if ($userActions->checkForSpecificUsername($username)[0] == "0" && $userActions->checkForSpecificEmail($email)[0] == "0") {
+    echo $userActions->checkForSpecificUsername($username)[0];
     header('Location: ../misc/error.php?reason=usernotfound');
     die();
 }
 
 $email = ($email == null) ? $userActions->getEmailByUsername($username) : $email;
 $username = ($username == null) ? $userActions->getUsernameByEmail($email) : $username;
+echo $userActions->checkForSpecificUsername($username)[0];
 
 $generatedPass = substr((md5(microtime())), rand(0, 26), 8);
 if ($userActions->changePassword($username, $generatedPass, $email)) {
