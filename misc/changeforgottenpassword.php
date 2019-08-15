@@ -52,5 +52,5 @@ if ($userActions->changePassword($username, $generatedPass, $email)) {
     $header[] = 'Content-type: text/html; charset=iso-8859-1';
 
     mail($receiver, $subject, $message, implode("\r\n", $header));
-    header("Location: " . $_SERVER['HTTP_REFERER']);
+    header("Location: ../misc/success.php?reason=resettedpass");
 } else header('Location: ../misc/error.php?reason=dberror');
