@@ -42,7 +42,7 @@ $websiteTitle = ($settingActions->getSettingValue('website-title') != null && $s
             <label>Upload-Area:</label>
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <input type='submit' class="btn btn-success" id='image-upload' value='Upload'>
+                    <input type='submit' class="btn btn-primary" id='image-upload' value='Upload'>
                 </div>
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" id="inputGroupFile01"
