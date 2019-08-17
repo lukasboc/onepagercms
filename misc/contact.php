@@ -141,12 +141,6 @@ if (isset($_GET['id'])) {
                     </a>
 
                 </div>
-
-                <div class="form-group">
-                    <input type="hidden" id="image" class="form-control" required name="image" readonly
-                           value="">
-                </div>
-
                 <div class="form-group">
                     <input type='submit' class="btn btn-primary" name='action'
                            id='change' value='<?php echo $headline ?>'>
