@@ -4,7 +4,15 @@ $id = $_POST['id'];
 $title = $_POST['title'];
 $mutedtitle = $_POST['mutedtitle'];
 $text = $_POST['text'];
-$background = $_POST['background-image'];
+$background = (isset($_POST['delete-background'])) ? "" : $_POST['background-image'];
+if (isset($_POST['delete-background'])) {
+    if (file_exists($_POST['background-image'])) {
+        try {
+            unlink($_POST['background-image']);
+        } catch (Exception $exception) {
+        }
+    }
+}
 
 if ($_POST['action'] == "New") {
     include '../database/SQLSectionActions.php';

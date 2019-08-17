@@ -705,11 +705,8 @@ class SQLSectionActions implements ISectionActions
 
             $update->bindValue(':background', $background);
 
-            if($update->execute()){
-                return true;
-            } else {
-                return false;
-            }
+            return ($update->execute()) ? true : false;
+
         } catch (Exception $exception){
             echo 'Something went wrong: ' . $exception->getMessage();
         }
@@ -736,11 +733,8 @@ class SQLSectionActions implements ISectionActions
             $update->bindValue(':captcha', $captcha);
             $update->bindValue(':background', $background);
 
-            if ($update->execute()) {
-                return true;
-            } else {
-                return false;
-            }
+            return ($update->execute()) ? true : false;
+
         } catch (Exception $exception){
             echo 'Something went wrong: ' . $exception->getMessage();
         }

@@ -28,7 +28,9 @@ if (isset($_GET['id'])) {
     $email = $section->getEmail();
     $message = $section->getMessage();
     $captcha = $section->getCaptcha();
-
+    if ($section->getBackground() != "") {
+        $backgroundimage = $section->getBackground();
+    }
 }
 
 ?>
@@ -66,7 +68,7 @@ if (isset($_GET['id'])) {
                 </div>
 
                 <?php
-                if ($backgroundimage != "") {
+                if ($backgroundimage != "" && file_exists($backgroundimage)) {
                     echo " <div class=\"form-group\">";
                     echo "<label>Preview:</label>";
                     echo "<img class=\"img-fluid\" src=\"" . $backgroundimage . "\">";
@@ -139,7 +141,14 @@ if (isset($_GET['id'])) {
                        title="API-Key has to be set. For more help read FAQ." class="text-warning">
                         <i class="fas fa-exclamation-triangle"></i>
                     </a>
-
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="delete-background" name="delete-background">
+                        <label class="form-check-label" for="delete-background">
+                            Delete Background-Image
+                        </label>
+                    </div>
                 </div>
                 <div class="form-group">
                     <input type='submit' class="btn btn-primary" name='action'

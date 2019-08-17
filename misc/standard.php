@@ -19,7 +19,9 @@ if(isset($_GET['id'])){
     $title = $section->getTitle();
     $mutedTitle = $section->getMutedtitle();
     $text = $section->getText();
-    $backgroundimage = $section->getBackground();
+    if ($section->getBackground() != "") {
+        $backgroundimage = $section->getBackground();
+    }
 }
 
 ?>
@@ -57,7 +59,7 @@ if(isset($_GET['id'])){
                 </div>
 
                 <?php
-                if ($backgroundimage != "") {
+                if ($backgroundimage != "" && file_exists($backgroundimage)) {
                     echo " <div class=\"form-group\">";
                     echo "<label>Preview:</label>";
                     echo "<img class=\"img-fluid\" src=\"" . $backgroundimage . "\">";
@@ -102,6 +104,16 @@ if(isset($_GET['id'])){
                               form="changeform" <?php echo $writeable ?>
                               name="text"
                               cols="73"><?php echo $text ?></textarea>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="delete-background" value="yes"
+                               name="delete-background">
+                        <label class="form-check-label" for="delete-background">
+                            Delete Background-Image
+                        </label>
+                    </div>
                 </div>
 
                 <div class="form-group">
