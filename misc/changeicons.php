@@ -45,10 +45,12 @@ $iconarray = [$iconone, $icontwo, $iconthree, $iconfour, $iconfive, $iconsix, $i
 $iconheadlinearray = [$icononeheadline, $icontwoheadline, $iconthreeheadline, $iconfourheadline, $iconfiveheadline, $iconsixheadline, $iconsevenheadline, $iconeightheadline];
 $icontextarray = [$icononetext, $icontwotext, $iconthreetext, $iconfourtext, $iconfivetext, $iconsixtext, $iconseventext, $iconeighttext];
 
+$background = $_POST['background-image'];
+
 if ($_POST['action'] == "New") {
     include '../database/SQLSectionActions.php';
     $sectionactions = new SQLSectionActions();
-    $sectionactions->addNewIconsEntry($title, $mutedtitle, $iconarray, $iconheadlinearray, $icontextarray );
+    $sectionactions->addNewIconsEntry($title, $mutedtitle, $iconarray, $iconheadlinearray, $icontextarray, $background);
 } elseif ($_POST['action'] == "Delete"){
     include '../database/SQLSectionActions.php';
     $sectionactions = new SQLSectionActions();
@@ -56,7 +58,7 @@ if ($_POST['action'] == "New") {
 } elseif ($_POST['action'] == "Edit"){
     include '../database/SQLSectionActions.php';
     $sectionactions = new SQLSectionActions();
-    $success = $sectionactions->editIconsEntry($id, $title, $mutedtitle, $iconarray, $iconheadlinearray, $icontextarray);
+    $success = $sectionactions->editIconsEntry($id, $title, $mutedtitle, $iconarray, $iconheadlinearray, $icontextarray, $background);
     if($success){
         header("Location: ../core/sections.php");
     } else {

@@ -18,6 +18,7 @@ class Icons
     private $iconHeadline = Array();
     private $iconTexts = Array();
     private $superid;
+    private $background;
 
     /**
      * Icons constructor.
@@ -30,7 +31,7 @@ class Icons
      * @param array $icons
      * @param array $iconHeadline
      */
-    public function __construct($id, $position, $type, $title, $mutedtitle, $date, array $icons, array $iconHeadline, array $iconTexts, $superid)
+    public function __construct($id, $position, $type, $title, $mutedtitle, $date, array $icons, array $iconHeadline, array $iconTexts, $superid, $background)
     {
         $this->id = $id;
         $this->position = $position;
@@ -42,6 +43,7 @@ class Icons
         $this->iconHeadline = $iconHeadline;
         $this->iconTexts = $iconTexts;
         $this->superid = $superid;
+        $this->background = $background;
     }
 
     /**
@@ -204,5 +206,19 @@ class Icons
         $this->superid = $superid;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getBackground()
+    {
+        return $this->background;
+    }
 
+    /**
+     * @param mixed $background
+     */
+    public function setBackground($background): void
+    {
+        $this->background = $background;
+    }
 }
