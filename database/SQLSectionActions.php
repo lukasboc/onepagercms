@@ -157,6 +157,19 @@ class SQLSectionActions implements ISectionActions
 
     }
 
+    private function getSpecialIdForStandardEntry($id)
+    {
+        include '../database/connect.php';
+
+        $select = $db->prepare('select specialid from sections where id=:id AND type=:type');
+        $select->bindValue(':id', $id);
+        $select->bindValue(':type', 'standard');
+        $select->execute();
+        $selection = $select->fetchAll();
+        return $selection;
+
+    }
+
 
     private function getEntryFromIconsTable($sid){
         include '../database/connect.php';
@@ -723,7 +736,7 @@ class SQLSectionActions implements ISectionActions
     {
         include '../database/connect.php';
 
-        $selection = $this->getSpecialIdForIconsEntry($id);
+        $selection = $this->getSpecialIdForStandardEntry($id);
         $sid = $selection[0]['specialid'];
 
         $select = $db->prepare("DELETE FROM sections
@@ -789,7 +802,7 @@ class SQLSectionActions implements ISectionActions
     {
         include '../database/connect.php';
 
-        $selection = $this->getSpecialIdForIconsEntry($id);
+        $selection = $this->getSpecialIdForContactEntry($id);
         $sid = $selection[0]['specialid'];
 
         $select = $db->prepare("DELETE FROM sections
@@ -810,10 +823,9 @@ class SQLSectionActions implements ISectionActions
         $delete->bindValue(':sid', $sid);
 
         if ($delete->execute()) {
-            header("Location: ../core/sections.php");
+            return true;
         } else {
-            echo '<h1>An Error occurred!</h1><p>Please try again: ' . $select->errorInfo() . '</p>';
-            header("refresh:3;url=../core/sections.php");
+            return false;
         }
 
     }
