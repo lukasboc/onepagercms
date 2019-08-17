@@ -35,6 +35,5 @@ if (file_exists($new_path)) {
     } while (file_exists($new_path));
 }
 
-//Alles okay, verschiebe Datei an neuen Pfad
 move_uploaded_file($_FILES['background-image']['tmp_name'], $new_path);
 header("Location: " . $_SERVER['HTTP_REFERER'] . "&background-image=" . $new_path);
