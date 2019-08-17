@@ -740,9 +740,9 @@ class SQLSectionActions implements ISectionActions
         $sid = $selection[0]['specialid'];
 
         $select = $db->prepare("DELETE FROM sections
-                                   WHERE `specialid`=:sid");
+                                   WHERE `id`=:id");
 
-        $select->bindValue(':sid', $sid);
+        $select->bindValue(':id', $id);
 
         if ($select->execute()) {
             header("Location: ../core/sections.php");
@@ -773,9 +773,9 @@ class SQLSectionActions implements ISectionActions
         $sid = $selection[0]['specialid'];
 
         $select = $db->prepare("DELETE FROM sections
-                                   WHERE `specialid`=:sid");
+                                   WHERE `id`=:id");
 
-        $select->bindValue(':sid', $sid);
+        $select->bindValue(':id', $id);
 
         if ($select->execute()) {
             header("Location: ../core/sections.php");
@@ -806,9 +806,9 @@ class SQLSectionActions implements ISectionActions
         $sid = $selection[0]['specialid'];
 
         $select = $db->prepare("DELETE FROM sections
-                                   WHERE `specialid`=:sid");
+                                   WHERE `id`=:id");
 
-        $select->bindValue(':sid', $sid);
+        $select->bindValue(':id', $id);
 
         if ($select->execute()) {
             header("Location: ../core/sections.php");
