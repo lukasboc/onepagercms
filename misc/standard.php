@@ -103,7 +103,7 @@ if(isset($_GET['id'])){
     </div>
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="../pages/vendor/jquery/jquery.min.js"><\/script>')</script>
+<script>window.jQuery || document.write('<script src="../plugins/vendor/jquery/jquery.min.js"><\/script>')</script>
 <script src="../plugins/Trumbowyg/dist/trumbowyg.min.js"></script>
 
 <script>
