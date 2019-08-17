@@ -112,7 +112,7 @@ if(isset($_GET['id'])){
                            name="icon-' . $i . '" placeholder="Icon" value="' . $icon . '" ' . $writeable . '>';
                     if ($i == 1) echo '
                     <div class="alert alert-info" role="alert">
-                        Example: fa-shopping-cart
+                        Example: fas fa-shopping-cart
                     </div> ';
                     echo '
                             <input type="text" id=icon-' . $i . '-headline" class="form-control mb-3"

@@ -17,10 +17,6 @@ $icontwo = $_POST['icon-2'];
 $icontwoheadline = $_POST['icon-2-headline'];
 $icontwotext = $_POST['icon-2-text'];
 
-$iconone = $_POST['icon-3'];
-$icononeheadline = $_POST['icon-3-headline'];
-$icononetext = $_POST['icon-3-text'];
-
 $iconthree = $_POST['icon-3'];
 $iconthreeheadline = $_POST['icon-3-headline'];
 $iconthreetext = $_POST['icon-3-text'];
