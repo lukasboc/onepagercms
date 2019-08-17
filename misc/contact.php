@@ -50,7 +50,7 @@ if (isset($_GET['id'])) {
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
                 <div class="form-group">
                     <img class="img-fluid" src="<?php echo $backgroundimage ?>"><br>
-                    <label for="image-upload">Background-Image:</label>
+                    <label for="image-upload">Background:</label>
                     <input type="hidden" id="id" class="form-control" name="id" readonly
                            value="<?php echo $id ?>">
                     <input type="hidden" id="action" class="form-control" name="action" readonly
