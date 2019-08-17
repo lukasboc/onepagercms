@@ -9,7 +9,7 @@ $mutedTitle = "";
 $text = "";
 $sid = "";
 $id = "";
-$backgroundimage = "";
+$backgroundimage = (isset($_GET['background-image'])) ? $_GET['background-image'] : "";
 
 if(isset($_GET['id'])){
     $sectionactions = new SQLSectionActions();
@@ -39,14 +39,19 @@ if(isset($_GET['id'])){
 
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
                 <div class="form-group">
-                    <img class="img-fluid" src="<?php echo $backgroundimage ?>"><br>
                     <label for="image-upload">Background:</label>
                     <input type="hidden" id="id" class="form-control" name="id" readonly
                            value="<?php echo $id ?>">
-                    <input type="hidden" id="action" class="form-control" name="action" readonly
-                           value="<?php echo $sid ?>">
-                    <input name="background-upload" class="form-control-file" type="file" <?php echo $disabled ?>>
+                    <input name="background-image" class="form-control-file" type="file" <?php echo $disabled ?>>
                 </div>
+                <?php
+                if ($backgroundimage != "") {
+                    echo " <div class=\"form-group\">";
+                    echo "<label>Preview:</label>";
+                    echo "<img class=\"img-fluid\" src=\"" . $backgroundimage . "\">";
+                    echo "</div>";
+                }
+                ?>
                 <div class="form-group">
 
                     <input type='submit' class="btn btn-secondary" name='upload'
@@ -59,6 +64,8 @@ if(isset($_GET['id'])){
                 <div class="form-group">
                     <input type="hidden" id="id" class="form-control" name="id" readonly value="<?php echo $sid ?>">
                 </div>
+                <input type="hidden" class="form-control" value="<?php echo $backgroundimage ?>"
+                       name="background-image">
 
                 <div class="form-group">
                     <input type="hidden" id="specialid" class="form-control" name="author" readonly

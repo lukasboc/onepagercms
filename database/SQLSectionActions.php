@@ -30,7 +30,7 @@ class SQLSectionActions implements ISectionActions
             if($r[$i][1] == "standard"){
                 $selection = $this->getEntryFromStandardTable($r[$i][2]);
                 $superid = $this->getSuperIDForStandardEntry($selection[0]['specialid']);
-                $standard = new Standard($selection[0][0], $selection[0][1], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $selection[0][6], $superid[0][0]);
+                $standard = new Standard($selection[0][0], $selection[0][1], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $selection[0][6], $superid[0][0], $selection[0]['background']);
                 array_push($secation_array, $standard);
             }
 
@@ -208,7 +208,7 @@ class SQLSectionActions implements ISectionActions
 
     private function showStandardSection($i, $bgcolor, $sectionarray){
         echo '
-                  <section class="' . $bgcolor . 'page-section" id="' . $sectionarray[$i]->getTitle() . '">
+                  <section class="' . $bgcolor . 'page-section" id="' . $sectionarray[$i]->getTitle() . '" style="background-image: url(' . $sectionarray[$i]->getBackground() . ')">
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
@@ -383,7 +383,7 @@ class SQLSectionActions implements ISectionActions
             $getfromspecial->execute();
             $section = $getfromspecial->fetch();
 
-            $standard = new Standard($section['specialid'], $section['position'], 'standard', $section['title'], $section['mutedtitle'], $section['text'], $section['date'], $id);
+            $standard = new Standard($section['specialid'], $section['position'], 'standard', $section['title'], $section['mutedtitle'], $section['text'], $section['date'], $id, $section['background']);
 
             return $standard;
         } elseif ($selection['type'] == 'icons') {
@@ -437,7 +437,8 @@ class SQLSectionActions implements ISectionActions
             return $section;
     }
 
-    public function addNewStandardEntry($title, $mutedtitle, $text){
+    public function addNewStandardEntry($title, $mutedtitle, $text, $background)
+    {
         include '../database/connect.php';
 
         $count = $db->prepare("SELECT * FROM standard ORDER BY specialid DESC LIMIT 1;");
@@ -451,7 +452,7 @@ class SQLSectionActions implements ISectionActions
         $position = $max_pos["position"] + 1;
 
 
-        $insert = $db->prepare("INSERT INTO standard (`specialid`, `position`, `sectiontype`, `title`, `mutedtitle`, `text`, `date`) VALUES (:sid, :position, :sectiontype, :title, :mutedtitle, :text, :date)");
+        $insert = $db->prepare("INSERT INTO standard (`specialid`, `position`, `sectiontype`, `title`, `mutedtitle`, `text`, `date`, `background`) VALUES (:sid, :position, :sectiontype, :title, :mutedtitle, :text, :date, :background)");
 
         $insert->bindValue(':sid', $number);
         $insert->bindValue(':position', $position);
@@ -460,6 +461,8 @@ class SQLSectionActions implements ISectionActions
         $insert->bindValue(':mutedtitle', $mutedtitle);
         $insert->bindValue(':text', $text);
         $insert->bindValue(':date', date("m.d.Y"));
+        $insert->bindValue(':background', $background);
+
 
         if ($insert->execute()) {
             $ncount = $db->prepare("SELECT * FROM sections ORDER BY id DESC LIMIT 1;");
@@ -634,18 +637,20 @@ class SQLSectionActions implements ISectionActions
 
 //Edit
 
-    public function editStandardEntry($id, $title, $mutedtitle, $text)
+    public function editStandardEntry($id, $title, $mutedtitle, $text, $background)
     {
         include '../database/connect.php';
         try {
             $sid = $this->getSpecialIdForStandardEntry($id)[0]['specialid'];
-            $update = $db->prepare("UPDATE standard SET title = :title, mutedtitle = :mutedtitle, text = :text, date = :date WHERE specialid = :sid;");
+            $update = $db->prepare("UPDATE standard SET title = :title, mutedtitle = :mutedtitle, text = :text, date = :date, background = :background WHERE specialid = :sid;");
 
             $update->bindValue(':sid', $sid);
             $update->bindValue(':title', $title);
             $update->bindValue(':mutedtitle', $mutedtitle);
             $update->bindValue(':text', $text);
             $update->bindValue(':date', date("Y-m-d H:i:s"));
+            $update->bindValue(':background', $background);
+
             return ($update->execute()) ? true : false;
         } catch (Exception $exception){
             echo 'Something went wrong: ' . $exception->getMessage();
