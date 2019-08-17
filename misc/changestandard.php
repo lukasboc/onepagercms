@@ -13,8 +13,8 @@ if ($_POST['action'] == "New") {
     include '../database/SQLSectionActions.php';
     $sectionactions = new SQLSectionActions();
     $sectionactions->deleteStandardEntry($id);
-} elseif ($_POST['action'] == "Edit"){
+} elseif ($_POST['action'] == "Edit") {
     include '../database/SQLSectionActions.php';
     $sectionactions = new SQLSectionActions();
-    $sectionactions->editStandardEntry($id);
+    ($sectionactions->editStandardEntry($id, $title, $mutedtitle, $text)) ? header('Location: ../core/success.php?reason=sectionchanged') : header('Location: ../core/error.php?reason=sectionchangefailed');
 }

@@ -216,7 +216,7 @@ class SQLSectionActions implements ISectionActions
           <h3 class="section-subheading text-muted">' . $sectionarray[$i]->getMutedTitle() . '</h3>
         </div>
       </div>
-      <div class="row text-center">' . $sectionarray[$i]->getText() . '
+      <div class="row" style="display:contents">' . $sectionarray[$i]->getText() . '
 
       </div>
     </div>
@@ -476,7 +476,7 @@ class SQLSectionActions implements ISectionActions
 
             $section->bindValue(':id', $gnumber);
             $section->bindValue(':type', 'standard');
-            $section->bindValue(':specialid', $position);
+            $section->bindValue(':specialid', $number);
             $section->bindValue(':position', $newposition);
 
             if($section->execute()){
@@ -634,9 +634,11 @@ class SQLSectionActions implements ISectionActions
 
 //Edit
 
-    public function editStandardEntry($sid, $title, $mutedtitle, $text){
+    public function editStandardEntry($id, $title, $mutedtitle, $text)
+    {
         include '../database/connect.php';
         try {
+            $sid = $this->getSpecialIdForStandardEntry($id)[0]['specialid'];
             $update = $db->prepare("UPDATE standard SET title = :title, mutedtitle = :mutedtitle, text = :text, date = :date WHERE specialid = :sid;");
 
             $update->bindValue(':sid', $sid);
@@ -644,7 +646,7 @@ class SQLSectionActions implements ISectionActions
             $update->bindValue(':mutedtitle', $mutedtitle);
             $update->bindValue(':text', $text);
             $update->bindValue(':date', date("Y-m-d H:i:s"));
-            $update->execute() ? true : false;
+            return ($update->execute()) ? true : false;
         } catch (Exception $exception){
             echo 'Something went wrong: ' . $exception->getMessage();
         }
