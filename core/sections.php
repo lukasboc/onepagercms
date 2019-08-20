@@ -15,7 +15,7 @@ $sections = $sectionactions->getAllSections();
     <h1>Sections</h1>
 
     <div class="row">
-        <div class="col-2 col-sm-2 col-md-2 col-lg-1">
+        <div class="col-2 col-sm-2 col-md-2 col-lg-1 sectioncolfix">
             <label>Position</label>
         </div>
         <div class="col-2">
@@ -31,7 +31,7 @@ $sections = $sectionactions->getAllSections();
 
     <form method="post" action="../misc/positions.php">
         <div class="row pb-3">
-            <div class="col-2 col-sm-2 col-md-2 col-lg-1">
+            <div class="col-2 col-sm-2 col-md-2 col-lg-1 sectioncolfix">
 
             </div>
             <div class="col-2">
@@ -48,7 +48,7 @@ $sections = $sectionactions->getAllSections();
 for($i=0; sizeof($sections) > $i; $i++){
     echo'
   <div class="row">
-    <div class="col-2 col-sm-2 col-md-2 col-lg-1">
+    <div class="col-2 col-sm-2 col-md-2 col-lg-1 sectioncolfix">
      <div class="form-group">
       <select class="form-control" id="sel1">
         <option selected disabled>'. $sections[$i]->getPosition() . '</option>
@@ -82,7 +82,7 @@ for($i=0; sizeof($sections) > $i; $i++){
 }
 ?>
         <div class="row pb-3">
-            <div class="col-2 col-sm-2 col-md-2 col-lg-1">
+            <div class="col-2 col-sm-2 col-md-2 col-lg-1 sectioncolfix">
 
             </div>
             <div class="col-2">
