@@ -15,13 +15,13 @@ $sections = $sectionactions->getAllSections();
     <h1>Sections</h1>
 
     <div class="row">
-        <div class="col-1">
+        <div class="col-2 col-sm-2 col-md-2 col-lg-1">
             <label>Position</label>
         </div>
         <div class="col-2">
             <label>Type</label>
         </div>
-        <div class="col">
+        <div class="col-3 col-sm-5 col-md-5 col-lg-6">
             <label>Title</label>
         </div>
         <div class="col-3">
@@ -31,13 +31,13 @@ $sections = $sectionactions->getAllSections();
 
     <form method="post" action="../misc/positions.php">
         <div class="row pb-3">
-            <div class="col-1">
+            <div class="col-2 col-sm-2 col-md-2 col-lg-1">
 
             </div>
             <div class="col-2">
                 Header
             </div>
-            <div class="col">
+            <div class="col-3 col-sm-5 col-md-5 col-lg-6">
                 <?php echo $headeractions->getHeaderTitle(); ?>
             </div>
             <div class="col-3">
@@ -48,7 +48,7 @@ $sections = $sectionactions->getAllSections();
 for($i=0; sizeof($sections) > $i; $i++){
     echo'
   <div class="row">
-    <div class="col-1">
+    <div class="col-2 col-sm-2 col-md-2 col-lg-1">
      <div class="form-group">
       <select class="form-control" id="sel1">
         <option selected disabled>'. $sections[$i]->getPosition() . '</option>
@@ -66,7 +66,7 @@ for($i=0; sizeof($sections) > $i; $i++){
     <div class="col-2">
       ' . $sections[$i]->getType() . '
     </div>
-    <div class="col">
+    <div class="col-3 col-sm-5 col-md-5 col-lg-6">
       ' . $sections[$i]->getTitle() . '
     </div>
     <div class="col-3">
@@ -82,13 +82,13 @@ for($i=0; sizeof($sections) > $i; $i++){
 }
 ?>
         <div class="row pb-3">
-            <div class="col-1">
+            <div class="col-2 col-sm-2 col-md-2 col-lg-1">
 
             </div>
             <div class="col-2">
                 Footer
             </div>
-            <div class="col">
+            <div class="col-3 col-sm-5 col-md-5 col-lg-6">
                 -
             </div>
             <div class="col-3">
