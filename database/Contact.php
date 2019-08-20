@@ -22,6 +22,8 @@ class Contact
     private $captcha;
     private $superid;
 
+    private $background;
+
     /**
      * Contact constructor.
      * @param $id
@@ -36,7 +38,7 @@ class Contact
      * @param $message
      * @param $captcha
      */
-    public function __construct($id, $position, $type, $title, $mutedtitle, $text, $date, $name, $email, $message, $captcha, $superid)
+    public function __construct($id, $position, $type, $title, $mutedtitle, $text, $date, $name, $email, $message, $captcha, $superid, $background)
     {
         $this->id = $id;
         $this->position = $position;
@@ -50,6 +52,7 @@ class Contact
         $this->message = $message;
         $this->captcha = $captcha;
         $this->superid = $superid;
+        $this->background = $background;
     }
 
     /**
@@ -260,4 +263,19 @@ class Contact
         $this->superid = $superid;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getBackground()
+    {
+        return $this->background;
+    }
+
+    /**
+     * @param mixed $background
+     */
+    public function setBackground($background): void
+    {
+        $this->background = $background;
+    }
 }
