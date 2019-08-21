@@ -48,7 +48,7 @@ $customcss = ($settingActions->getSettingValue("custom-css") != null && $setting
             <label for="customcss" class="col-sm-2 col-form-label">CSS:</label>
             <div class="col-sm-10">
                 <textarea class="form-control" id="customcss" name="customcss"
-                          placeholder=".class { <?= "\n" ?>   ...<?= "\n" ?>} "
+                          placeholder=".class { ... }"
                           rows="10"><?php echo $customcss ?></textarea>
             </div>
         </div>
