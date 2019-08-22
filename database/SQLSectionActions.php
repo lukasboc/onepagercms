@@ -27,14 +27,14 @@ class SQLSectionActions implements ISectionActions
 
         for ($i = 0; $i < sizeof($r); $i++) {
 
-            if($r[$i][1] == "standard"){
+            if ($r[$i][1] == "standard") {
                 $selection = $this->getEntryFromStandardTable($r[$i][2]);
                 $superid = $this->getSuperIDForStandardEntry($selection[0]['specialid']);
-                $standard = new Standard($selection[0][0], $selection[0][1], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $selection[0][6], $superid[0][0], $selection[0]['background']);
+                $standard = new Standard($selection[0][0], $r[$i][3], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $selection[0][6], $superid[0][0], $selection[0]['background']);
                 array_push($secation_array, $standard);
             }
 
-            if($r[$i][1] == "icons"){
+            if ($r[$i][1] == "icons") {
                 $selection = $this->getEntryFromIconsTable($r[$i][2]);
 
                 $iconArray = array(
@@ -70,12 +70,12 @@ class SQLSectionActions implements ISectionActions
                 );
                 $superid = $this->getSuperIDForIconsEntry($selection[0]['specialid']);
 
-                $icons = new Icons($selection[0][0], $selection[0][1], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $iconArray, $iconHeadlineArray, $iconTextArray, $superid[0]['id'], $selection[0]['background']);
+                $icons = new Icons($selection[0][0], $r[$i][3], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $iconArray, $iconHeadlineArray, $iconTextArray, $superid[0]['id'], $selection[0]['background']);
                 array_push($secation_array, $icons);
 
             }
 
-            if($r[$i][1] == "contact"){
+            if ($r[$i][1] == "contact") {
                 $prepstandard = $db->prepare('select * from contact where specialid=:specialid');
                 $prepstandard->bindValue(':specialid', $r[$i][2]);
                 $prepstandard->execute();
@@ -83,13 +83,15 @@ class SQLSectionActions implements ISectionActions
 
                 $superid = $this->getSuperIDForContactEntry($selection[0]['specialid']);
 
-                $contact = new Contact($selection[0][0], $selection[0][1], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $selection[0][6], $selection[0][7], $selection[0][8], $selection[0][9], $selection[0][10], $superid[0]['id'], $selection[0]['background']);
+                $contact = new Contact($selection[0][0], $r[$i][3], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $selection[0][6], $selection[0][7], $selection[0][8], $selection[0][9], $selection[0][10], $superid[0]['id'], $selection[0]['background']);
                 array_push($secation_array, $contact);
             }
         }
         return $secation_array;
     }
-    private function getEntryFromStandardTable($sid){
+
+    private function getEntryFromStandardTable($sid)
+    {
         include '../database/connect.php';
 
         $prepstandard = $db->prepare('select * from standard where specialid=:specialid');
@@ -98,7 +100,9 @@ class SQLSectionActions implements ISectionActions
         $selection = $prepstandard->fetchAll();
         return $selection;
     }
-    private function getSuperIDForStandardEntry($sid){
+
+    private function getSuperIDForStandardEntry($sid)
+    {
         include '../database/connect.php';
 
         $prepstandard = $db->prepare('select id from sections where specialid=:specialid AND type=:type');
@@ -109,7 +113,8 @@ class SQLSectionActions implements ISectionActions
         return $selection;
     }
 
-    private function getSuperIDForIconsEntry($sid){
+    private function getSuperIDForIconsEntry($sid)
+    {
         include '../database/connect.php';
 
         $prepstandard = $db->prepare('select id from sections where specialid=:specialid AND type=:type');
@@ -120,7 +125,8 @@ class SQLSectionActions implements ISectionActions
         return $selection;
     }
 
-    private function getSuperIDForContactEntry($sid){
+    private function getSuperIDForContactEntry($sid)
+    {
         include '../database/connect.php';
 
         $prepstandard = $db->prepare('select id from sections where specialid=:specialid AND type=:type');
@@ -171,7 +177,8 @@ class SQLSectionActions implements ISectionActions
     }
 
 
-    private function getEntryFromIconsTable($sid){
+    private function getEntryFromIconsTable($sid)
+    {
         include '../database/connect.php';
 
         $prepstandard = $db->prepare('select * from icons where specialid=:specialid');
@@ -182,7 +189,8 @@ class SQLSectionActions implements ISectionActions
 
     }
 
-    public function showAllSections(){
+    public function showAllSections()
+    {
         $sectionarray = $this->getAllSections();
         if (sizeof($sectionarray) > 0) {
             for ($i = 0; $i < sizeof($sectionarray); $i++) {
@@ -194,9 +202,8 @@ class SQLSectionActions implements ISectionActions
                 if ($sectionarray[$i]->getType() == "standard") {
                     $this->showStandardSection($i, $bgcolor, $sectionarray);
                 } elseif ($sectionarray[$i]->getType() == "icons") {
-                   $this->showIconsSection($i, $bgcolor, $sectionarray);
-                }
-                elseif ($sectionarray[$i]->getType() == "contact"){
+                    $this->showIconsSection($i, $bgcolor, $sectionarray);
+                } elseif ($sectionarray[$i]->getType() == "contact") {
                     $this->showContactSection($i, $bgcolor, $sectionarray);
                 }
             }
@@ -206,7 +213,8 @@ class SQLSectionActions implements ISectionActions
 
     }
 
-    private function showStandardSection($i, $bgcolor, $sectionarray){
+    private function showStandardSection($i, $bgcolor, $sectionarray)
+    {
         echo '
                   <section class="' . $bgcolor . 'page-section" id="' . $sectionarray[$i]->getTitle() . '" style="background-image: url(' . $sectionarray[$i]->getBackground() . ')">
     <div class="container">
@@ -224,8 +232,9 @@ class SQLSectionActions implements ISectionActions
                 ';
     }
 
-    private function showIconsSection($i, $bgcolor, $sectionarray){
-    echo '
+    private function showIconsSection($i, $bgcolor, $sectionarray)
+    {
+        echo '
                   <section class="' . $bgcolor . 'page-section" id="' . $sectionarray[$i]->getTitle() . '" style="background-image: url(' . $sectionarray[$i]->getBackground() . ')">
     <div class="container">
       <div class="row">
@@ -235,47 +244,46 @@ class SQLSectionActions implements ISectionActions
         </div>
       </div>
       <div class="row text-center">';
-    for ($h = 0; $h < count(array_filter($sectionarray[$i]->getIcons())); $h++) {
-        echo '
+        for ($h = 0; $h < count(array_filter($sectionarray[$i]->getIcons())); $h++) {
+            echo '
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
             <i class="fas fa-circle fa-stack-2x text-primary"></i>
             <i class="' . $sectionarray[$i]->getIcons()[$h] . ' fa-stack-1x fa-inverse"></i>
           </span>
           <h4 class="service-heading">' . $sectionarray[$i]->getIconHeadline()[$h] . '</h4>
-          <p class="text-muted">'. $sectionarray[$i]->getIconTexts()[$h] . '</p>
+          <p class="text-muted">' . $sectionarray[$i]->getIconTexts()[$h] . '</p>
         </div>
                     ';
-    }
+        }
         echo '      </div>
     </div>
   </section>';
     }
 
-    private function showContactSection($i, $bgcolor, $sectionarray){
+    private function showContactSection($i, $bgcolor, $sectionarray)
+    {
         $settingsActions = new SQLSettingActions();
         $namefield = "";
         $emailfield = "";
         $messagefield = "";
         $captchafield = "";
 
-        if($sectionarray[$i]->getName()){
+        if ($sectionarray[$i]->getName()) {
             $namefield = '
                             <div class="form-group">
                                 <input class="form-control" id="name" type="text" placeholder="Your Name *" required="required" data-validation-required-message="Please enter your name.">
                                 <p class="help-block text-danger"></p>
                             </div>
-                            '
-            ;
+                            ';
         }
-        if($sectionarray[$i]->getEmail()){
+        if ($sectionarray[$i]->getEmail()) {
             $emailfield = '
                             <div class="form-group">
                                 <input class="form-control" id="email" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email address.">
                                 <p class="help-block text-danger"></p>
                             </div>
-                            '
-            ;
+                            ';
         }
         if ($sectionarray[$i]->getMessage()) {
             $messagefield = '
@@ -283,16 +291,14 @@ class SQLSectionActions implements ISectionActions
                                 <textarea class="form-control" id="message" placeholder="Your Message *" required="required" data-validation-required-message="Please enter a message."></textarea>
                                 <p class="help-block text-danger"></p>
                             </div>
-                            '
-            ;
+                            ';
         }
-        if($sectionarray[$i]->getCaptcha()){
+        if ($sectionarray[$i]->getCaptcha()) {
             $captchafield = '
                            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                           <div class="g-recaptcha" data-sitekey="' . $settingsActions->getSettingValue("recaptcha_key") . '"></div>'
-            ;
+                           <div class="g-recaptcha" data-sitekey="' . $settingsActions->getSettingValue("recaptcha_key") . '"></div>';
         }
-        echo'
+        echo '
                   <section class="' . $bgcolor . 'page-section" id="' . $sectionarray[$i]->getTitle() . '" style="background-image: url(' . $sectionarray[$i]->getBackground() . ')">
                         <div class="container">
         <div class="row">
@@ -427,14 +433,15 @@ class SQLSectionActions implements ISectionActions
         }
     }
 
-    public function getSectionBySID($sid){
+    public function getSectionBySID($sid)
+    {
         include '../database/connect.php';
 
-            $getfromspecial = $db->prepare('select * from standard where specialid=:specialid');
-            $getfromspecial->bindValue(':specialid', $sid);
-            $getfromspecial->execute();
-            $section = $getfromspecial->fetch();
-            return $section;
+        $getfromspecial = $db->prepare('select * from standard where specialid=:specialid');
+        $getfromspecial->bindValue(':specialid', $sid);
+        $getfromspecial->execute();
+        $section = $getfromspecial->fetch();
+        return $section;
     }
 
     public function addNewStandardEntry($title, $mutedtitle, $text, $background)
@@ -482,10 +489,10 @@ class SQLSectionActions implements ISectionActions
             $section->bindValue(':specialid', $number);
             $section->bindValue(':position', $newposition);
 
-            if($section->execute()){
+            if ($section->execute()) {
                 header("Location: ../core/sections.php");
 
-            }else {
+            } else {
                 echo "<h1>Oh oh!</h1><p>Hier ist was schiefgegangen: <b>" . "\nPDO::errorInfo():\n";
                 print_r($insert->errorInfo());
             }
@@ -566,10 +573,10 @@ class SQLSectionActions implements ISectionActions
             $section->bindValue(':specialid', $number);
             $section->bindValue(':position', $newposition);
 
-            if($section->execute()){
+            if ($section->execute()) {
                 header("Location: ../core/sections.php");
 
-            }else {
+            } else {
                 echo "<h1>Oh oh!</h1><p>Hier ist was schiefgegangen: <b>" . "\nPDO::errorInfo():\n";
                 print_r($insert->errorInfo());
             }
@@ -626,9 +633,9 @@ class SQLSectionActions implements ISectionActions
             $section->bindValue(':specialid', $number);
             $section->bindValue(':position', $newposition);
 
-            if($section->execute()){
+            if ($section->execute()) {
                 header("Location: ../core/sections.php");
-            }else {
+            } else {
                 echo "<h1>Oh oh!</h1><p>Hier ist was schiefgegangen: <b>" . "\nPDO::errorInfo():\n";
                 print_r($insert->errorInfo());
             }
@@ -656,7 +663,7 @@ class SQLSectionActions implements ISectionActions
             $update->bindValue(':background', $background);
 
             return ($update->execute()) ? true : false;
-        } catch (Exception $exception){
+        } catch (Exception $exception) {
             echo 'Something went wrong: ' . $exception->getMessage();
         }
     }
@@ -707,7 +714,7 @@ class SQLSectionActions implements ISectionActions
 
             return ($update->execute()) ? true : false;
 
-        } catch (Exception $exception){
+        } catch (Exception $exception) {
             echo 'Something went wrong: ' . $exception->getMessage();
         }
     }
@@ -735,10 +742,11 @@ class SQLSectionActions implements ISectionActions
 
             return ($update->execute()) ? true : false;
 
-        } catch (Exception $exception){
+        } catch (Exception $exception) {
             echo 'Something went wrong: ' . $exception->getMessage();
         }
     }
+
     // Delete
     public function deleteStandardEntry($id)
     {
@@ -836,5 +844,19 @@ class SQLSectionActions implements ISectionActions
             return false;
         }
 
+    }
+
+    public function changePosition($id, $position)
+    {
+        include '../database/connect.php';
+        try {
+            $update = $db->prepare("UPDATE sections SET position = :position WHERE id = :id;");
+
+            $update->bindValue(':id', $id);
+            $update->bindValue(':position', $position);
+            return ($update->execute()) ? true : false;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
     }
 }

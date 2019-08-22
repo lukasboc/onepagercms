@@ -29,7 +29,7 @@ $sections = $sectionactions->getAllSections();
         </div>
     </div>
 
-    <form method="post" action="../misc/positions.php">
+    <form method="post" action="../misc/positions.php" id="positionsform">
         <div class="row pb-3">
             <div class="col-2 col-sm-2 col-md-2 col-lg-1 sectioncolfix">
 
@@ -51,13 +51,13 @@ for($i=0; sizeof($sections) > $i; $i++){
   <div class="row">
     <div class="col-2 col-sm-2 col-md-2 col-lg-1 sectioncolfix">
      <div class="form-group">
-      <select class="form-control" id="sel1">
+      <select class="form-control" form="positionsform" id="sel1" name="' . $sections[$i]->getSuperid() . '">
         <option selected disabled>'. $sections[$i]->getPosition() . '</option>
 
       ';
         for($h=1; sizeof($sections)+1 > $h; $h++){
         echo'
-         <option>' . $h . '</option>
+         <option value="' . $h . '">' . $h . '</option>
         ';
         }
         echo '
@@ -97,8 +97,6 @@ for($i=0; sizeof($sections) > $i; $i++){
                             class="far fa-edit"></i></a>
             </div>
         </div>
-
-
         <input type="submit" name="action" value="Save positions" class="btn btn-warning">
     </form>
     <h1 class="mt-4">New Section</h1>
@@ -112,7 +110,8 @@ for($i=0; sizeof($sections) > $i; $i++){
         <option>contact</option>
     </select>
     </div>
-    <input type="submit" name="action" value="New Section" class="btn btn-success">
+
+        <input type="submit" name="action" value="New Section" class="btn btn-success">
     </form>
 </div>
 <?php include_once "inc/footer.php" ?>
