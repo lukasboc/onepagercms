@@ -19,7 +19,7 @@ $settingactions = new SQLSettingActions();
         <div class="col login-form-1">
             <div class="row mb-5">
                 <div class="col text-center">
-                    <img src="<?php echo $settingactions->getSettingValue('logo') ?>"
+                    <img src="../img/logo/logo_black.png"
                          style="<?php echo $settingactions->getSettingValue('logo_css') ?>"
                          style="max-width:300px; max-height: 200px">
                 </div>
