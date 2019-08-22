@@ -9,13 +9,13 @@ $settingactions = new SQLSettingActions();
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="../css/login.css" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 </head>
 <body>
 
 <div class="container login-container">
     <div class="row">
-        <div class="col-3"></div>
+        <div class="col-1 col-md-3"></div>
         <div class="col login-form-1">
             <div class="row mb-5">
                 <div class="col text-center">
@@ -49,7 +49,7 @@ $settingactions = new SQLSettingActions();
                 </div>
             </form>
         </div>
-        <div class="col-3"></div>
+        <div class="col-1 col-md-3"></div>
     </div>
 </div>
 </body>
