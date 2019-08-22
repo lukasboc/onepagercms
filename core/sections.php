@@ -97,7 +97,7 @@ for($i=0; sizeof($sections) > $i; $i++){
                             class="far fa-edit"></i></a>
             </div>
         </div>
-        <input type="submit" name="action" value="Save positions" class="btn btn-warning">
+        <input type="submit" name="action" value="Save Positions" class="btn btn-warning">
     </form>
     <h1 class="mt-4">New Section</h1>
 
