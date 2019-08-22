@@ -41,7 +41,8 @@ $sections = $sectionactions->getAllSections();
                 <?php echo $headeractions->getHeaderTitle(); ?>
             </div>
             <div class="col-3">
-                <a href="../misc/header.php?action=Edit" class="btn btn-primary" role="button">Edit</a>
+                <a href="../misc/header.php?action=Edit" class="btn btn-primary" role="button"><i
+                            class="far fa-edit"></i></a>
             </div>
         </div>
     <?php
@@ -71,8 +72,8 @@ for($i=0; sizeof($sections) > $i; $i++){
     </div>
     <div class="col-3">
 <div class="btn-group">
-      <a href="../misc/changesection.php?id=' . $sections[$i]->getSuperid() . '&action=Edit&type=' . $sections[$i]->getType() . '" class="btn btn-primary" role="button">Edit</a>
-      <a href="../misc/changesection.php?id=' . $sections[$i]->getSuperid() . '&action=Delete&type=' . $sections[$i]->getType() . '" class="btn btn-light" role="button">Delete</a>
+      <a href="../misc/changesection.php?id=' . $sections[$i]->getSuperid() . '&action=Edit&type=' . $sections[$i]->getType() . '" class="btn btn-primary" role="button"><i class="far fa-edit"></i></a>
+      <a href="../misc/changesection.php?id=' . $sections[$i]->getSuperid() . '&action=Delete&type=' . $sections[$i]->getType() . '" class="btn btn-light" role="button"><i class="far fa-trash-alt"></i></a>
 </div>
     </div>
   </div>
@@ -92,7 +93,8 @@ for($i=0; sizeof($sections) > $i; $i++){
                 -
             </div>
             <div class="col-3">
-                <a href="../misc/footer.php?action=Edit" class="btn btn-primary" role="button">Edit</a>
+                <a href="../misc/footer.php?action=Edit" class="btn btn-primary" role="button"><i
+                            class="far fa-edit"></i></a>
             </div>
         </div>
 
