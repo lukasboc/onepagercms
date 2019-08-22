@@ -21,10 +21,10 @@ include_once "../core/inc/header.php" ?>
         <div class="col-2">
             <label>Title</label>
         </div>
-        <div class="col">
+        <div class="col col-md-7 col-sm-5">
             <label>Content</label>
         </div>
-        <div class="col-3">
+        <div class="col-5 col-sm-5 col-md-3">
             <label>Options</label>
         </div>
     </div>
@@ -35,14 +35,14 @@ include_once "../core/inc/header.php" ?>
     <div class="col-2">
     ' . $allPages[$i][1] . '
     </div>
-    <div class="col">
+    <div class="col col-md-7 col-sm-5">
       ' . mb_strimwidth(strip_tags($allPages[$i][2]), 0, 80, '...') . '
     </div>
-    <div class="col-3">
+    <div class="col-5 col-sm-5 col-md-3">
 <div class="btn-group">
-      <a href="../misc/additionalpage.php?id=' . $allPages[$i][0] . '&action=Edit" class="btn btn-primary" role="button">Edit</a>
-            <a href="../pages/additionalpage.php?id=' . $allPages[$i][0] . '" class="btn btn-info" role="button">Show</a>
-      <a href="../misc/additionalpage.php?id=' . $allPages[$i][0] . '&action=Delete" class="btn btn-light" role="button">Delete</a>
+      <a href="../misc/additionalpage.php?id=' . $allPages[$i][0] . '&action=Edit" class="btn btn-primary" role="button"><i class="far fa-edit"></i></a>
+            <a href="../pages/additionalpage.php?id=' . $allPages[$i][0] . '" class="btn btn-info" role="button"><i class="far fa-eye"></i></a>
+      <a href="../misc/additionalpage.php?id=' . $allPages[$i][0] . '&action=Delete" class="btn btn-light" role="button"><i class="far fa-trash-alt"></i></a>
 </div>
     </div>
   </div>
