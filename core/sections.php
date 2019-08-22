@@ -34,7 +34,7 @@ $sections = $sectionactions->getAllSections();
             <div class="col-2 col-sm-2 col-md-2 col-lg-1 sectioncolfix">
 
             </div>
-            <div class="col-2">
+            <div class="col-3 col-sm-2">
                 Header
             </div>
             <div class="col-3 col-sm-5 col-md-5 col-lg-6">
@@ -64,7 +64,7 @@ for($i=0; sizeof($sections) > $i; $i++){
       </select>
       </div>
     </div>
-    <div class="col-2">
+    <div class="col-3 col-sm-2">
       ' . $sections[$i]->getType() . '
     </div>
     <div class="col-3 col-sm-5 col-md-5 col-lg-6">
@@ -86,7 +86,7 @@ for($i=0; sizeof($sections) > $i; $i++){
             <div class="col-2 col-sm-2 col-md-2 col-lg-1 sectioncolfix">
 
             </div>
-            <div class="col-2">
+            <div class="col-3 col-sm-2">
                 Footer
             </div>
             <div class="col-3 col-sm-5 col-md-5 col-lg-6">
