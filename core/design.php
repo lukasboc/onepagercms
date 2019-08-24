@@ -4,6 +4,7 @@ $settingActions = new SQLSettingActions();
 $primaryColor = ($settingActions->getSettingValue('text-primary') != null && $settingActions->getSettingValue('text-primary') != "") ? $settingActions->getSettingValue('text-primary') : "";
 $buttonColor = ($settingActions->getSettingValue('button-color') != null && $settingActions->getSettingValue('button-color') != "") ? $settingActions->getSettingValue('button-color') : "";
 $customcss = ($settingActions->getSettingValue("custom-css") != null && $settingActions->getSettingValue("custom-css") != "") ? $settingActions->getSettingValue("custom-css") : "";
+$navbackgroundcolor = ($settingActions->getSettingValue("navigation-color") != null && $settingActions->getSettingValue("navigation-color") != "") ? $settingActions->getSettingValue("navigation-color") : "";
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +35,20 @@ $customcss = ($settingActions->getSettingValue("custom-css") != null && $setting
             <div class="input-group">
                 <input type="text" name="buttonColor" id="buttonColor" class="form-control"
                        value="<?php echo $buttonColor ?>">
+                <div class="input-group-append">
+                    <input type='submit' class="btn btn-primary" name='action'
+                           id='change' value='Update'>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form method="post" action="../misc/changenavbackgroundcolor.php">
+        <div class="form-group">
+            <label for="buttonColor">Navigation Background:</label>
+            <div class="input-group">
+                <input type="text" name="navigation-color" id="buttonColor" class="form-control"
+                       value="<?php echo $navbackgroundcolor ?>">
                 <div class="input-group-append">
                     <input type='submit' class="btn btn-primary" name='action'
                            id='change' value='Update'>

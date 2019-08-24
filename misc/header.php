@@ -9,12 +9,16 @@ $mutedTitle = "";
 $text = "";
 $sid = "";
 $id = "";
-$backgroundimage = "";
+$backgroundimage = (isset($_GET['background-image'])) ? $_GET['background-image'] : "";
+
 
 $headeractions = new SQLHeaderActions();
 
 $title = $headeractions->getHeaderTitle();
 $mutedTitle = $headeractions->getHeaderMutedtitle();
+if ($headeractions->getBackground() != "") {
+    $backgroundimage = $headeractions->getBackground();
+}
 
 ?>
 <!DOCTYPE html>
@@ -31,23 +35,37 @@ $mutedTitle = $headeractions->getHeaderMutedtitle();
         </div>
         <div class="col-6">
             <h1><?php echo "$headline" ?> Header-Section</h1>
-
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
                 <div class="form-group">
-                    <img class="img-fluid" src="<?php echo $backgroundimage ?>"><br>
-                    <label for="image-upload">Bild hochladen:</label>
+                    <label for="image-upload">Background:</label>
                     <input type="hidden" id="id" class="form-control" name="id" readonly
                            value="<?php echo $id ?>">
-                    <input type="hidden" id="action" class="form-control" name="action" readonly
-                           value="<?php echo $sid ?>">
-                    <input name="background-upload" class="form-control-file" type="file" <?php echo $disabled ?>>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Upload</span>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="image-upload"
+                                   aria-describedby="inputGroupFileAddon01"
+                                   name="background-image" <?php echo $disabled ?>>
+                            <label class="custom-file-label" for="image-upload">Choose file</label>
+                        </div>
+                    </div>
                 </div>
+
+                <?php
+                if ($backgroundimage != "" && file_exists($backgroundimage)) {
+                    echo " <div class=\"form-group\">";
+                    echo "<label>Preview:</label>";
+                    echo "<img class=\"img-fluid\" src=\"" . $backgroundimage . "\">";
+                    echo "</div>";
+                } ?>
                 <div class="form-group">
 
-                    <input type='submit' class="btn btn-secondary" name='upload'
+                    <input type='submit' class="btn btn-primary" name='upload'
                            id='image-upload' value='Upload' <?php echo $disabled ?>>
                 </div>
-
             </form>
 
             <form action="../misc/changeheader.php" method="post" id="changeform">
@@ -58,6 +76,8 @@ $mutedTitle = $headeractions->getHeaderMutedtitle();
                 <div class="form-group">
                     <input type="hidden" id="specialid" class="form-control" name="author" readonly
                     >
+                    <input type="hidden" class="form-control" value="<?php echo $backgroundimage ?>"
+                           name="background-image">
                 </div>
 
                 <div class="form-group">
