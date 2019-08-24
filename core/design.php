@@ -5,6 +5,7 @@ $primaryColor = ($settingActions->getSettingValue('text-primary') != null && $se
 $buttonColor = ($settingActions->getSettingValue('button-color') != null && $settingActions->getSettingValue('button-color') != "") ? $settingActions->getSettingValue('button-color') : "";
 $customcss = ($settingActions->getSettingValue("custom-css") != null && $settingActions->getSettingValue("custom-css") != "") ? $settingActions->getSettingValue("custom-css") : "";
 $navbackgroundcolor = ($settingActions->getSettingValue("navigation-color") != null && $settingActions->getSettingValue("navigation-color") != "") ? $settingActions->getSettingValue("navigation-color") : "";
+$navtextcolor = ($settingActions->getSettingValue("navigationtext-color") != null && $settingActions->getSettingValue("navigationtext-color") != "") ? $settingActions->getSettingValue("navigationtext-color") : "";
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +50,20 @@ $navbackgroundcolor = ($settingActions->getSettingValue("navigation-color") != n
             <div class="input-group">
                 <input type="text" name="navigation-color" id="buttonColor" class="form-control"
                        value="<?php echo $navbackgroundcolor ?>">
+                <div class="input-group-append">
+                    <input type='submit' class="btn btn-primary" name='action'
+                           id='change' value='Update'>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form method="post" action="../misc/changenavtextcolor.php">
+        <div class="form-group">
+            <label for="buttonColor">Navigation Background:</label>
+            <div class="input-group">
+                <input type="text" name="navigationtext-color" id="buttonColor" class="form-control"
+                       value="<?php echo $navtextcolor ?>">
                 <div class="input-group-append">
                     <input type='submit' class="btn btn-primary" name='action'
                            id='change' value='Update'>
