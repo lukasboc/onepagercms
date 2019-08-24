@@ -18,7 +18,11 @@
                 <img class="card-img-top" src="<?php echo $feed_item->image; ?>" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title"><?php echo $feed_item->title; ?></h5>
-                    <p class="card-text"><?php echo implode(' ', array_slice(explode(' ', $feed_item->description), 0, 14)) . "..."; ?></p>
+                    <p class="card-text"><?php echo implode(' ', array_slice(explode(' ', $feed_item->description), 0, 14)) . "..."; ?>
+                        <a href="<?php echo $feed_item->link; ?>">
+                            <small id="passwordHelp" class="form-text text-muted">Read More
+                            </small>
+                        </a></a> </p>
                     <small id="rssDate" class="form-text text-muted"><?php echo $feed_item->pubDate; ?>
                     </small>
                 </div>
