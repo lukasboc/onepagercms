@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['profile'])) {
-    die('Please <a href="../pages/opcms-login.php">sign in</a> first.');
+    die('Please <a href="../core/opcms-login.php">sign in</a> first.');
 } else {
     $userid = $_SESSION["profile"];
 }

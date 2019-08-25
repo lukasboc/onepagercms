@@ -1,6 +1,12 @@
 <?php
 $input_data = $_POST;
 
+if (array_key_exists('g-recaptcha-response', $input_data)) {
+    if ($input_data['g-recaptcha-response'] == null) header('Location: ../misc/error.php?reason=emailnotsent');
+    die();
+}
+
+
 include "../database/SQLContactActions.php";
 $contctactions = new SQLContactActions();
 
@@ -15,7 +21,7 @@ $tabledata = "";
 foreach ($input_data as $key => $value) {
     $tabledata .= "
         <tr>
-    <th>{$key}</th><td>{$value} </td>
+    <th style='text-align: left'>{$key}</th><td>{$value} </td>
     </tr>
 
     ";
@@ -28,7 +34,7 @@ $message = '
 </head>
 <body>
   <p>Hello,</p>
-  <p>a visitor filled out the contact form on' . $_SERVER["SERVER_NAME"] . '!</p>
+  <p>a visitor filled out the contact form on ' . $_SERVER["SERVER_NAME"] . '!</p>
   <table>' . $tabledata . '
   </table>
 </body>
