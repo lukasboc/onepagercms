@@ -14,7 +14,11 @@ class SQLHeaderActions
     <div class=\"container\">
         <div class=\"intro-text\">
             <div class=\"intro-lead-in\">" . $this->getHeaderMutedTitle() . "</div>
-            <div class=\"intro-heading text-uppercase\">" . $this->getHeaderTitle() . "</div>
+            <div class=\"intro-heading text-uppercase\">" . $this->getHeaderTitle() . "</div>";
+        if ($this->getBackground() != "" || $this->getBackground() != null) {
+            echo "<div class=\"intro-custom\">" . $this->getCustomRow() . "</div>";
+        }
+        echo "
         </div>
     </div>
 </header>";
@@ -53,15 +57,16 @@ class SQLHeaderActions
         }
     }
 
-    public function editHeaderEntry($mutedTitle, $title, $background)
+    public function editHeaderEntry($mutedTitle, $title, $background, $customrow)
     {
         include '../database/connect.php';
 
         try {
-            $update = $db->prepare("UPDATE header SET mutedtitle = :mutedtitle, title = :title, background = :background WHERE specialid = :specialid;");
+            $update = $db->prepare("UPDATE header SET mutedtitle = :mutedtitle, title = :title, background = :background, customrow = :customrow WHERE specialid = :specialid;");
             $update->bindValue(':mutedtitle', $mutedTitle);
             $update->bindValue(':title', $title);
             $update->bindValue(':background', $background);
+            $update->bindValue(':customrow', $customrow);
             $update->bindValue(':specialid', 0);
             return ($update->execute()) ? true : false;
         } catch (Exception $exception) {
@@ -84,5 +89,19 @@ class SQLHeaderActions
         }
     }
 
+    public function getCustomRow()
+    {
+        include '../database/connect.php';
+
+        try {
+            $seltitle = $db->prepare("SELECT customrow FROM header WHERE specialid = :specialid;");
+            $seltitle->bindValue(':specialid', 0);
+            $seltitle->execute();
+            $title = $seltitle->fetch();
+            return $title['customrow'];
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
 
 }

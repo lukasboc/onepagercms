@@ -11,12 +11,13 @@ if (isset($_POST['delete-background'])) {
         }
     }
 }
+$customrow = $_POST['customrow'];
 
 
 if ($_POST['action'] == "Edit") {
     include '../database/SQLHeaderActions.php';
     $headerActions = new SQLHeaderActions();
-    ($headerActions->editHeaderEntry($mutedtitle, $title, $background)) ? header('Location: ../core/sections.php') : header('Location: ../core/error.php?reason=dberror');
+    ($headerActions->editHeaderEntry($mutedtitle, $title, $background, $customrow)) ? header('Location: ../core/sections.php') : header('Location: ../core/error.php?reason=dberror');
 } else {
     header('Location: ../core/error.php?reason=actionnotfound');
     die();

@@ -19,6 +19,7 @@ $mutedTitle = $headeractions->getHeaderMutedtitle();
 if ($headeractions->getBackground() != "") {
     $backgroundimage = $headeractions->getBackground();
 }
+$customrow = $headeractions->getCustomRow();
 
 ?>
 <!DOCTYPE html>
@@ -93,6 +94,15 @@ if ($headeractions->getBackground() != "") {
                            name="mutedtitle" value="<?php echo $mutedTitle ?>"
                     >
                 </div>
+
+                <div class="form-group">
+                    <label for="text">Custom Row:</label>
+                    <textarea rows="4" id="text" class="form-control"
+                              form="changeform" <?php echo $writeable ?>
+                              name="customrow"
+                              cols="73"><?php echo $customrow ?></textarea>
+                </div>
+
                 <div class="form-group">
                     <input type="hidden" id="image" class="form-control" required name="image" readonly
                            value="">
@@ -108,5 +118,15 @@ if ($headeractions->getBackground() != "") {
         <div class="col"></div>
     </div>
 </div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../plugins/vendor/jquery/jquery.min.js"><\/script>')</script>
+<script src="../plugins/Trumbowyg/dist/trumbowyg.min.js"></script>
+
+<script>
+    $('textarea').trumbowyg({
+        semantic: true
+    });
+</script>
+
 </body>
 </html>
