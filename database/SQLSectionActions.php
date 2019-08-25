@@ -83,7 +83,7 @@ class SQLSectionActions implements ISectionActions
 
                 $superid = $this->getSuperIDForContactEntry($selection[0]['specialid']);
 
-                $contact = new Contact($selection[0][0], $r[$i][3], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $selection[0][6], $selection[0][7], $selection[0][8], $selection[0][9], $selection[0][10], $superid[0]['id'], $selection[0]['background']);
+                $contact = new Contact($selection[0][0], $r[$i][3], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $selection[0][6], $selection[0][7], $selection[0][8], $selection[0][9], $selection[0][10], $superid[0]['id'], $selection[0]['background'], $selection[0]['receiverMail']);
                 array_push($secation_array, $contact);
             }
         }
@@ -272,7 +272,7 @@ class SQLSectionActions implements ISectionActions
         if ($sectionarray[$i]->getName()) {
             $namefield = '
                             <div class="form-group">
-                                <input class="form-control" id="name" type="text" placeholder="Your Name *" required="required" data-validation-required-message="Please enter your name.">
+                                <input class="form-control" id="name" name="Name" type="text" placeholder="Your Name *" required="required" data-validation-required-message="Please enter your name.">
                                 <p class="help-block text-danger"></p>
                             </div>
                             ';
@@ -280,7 +280,7 @@ class SQLSectionActions implements ISectionActions
         if ($sectionarray[$i]->getEmail()) {
             $emailfield = '
                             <div class="form-group">
-                                <input class="form-control" id="email" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email address.">
+                                <input class="form-control" id="email" name="Mail" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email address.">
                                 <p class="help-block text-danger"></p>
                             </div>
                             ';
@@ -288,7 +288,7 @@ class SQLSectionActions implements ISectionActions
         if ($sectionarray[$i]->getMessage()) {
             $messagefield = '
                            <div class="form-group">
-                                <textarea class="form-control" id="message" placeholder="Your Message *" required="required" data-validation-required-message="Please enter a message."></textarea>
+                                <textarea class="form-control" name="Message" rows="8" id="message" placeholder="Your Message *" required="required" data-validation-required-message="Please enter a message."></textarea>
                                 <p class="help-block text-danger"></p>
                             </div>
                             ';
@@ -313,17 +313,17 @@ class SQLSectionActions implements ISectionActions
 
         <div class="row">
             <div class="col-lg-12">
-                <form id="contactForm" name="sentMessage" novalidate="novalidate">
+                <form id="contactForm" name="sentMessage" action="../misc/contactform.php" method="post">
                     <div class="row">
                         <div class="col-md-6">
-                            ' . $namefield . $emailfield . '
+                            ' . $namefield . $emailfield . $captchafield . '
                         </div>
                         <div class="col-md-6">
                             ' . $messagefield . '
                         </div>
                         <div class="clearfix"></div>
+                        <input type="hidden" name="contactId" value="' . $sectionarray[$i]->getId() . '">
                         <div class="col-lg-12 text-center">
-                        ' . $captchafield . '
                             <div id="success"></div>
                             <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Send Message</button>
                         </div>
@@ -424,7 +424,7 @@ class SQLSectionActions implements ISectionActions
                 $getfromspecial->execute();
                 $section = $getfromspecial->fetch();
 
-                $contact = new Contact($section['specialid'], $section['position'], 'contact', $section['title'], $section['mutedtitle'], $section['text'], $section['date'], $section['name'], $section['email'], $section['message'], $section['captcha'], $id, $section['background']);
+                $contact = new Contact($section['specialid'], $section['position'], 'contact', $section['title'], $section['mutedtitle'], $section['text'], $section['date'], $section['name'], $section['email'], $section['message'], $section['captcha'], $id, $section['background'], $section['receiverMail']);
 
                 return $contact;
 
@@ -586,7 +586,7 @@ class SQLSectionActions implements ISectionActions
         }
     }
 
-    public function addNewContactEntry($title, $mutedtitle, $text, $name, $email, $message, $captcha, $background)
+    public function addNewContactEntry($title, $mutedtitle, $text, $name, $email, $message, $captcha, $background, $receiverMail)
     {
         include '../database/connect.php';
 
@@ -600,7 +600,7 @@ class SQLSectionActions implements ISectionActions
         $max_pos = $pos->fetch();
         $position = $max_pos["position"] + 1;
 
-        $insert = $db->prepare("INSERT INTO contact (`specialid`, `position`, `sectiontype`, `title`, `mutedtitle`, `text`, `date`, `name`, `email`, `message`, `captcha`, `background`) VALUES (:sid, :position, :sectiontype, :title, :mutedtitle, :text, :date, :name, :email, :message, :captcha, :background)");
+        $insert = $db->prepare("INSERT INTO contact (`specialid`, `position`, `sectiontype`, `title`, `mutedtitle`, `text`, `date`, `name`, `email`, `message`, `captcha`, `background`, `receiverMail`) VALUES (:sid, :position, :sectiontype, :title, :mutedtitle, :text, :date, :name, :email, :message, :captcha, :background, :receiverMail)");
 
         $insert->bindValue(':sid', $number);
         $insert->bindValue(':position', $position);
@@ -614,6 +614,7 @@ class SQLSectionActions implements ISectionActions
         $insert->bindValue(':message', $message);
         $insert->bindValue(':captcha', $captcha);
         $insert->bindValue(':background', $background);
+        $insert->bindValue(':receiverMail', $receiverMail);
 
         if ($insert->execute()) {
             $ncount = $db->prepare("SELECT * FROM sections ORDER BY id DESC LIMIT 1;");
@@ -719,7 +720,7 @@ class SQLSectionActions implements ISectionActions
         }
     }
 
-    public function editContactEntry($id, $title, $mutedtitle, $text, $name, $email, $message, $captcha, $background)
+    public function editContactEntry($id, $title, $mutedtitle, $text, $name, $email, $message, $captcha, $background, $receiverMail)
     {
         include '../database/connect.php';
 
@@ -727,7 +728,7 @@ class SQLSectionActions implements ISectionActions
         $sid = $selection[0]['specialid'];
 
         try {
-            $update = $db->prepare("UPDATE contact SET title = :title, mutedtitle = :mutedtitle, text = :text, date = :date, name = :name, email = :email, message = :message, captcha = :captcha, background = :background WHERE specialid = :sid;");
+            $update = $db->prepare("UPDATE contact SET title = :title, mutedtitle = :mutedtitle, text = :text, date = :date, name = :name, email = :email, message = :message, captcha = :captcha, background = :background, receiverMail = :receiverMail WHERE specialid = :sid;");
 
             $update->bindValue(':sid', $sid);
             $update->bindValue(':title', $title);
@@ -739,6 +740,7 @@ class SQLSectionActions implements ISectionActions
             $update->bindValue(':message', $message);
             $update->bindValue(':captcha', $captcha);
             $update->bindValue(':background', $background);
+            $update->bindValue(':receiverMail', $receiverMail);
 
             return ($update->execute()) ? true : false;
 

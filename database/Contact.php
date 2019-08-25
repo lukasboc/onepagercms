@@ -23,6 +23,7 @@ class Contact
     private $superid;
 
     private $background;
+    private $receiverMail;
 
     /**
      * Contact constructor.
@@ -38,7 +39,7 @@ class Contact
      * @param $message
      * @param $captcha
      */
-    public function __construct($id, $position, $type, $title, $mutedtitle, $text, $date, $name, $email, $message, $captcha, $superid, $background)
+    public function __construct($id, $position, $type, $title, $mutedtitle, $text, $date, $name, $email, $message, $captcha, $superid, $background, $receiverMail)
     {
         $this->id = $id;
         $this->position = $position;
@@ -53,6 +54,7 @@ class Contact
         $this->captcha = $captcha;
         $this->superid = $superid;
         $this->background = $background;
+        $this->receiverMail = $receiverMail;
     }
 
     /**
@@ -278,4 +280,21 @@ class Contact
     {
         $this->background = $background;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getReceiverMail()
+    {
+        return $this->receiverMail;
+    }
+
+    /**
+     * @param mixed $receiverMail
+     */
+    public function setReceiverMail($receiverMail): void
+    {
+        $this->receiverMail = $receiverMail;
+    }
+
 }

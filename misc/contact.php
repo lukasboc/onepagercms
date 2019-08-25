@@ -5,6 +5,7 @@ $disabled = ($headline == "Delete") ? "disabled" : "";
 
 $title = "";
 $mutedTitle = "";
+$receiverMail = "";
 $text = "";
 $sid = "";
 $id = "";
@@ -28,6 +29,7 @@ if (isset($_GET['id'])) {
     $email = $section->getEmail();
     $message = $section->getMessage();
     $captcha = $section->getCaptcha();
+    $receiverMail = $section->getReceiverMail();
     if ($section->getBackground() != "") {
         $backgroundimage = $section->getBackground();
     }
@@ -97,15 +99,21 @@ if (isset($_GET['id'])) {
 
                 <div class="form-group">
                     <label for="mutedtitle">Muted Title:</label>
-                    <input type="text" id=mutedtitle" class="form-control" required
+                    <input type="text" id="mutedtitle" class="form-control"
                            name="mutedtitle" value="<?php echo $mutedTitle ?>" <?php echo $writeable ?>>
                 </div>
 
                 <div class="form-group">
                     <label for="text">Text:</label>
-                    <textarea rows="4" id="text" class="form-control" required form="changeform"
+                    <textarea rows="4" id="text" class="form-control" form="changeform"
                               name="text"
                               cols="73" <?php echo $writeable ?>><?php echo $text ?></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="receiverMail">Receiver E-Mail:</label>
+                    <input type="email" id=receiverMail" class="form-control" required
+                           name="receiverMail" value="<?php echo $receiverMail ?>" <?php echo $writeable ?>>
                 </div>
 
                 <div class="form-group custom-control custom-switch">
