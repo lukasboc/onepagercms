@@ -8,7 +8,7 @@ $mutedTitle = "";
 $Text = "";
 $sid = "";
 $id = "";
-$backgroundimage = "";
+$backgroundimage = (isset($_GET['background-image'])) ? $_GET['background-image'] : "";
 
 if(isset($_GET['id'])){
     $id = $_GET['id'];
@@ -22,6 +22,9 @@ if(isset($_GET['id'])){
     $icons = $section->getIcons();
     $iconheadlines = $section->getIconHeadline();
     $icontexts = $section->getIconTexts();
+    if ($section->getBackground() != "") {
+        $backgroundimage = $section->getBackground();
+    }
 }
 
 ?>
@@ -39,29 +42,45 @@ if(isset($_GET['id'])){
         </div>
         <div class="col-6">
             <h1><?php echo "$headline" ?> Icons-Section</h1>
-
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
                 <div class="form-group">
-                    <img class="img-fluid" src="<?php echo $backgroundimage ?>"><br>
-                    <label for="image-upload">Background-Image:</label>
+                    <label for="image-upload">Background:</label>
                     <input type="hidden" id="id" class="form-control" name="id" readonly
                            value="<?php echo $id ?>">
-                    <input type="hidden" id="action" class="form-control" name="action" readonly
-                           value="<?php echo $sid ?>">
-                    <input name="background-upload" class="form-control-file" type="file" <?php echo $disabled ?>>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Upload</span>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="image-upload"
+                                   aria-describedby="inputGroupFileAddon01"
+                                   name="background-image" <?php echo $disabled ?>>
+                            <label class="custom-file-label" for="image-upload">Choose file</label>
+                        </div>
+                    </div>
                 </div>
+
+                <?php
+                if ($backgroundimage != "" && file_exists($backgroundimage)) {
+                    echo " <div class=\"form-group\">";
+                    echo "<label>Preview:</label>";
+                    echo "<img class=\"img-fluid\" src=\"" . $backgroundimage . "\">";
+                    echo "</div>";
+                } ?>
                 <div class="form-group">
 
-                    <input type='submit' class="btn btn-secondary" name='upload'
+                    <input type='submit' class="btn btn-primary" name='upload'
                            id='image-upload' value='Upload' <?php echo $disabled ?>>
                 </div>
-
             </form>
 
             <form action="../misc/changeicons.php" method="post" id="changeform">
                 <div class="form-group">
                     <input type="hidden" id="id" class="form-control" name="id" readonly value="<?php echo $id ?>">
                 </div>
+                <input type="hidden" class="form-control" value="<?php echo $backgroundimage ?>"
+                       name="background-image">
 
                 <div class="form-group">
                     <label for="title">Title:</label>
@@ -70,7 +89,7 @@ if(isset($_GET['id'])){
                 </div>
 
                 <div class="form-group">
-                    <label for="mutedtitle"">Muted Title:</label>
+                    <label for="mutedtitle">Muted Title:</label>
                     <input type="text" id=mutedtitle" class="form-control" required
                            name="mutedtitle" value="<?php echo $mutedTitle ?>"
                     >
@@ -112,7 +131,7 @@ if(isset($_GET['id'])){
                            name="icon-' . $i . '" placeholder="Icon" value="' . $icon . '" ' . $writeable . '>';
                     if ($i == 1) echo '
                     <div class="alert alert-info" role="alert">
-                        Example: fa-shopping-cart
+                        Example: fas fa-shopping-cart
                     </div> ';
                     echo '
                             <input type="text" id=icon-' . $i . '-headline" class="form-control mb-3"
@@ -124,9 +143,15 @@ if(isset($_GET['id'])){
                     ';
                 }
                 ?>
+
                 <div class="form-group">
-                    <input type="hidden" id="image" class="form-control" required name="image" readonly
-                           value="">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="delete-background" value="yes"
+                               name="delete-background">
+                        <label class="form-check-label" for="delete-background">
+                            Delete Background-Image
+                        </label>
+                    </div>
                 </div>
 
                 <div class="form-group">

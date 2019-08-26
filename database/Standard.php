@@ -16,6 +16,7 @@ class Standard
     private $text;
     private $date;
     private $superid;
+    private $background;
 
     /**
      * Section constructor.
@@ -26,7 +27,7 @@ class Standard
      * @param $text
      * @param $date
      */
-    public function __construct($id, $position, $type, $title, $mutedtitle, $text, $date, $superid)
+    public function __construct($id, $position, $type, $title, $mutedtitle, $text, $date, $superid, $background)
     {
         $this->id = $id;
         $this->position = $position;
@@ -36,6 +37,7 @@ class Standard
         $this->text = $text;
         $this->date = $date;
         $this->superid = $superid;
+        $this->background = $background;
     }
 
     /**
@@ -168,5 +170,20 @@ class Standard
         $this->superid = $superid;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getBackground()
+    {
+        return $this->background;
+    }
+
+    /**
+     * @param mixed $background
+     */
+    public function setBackground($background): void
+    {
+        $this->background = $background;
+    }
 
 }

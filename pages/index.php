@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 
 <?php
 include '../database/SQLSectionActions.php';
@@ -51,6 +51,16 @@ require_once "inc/head.php";
         background-color: <?php echo $settingactions->getSettingValue("button-color") ?> !important;
         border-color: <?php echo $settingactions->getSettingValue("button-color") ?> !important;
     }
+
+    #mainNav {
+        background-color: <?php echo $settingactions->getSettingValue("navigation-color") ?> !important;
+    }
+
+    #mainNav .navbar-nav .nav-item .nav-link {
+        color: <?php echo $settingactions->getSettingValue("navigationtext-color") ?> !important;
+    }
+
+    <?php echo $settingactions->getSettingValue("custom-css") ?>
 </style>
 <!-- Navigation -->
 <?php $sectionactions->showNavigation() ?>

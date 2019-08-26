@@ -17,10 +17,6 @@ $icontwo = $_POST['icon-2'];
 $icontwoheadline = $_POST['icon-2-headline'];
 $icontwotext = $_POST['icon-2-text'];
 
-$iconone = $_POST['icon-3'];
-$icononeheadline = $_POST['icon-3-headline'];
-$icononetext = $_POST['icon-3-text'];
-
 $iconthree = $_POST['icon-3'];
 $iconthreeheadline = $_POST['icon-3-headline'];
 $iconthreetext = $_POST['icon-3-text'];
@@ -49,10 +45,20 @@ $iconarray = [$iconone, $icontwo, $iconthree, $iconfour, $iconfive, $iconsix, $i
 $iconheadlinearray = [$icononeheadline, $icontwoheadline, $iconthreeheadline, $iconfourheadline, $iconfiveheadline, $iconsixheadline, $iconsevenheadline, $iconeightheadline];
 $icontextarray = [$icononetext, $icontwotext, $iconthreetext, $iconfourtext, $iconfivetext, $iconsixtext, $iconseventext, $iconeighttext];
 
+$background = (isset($_POST['delete-background'])) ? "" : $_POST['background-image'];
+if (isset($_POST['delete-background'])) {
+    if (file_exists($_POST['background-image'])) {
+        try {
+            unlink($_POST['background-image']);
+        } catch (Exception $exception) {
+        }
+    }
+}
+
 if ($_POST['action'] == "New") {
     include '../database/SQLSectionActions.php';
     $sectionactions = new SQLSectionActions();
-    $sectionactions->addNewIconsEntry($title, $mutedtitle, $iconarray, $iconheadlinearray, $icontextarray );
+    $sectionactions->addNewIconsEntry($title, $mutedtitle, $iconarray, $iconheadlinearray, $icontextarray, $background);
 } elseif ($_POST['action'] == "Delete"){
     include '../database/SQLSectionActions.php';
     $sectionactions = new SQLSectionActions();
@@ -60,11 +66,6 @@ if ($_POST['action'] == "New") {
 } elseif ($_POST['action'] == "Edit"){
     include '../database/SQLSectionActions.php';
     $sectionactions = new SQLSectionActions();
-    $success = $sectionactions->editIconsEntry($id, $title, $mutedtitle, $iconarray, $iconheadlinearray, $icontextarray);
-    if($success){
-        header("Location: ../core/sections.php");
-    } else {
-        echo "<h1>Error</h1>Something went wrong. Please try again.";
-        header("refresh:2; url= ../core/sections.php");
-    }
+    ($sectionactions->editIconsEntry($id, $title, $mutedtitle, $iconarray, $iconheadlinearray, $icontextarray, $background)) ? header('Location: ../core/success.php?reason=sectionchanged') : header('Location: ../core/error.php?reason=sectionchangefailed');
+
 }

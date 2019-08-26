@@ -12,7 +12,7 @@ class SQLUserActions
 {
     public function login($username, $password) : bool
     {
-        require_once '../database/connect.php';
+        include '../database/connect.php';
 
         $select = $db->prepare("SELECT `username`, `password`
                                    FROM users
@@ -115,6 +115,20 @@ class SQLUserActions
         }
     }
 
+    public function getUsernameByEmail($email)
+    {
+        include '../database/connect.php';
+        try {
+            $selem = $db->prepare("SELECT username FROM users WHERE email = :email;");
+            $selem->bindValue(':email', $email);
+            $selem->execute();
+            $em = $selem->fetch();
+            return $em[0];
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
+
     public function changePassword($username, $newpassword)
     {
         include '../database/connect.php';
@@ -125,6 +139,22 @@ class SQLUserActions
             $update = $db->prepare("UPDATE users SET  password =:password  WHERE username = :username;");
             $update->bindValue(':username', $username);
             $update->bindValue(':password', $hash);
+            return ($update->execute()) ? true : false;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
+
+    public function changeEmail($username, $password, $newMail)
+    {
+        try {
+            if (!$this->login($username, $password)) {
+                return false;
+            }
+            include '../database/connect.php';
+            $update = $db->prepare("UPDATE users SET email =:email  WHERE username = :username;");
+            $update->bindValue(':username', $username);
+            $update->bindValue(':email', $newMail);
             return ($update->execute()) ? true : false;
         } catch (Exception $exception) {
             echo 'Something went wrong: ' . $exception->getMessage();

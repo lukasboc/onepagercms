@@ -7,9 +7,8 @@ $captchaKey = ($settingActions->getSettingValue("recaptcha_key") != null && $set
 $logocss = ($settingActions->getSettingValue("logo_css") != null && $settingActions->getSettingValue("logo_css") != "") ? $settingActions->getSettingValue("logo_css") : "";
 $logo = ($settingActions->getSettingValue("logo") != null && $settingActions->getSettingValue("logo") != "") ? $settingActions->getSettingValue("logo") : "";
 $uploadedLogo = (isset($_GET['logo'])) ? $_GET['logo'] : "";
-$primaryColor = ($settingActions->getSettingValue('text-primary') != null && $settingActions->getSettingValue('text-primary') != "") ? $settingActions->getSettingValue('text-primary') : "";
-$buttonColor = ($settingActions->getSettingValue('button-color') != null && $settingActions->getSettingValue('button-color') != "") ? $settingActions->getSettingValue('button-color') : "";
 $websiteTitle = ($settingActions->getSettingValue('website-title') != null && $settingActions->getSettingValue('website-title') != "") ? $settingActions->getSettingValue('website-title') : "";
+$googleAnalytics = ($settingActions->getSettingValue('google-analytics') != null && $settingActions->getSettingValue('google-analytics') != "") ? $settingActions->getSettingValue('google-analytics') : "";
 ?>
 
 <!DOCTYPE html>
@@ -29,34 +28,7 @@ $websiteTitle = ($settingActions->getSettingValue('website-title') != null && $s
                        value="<?php echo $websiteTitle ?>">
                 <div class="input-group-append">
                     <input type='submit' class="btn btn-primary" name='titleform'
-                           id='change' value='Update'>
-                </div>
-            </div>
-        </div>
-    </form>
-    <h2>Colors</h2>
-    <form method="post" action="../misc/changeprimarycolor.php">
-        <div class="form-group">
-            <label for="primaryColor">Primary:</label>
-            <div class="input-group">
-                <input type="text" name="primaryColor" id="primaryColor" class="form-control"
-                       value="<?php echo $primaryColor ?>">
-                <div class="input-group-append">
-                    <input type='submit' class="btn btn-primary" name='action'
-                           id='change' value='Update'>
-                </div>
-            </div>
-        </div>
-    </form>
-    <form method="post" action="../misc/changebuttoncolor.php">
-        <div class="form-group">
-            <label for="buttonColor">Buttons:</label>
-            <div class="input-group">
-                <input type="text" name="buttonColor" id="buttonColor" class="form-control"
-                       value="<?php echo $buttonColor ?>">
-                <div class="input-group-append">
-                    <input type='submit' class="btn btn-primary" name='action'
-                           id='change' value='Update'>
+                           id='change' value='Save'>
                 </div>
             </div>
         </div>
@@ -71,7 +43,7 @@ $websiteTitle = ($settingActions->getSettingValue('website-title') != null && $s
             <label>Upload-Area:</label>
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <input type='submit' class="btn btn-success" id='image-upload' value='Upload'>
+                    <input type='submit' class="btn btn-primary" id='image-upload' value='Upload'>
                 </div>
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" id="inputGroupFile01"
@@ -90,18 +62,19 @@ $websiteTitle = ($settingActions->getSettingValue('website-title') != null && $s
                    id='save' value='Save'>
         </div>
     </form>
+    <h2>Extra CSS</h2>
     <form method="post" action="../misc/changelogocss.php">
         <div class="form-group">
-            <label for="logocss">Extra CSS:</label>
-            <div class="input-group">
+            <label for="logocss">CSS:</label>
+            <div class="form-group">
                 <textarea id="logocss" name="logocss" class="form-control" rows="5"
                 ><?php echo $logocss ?></textarea>
-                <div class="input-group-append">
+            </div>
+            <div class="form-group">
                     <input type='submit' class="btn btn-primary" name='captchaKey'
-                           id='change' value='Update'>
+                           id='change' value='Save'>
                 </div>
             </div>
-        </div>
     </form>
     <h2>reCAPTCHA</h2>
     <form method="post" action="../misc/changecaptcha.php">
@@ -112,15 +85,33 @@ $websiteTitle = ($settingActions->getSettingValue('website-title') != null && $s
                        value="<?php echo $captchaKey ?>">
                 <div class="input-group-append">
                     <input type='submit' class="btn btn-primary" name='captchaKey'
-                           id='change' value='Update'>
+                           id='change' value='Save'>
                 </div>
             </div>
         </div>
     </form>
 
-</div>
+    <h2>Google Analytics</h2>
+    <form method="post" action="../misc/changegoogleanalytics.php">
+        <div class="form-group">
+            <label for="gAnalyics">Tracking-Code:</label>
+            <div class="form-group">
+                <textarea name="googleAnalytics" rows="4" class="form-control" placeholder='<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=X-XXXXXXX-X"></script>
+    ...
+    gtag("config", "XX-XXXXXXXXX-X");
+</script>'><?php echo $googleAnalytics ?></textarea>
+            </div>
+            <div class="form-group">
+                <input type='submit' class="btn btn-primary" name='captchaKey'
+                       id='change' value='Save'>
+            </div>
+
+        </div>
+    </form>
 
 </div>
+
 <?php include_once "inc/footer.php" ?>
 
 </body>
