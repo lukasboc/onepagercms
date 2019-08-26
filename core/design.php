@@ -60,7 +60,7 @@ $navtextcolor = ($settingActions->getSettingValue("navigationtext-color") != nul
 
     <form method="post" action="../misc/changenavtextcolor.php">
         <div class="form-group">
-            <label for="buttonColor">Navigation Background:</label>
+            <label for="buttonColor">Navigation Text:</label>
             <div class="input-group">
                 <input type="text" name="navigationtext-color" id="buttonColor" class="form-control"
                        value="<?php echo $navtextcolor ?>">

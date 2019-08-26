@@ -9,15 +9,17 @@ $mutedTitle = "";
 $text = "";
 $sid = "";
 $id = "";
-$backgroundimage = (isset($_GET['background-image'])) ? $_GET['background-image'] : "";
-
-
 $headeractions = new SQLHeaderActions();
 
 $title = $headeractions->getHeaderTitle();
 $mutedTitle = $headeractions->getHeaderMutedtitle();
-if ($headeractions->getBackground() != "") {
+
+if (isset($_GET['background-image'])) {
+    $backgroundimage = $_GET['background-image'];
+} elseif ($headeractions->getBackground() != "") {
     $backgroundimage = $headeractions->getBackground();
+} else {
+    $backgroundimage = "";
 }
 $customrow = $headeractions->getCustomRow();
 
@@ -54,6 +56,11 @@ $customrow = $headeractions->getCustomRow();
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+
+                    <input type='submit' class="btn btn-primary" name='upload'
+                           id='image-upload' value='Upload' <?php echo $disabled ?>>
+                </div>
 
                 <?php
                 if ($backgroundimage != "" && file_exists($backgroundimage)) {
@@ -62,11 +69,6 @@ $customrow = $headeractions->getCustomRow();
                     echo "<img class=\"img-fluid\" src=\"" . $backgroundimage . "\">";
                     echo "</div>";
                 } ?>
-                <div class="form-group">
-
-                    <input type='submit' class="btn btn-primary" name='upload'
-                           id='image-upload' value='Upload' <?php echo $disabled ?>>
-                </div>
             </form>
 
             <form action="../misc/changeheader.php" method="post" id="changeform">
@@ -82,16 +84,16 @@ $customrow = $headeractions->getCustomRow();
                 </div>
 
                 <div class="form-group">
-                    <label for="title">Title:</label>
-                    <input type="text" id="title" class="form-control" required name="title"
-                           value="<?php echo $title ?>" <?php echo $writeable ?>
+                    <label for="mutedtitle"">Muted Title:</label>
+                    <input type="text" id=mutedtitle" class="form-control" required <?php echo $writeable ?>
+                           name="mutedtitle" value="<?php echo $mutedTitle ?>"
                     >
                 </div>
 
                 <div class="form-group">
-                    <label for="mutedtitle"">Muted Title:</label>
-                    <input type="text" id=mutedtitle" class="form-control" required <?php echo $writeable ?>
-                           name="mutedtitle" value="<?php echo $mutedTitle ?>"
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" class="form-control" required name="title"
+                           value="<?php echo $title ?>" <?php echo $writeable ?>
                     >
                 </div>
 
