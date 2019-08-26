@@ -60,6 +60,15 @@ require_once "inc/head.php";
         color: <?php echo $settingactions->getSettingValue("navigationtext-color") ?> !important;
     }
 
+    #mainNav .navbar-nav .nav-item .nav-link:hover {
+        color: <?php echo $settingactions->getSettingValue("text-primary") ?> !important;
+    }
+
+    #mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
+        color: <?php echo $settingactions->getSettingValue("text-primary") ?>;
+    }
+
+
     <?php echo $settingactions->getSettingValue("custom-css") ?>
 </style>
 <!-- Navigation -->
