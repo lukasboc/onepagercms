@@ -42,5 +42,5 @@ if ($userActions->register($username, $generatedPass, $email)) {
     $header[] = 'Content-type: text/html; charset=iso-8859-1';
 
     mail($receiver, $subject, $message, implode("\r\n", $header));
-    header("Location: ../misc/success.php?reason=resettedpass");
+    header("Location: ../opcms-login.php?");
 } else header('Location: ../misc/error.php?reason=dberror');
