@@ -48,7 +48,6 @@ class SQLFooterActions
                         </a>
                     </li>" : "";
 
-
         echo "
                 </ul>
             </div>
@@ -70,9 +69,17 @@ class SQLFooterActions
                 </ul>
             </div>
         </div>
-    </div>
-</footer>
-        ";
+    </div>";
+        echo (strlen($this->getFooterEntry("custom")) > 0 && strlen($this->getFooterEntry("custom")) > 0) ? "
+                    <div class='row mt-2'>
+                        <div class='col text-center'><small>" . $this->getFooterEntry("custom") . "</small>
+                            
+                        </div>
+                    </div>
+                    
+                    " : "";
+
+        echo "</footer>";
     }
 
     public function getFooterEntry($var)
