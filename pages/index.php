@@ -2,6 +2,13 @@
 <html lang="en">
 
 <?php
+include "../database/SQLUserActions.php";
+$useractions = new SQLUserActions();
+if (sizeof($useractions->getAllUsernames()) == 0) {
+    header("Location: ../core/install.php");
+}
+
+
 include '../database/SQLSectionActions.php';
 include '../database/SQLHeaderActions.php';
 include_once '../database/SQLSettingActions.php';

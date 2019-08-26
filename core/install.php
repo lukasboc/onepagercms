@@ -1,6 +1,13 @@
 <?php
 include "../database/SQLSettingActions.php";
 $settingactions = new SQLSettingActions();
+
+include "../database/SQLUserActions.php";
+$useractions = new SQLUserActions();
+if (sizeof($useractions->getAllUsernames()) != 0) {
+    header("Location: ../misc/error.php?reason=installationdone");
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,15 +31,15 @@ $settingactions = new SQLSettingActions();
                          style="max-width:300px; max-height: 200px">
                 </div>
             </div>
-            <h3>Forgot password</h3>
+            <h3>First Installation</h3>
             <div class="row">
                 <div class="col text-center">
-                    <small class="form-text text-muted">You can reset your password either by entering your username or
-                        your email. A new password will be sent to you via email.
+                    <small class="form-text text-muted">Please enter your prefered username and your email adress. A
+                        generated password will be sent to the entered email adress.
                     </small>
                 </div>
             </div>
-            <form method="post" action="../misc/changeforgottenpassword.php">
+            <form method="post" action="../misc/firstuserdata.php">
                 <div class="form-group">
                     <input type="text" class="form-control" name="username" placeholder="Username"/>
                 </div>
@@ -40,12 +47,7 @@ $settingactions = new SQLSettingActions();
                     <input type="email" class="form-control" name="email" placeholder="Email"/>
                 </div>
                 <div class="form-group text-center">
-                    <input type="submit" class="btnSubmit" name="resetpassword" value="Reset"/>
-                </div>
-                <div class="row">
-                    <div class="col text-center">
-                        <a href="../core/opcms-login.php">Back to login</a>
-                    </div>
+                    <input type="submit" class="btnSubmit" name="installation" value="Let's go!"/>
                 </div>
             </form>
         </div>
