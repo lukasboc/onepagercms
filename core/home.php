@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
-<?php require_once "inc/head.php" ?>
+<?php require_once 'inc/head.php' ?>
 <body>
 
-<?php include_once "inc/header.php" ?>
+<?php include_once 'inc/header.php' ?>
 <div class="container">
 <h1>Welcome to OP-CMS!</h1>
     <h2>News</h2>
     <?php
-    $rss_feed = simplexml_load_file("http://onepagercms.de/rss/OnePagerCMS.xml");
-    if (!empty($rss_feed)) {
+    $rss_feed = simplexml_load_string(file_get_contents('http://onepagercms.de/rss/OnePagerCMS.xml'));
+    if ($rss_feed !== null) {
         $i = 0;
         foreach ($rss_feed->channel->item as $feed_item) {
             if ($i >= 10) break;
@@ -18,7 +18,7 @@
                 <img class="card-img-top" src="<?php echo $feed_item->image; ?>" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title"><?php echo $feed_item->title; ?></h5>
-                    <p class="card-text"><?php echo implode(' ', array_slice(explode(' ', $feed_item->description), 0, 14)) . "..."; ?>
+                    <p class="card-text"><?php echo implode(' ', array_slice(explode(' ', $feed_item->description), 0, 14)) . '...'; ?>
                         <a href="<?php echo $feed_item->link; ?>">
                             <small id="passwordHelp" class="form-text text-muted">Read More
                             </small>
@@ -35,6 +35,6 @@
     ?>
 
 </div>
-<?php include_once "inc/footer.php" ?>
+<?php include_once 'inc/footer.php' ?>
 </body>
 </html>
