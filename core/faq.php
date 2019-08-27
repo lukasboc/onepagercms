@@ -1,5 +1,5 @@
 <?php
-include "../database/SQLFAQActions.php";
+include '../database/SQLFAQActions.php';
 
 $faqactions = new SQLFAQActions();
 $categories = $faqactions->getAllCategories();
@@ -7,27 +7,27 @@ $faqpairs = $faqactions->getAllQuestionsAndAnswers();
 ?>
 <!DOCTYPE html>
 <html>
-<?php require_once "inc/head.php" ?>
+<?php require_once 'inc/head.php' ?>
 <body>
 
-<?php include_once "inc/header.php" ?>
+<?php include_once 'inc/header.php' ?>
 <div class="container">
     <h1>Frequently Asked Questions</h1>
     <div class="mt-4 mb-4" id="accordion">
         <?php
-        for ($i = 0; $i < sizeof($faqpairs); $i++) {
-            echo "<div class=\"card \">";
-            echo "<div class=\"card-header\">";
-            echo "<h4 class=\"card-header\">";
-            echo "<a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse" . $i . "\">" . $faqpairs[$i]->getQuestion() . "</a>";
+        for ($i = 0, $iMax = count($faqpairs); $i < $iMax; $i++) {
+            echo '<div class="card">';
+            echo '<div class="card-header">';
+            echo '<h4 class="card-header">';
+            echo '<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse' . $i . '">' . $faqpairs[$i]->getQuestion() . '</a>';
             echo "</h4>";
             echo "</div>";
-            echo "<div id=\"collapse" . $i . "\" class=\"panel-collapse collapse in\">";
-            echo "<div class=\"card-block\">";
+            echo '<div id="collapse' . $i . '" class="panel-collapse collapse in">';
+            echo '<div class="card-block">';
             echo $faqpairs[$i]->getAnswer();
-            echo "</div>";
-            echo "</div>";
-            echo "</div>";
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
         }
         ?>
 
@@ -49,7 +49,7 @@ $faqpairs = $faqactions->getAllQuestionsAndAnswers();
     }
 
     .panel-heading [data-toggle="collapse"]:after {
-        font-family: 'Glyphicons Halflings';
+        font-family: 'Glyphicons Halflings', serif;
         content: "e072"; /* "play" icon */
         float: right;
         color: #F58723;
@@ -75,6 +75,6 @@ $faqpairs = $faqactions->getAllQuestionsAndAnswers();
 </style>
 
 
-<?php include_once "inc/footer.php" ?>
+<?php include_once 'inc/footer.php' ?>
 </body>
 </html>

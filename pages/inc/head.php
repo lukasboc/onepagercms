@@ -1,5 +1,4 @@
 <head>
-
     <?php echo $settingactions->getSettingValue('google-analytics'); ?>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,5 +22,4 @@
 
     <!-- Custom styles for this template -->
     <link href="css/agency.min.css" rel="stylesheet">
-
 </head>

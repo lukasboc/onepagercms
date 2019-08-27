@@ -13,7 +13,7 @@ class SQLErrorActions
         include '../database/connect.php';
 
         try {
-            $selmsg = $db->prepare("SELECT message FROM error WHERE reason =:reason;");
+            $selmsg = $db->prepare('SELECT message FROM error WHERE reason =:reason;');
             $selmsg->bindValue(':reason', $reason);
             $selmsg->execute();
             $message = $selmsg->fetch();
@@ -30,7 +30,7 @@ class SQLErrorActions
         include '../database/connect.php';
 
         try {
-            $selmsg = $db->prepare("SELECT headline FROM error WHERE reason =:reason;");
+            $selmsg = $db->prepare('SELECT headline FROM error WHERE reason =:reason;');
             $selmsg->bindValue(':reason', $reason);
             $selmsg->execute();
             $message = $selmsg->fetch();

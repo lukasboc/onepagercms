@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <?php
-include "../database/SQLUserActions.php";
+include '../database/SQLUserActions.php';
 $useractions = new SQLUserActions();
-if (sizeof($useractions->getAllUsernames()) == 0) {
-    header("Location: ../core/install.php");
+if (count($useractions->getAllUsernames()) === 0) {
+    header('Location: ../core/install.php');
 }
 
 
@@ -17,66 +16,65 @@ $sectionactions = new SQLSectionActions();
 $headeractions = new SQLHeaderActions();
 $footeractions = new SQLFooterActions();
 $settingactions = new SQLSettingActions();
-require_once "inc/head.php";
+require_once 'inc/head.php';
 ?>
 <body id="page-top">
 <style>
     .text-primary {
-        color: <?php echo $settingactions->getSettingValue("text-primary") ?> !important
+        color: <?php echo $settingactions->getSettingValue('text-primary') ?> !important
     }
 
     a {
-        color: <?php echo $settingactions->getSettingValue("text-primary") ?>
+        color: <?php echo $settingactions->getSettingValue('text-primary') ?>
     }
 
     a:hover {
-        color: <?php echo $settingactions->getSettingValue("text-primary") ?>
+        color: <?php echo $settingactions->getSettingValue('text-primary') ?>
     }
 
     ::selection {
-        background: <?php echo $settingactions->getSettingValue("text-primary") ?>;
+        background: <?php echo $settingactions->getSettingValue('text-primary') ?>;
     }
 
     #mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
-        color: <?php echo $settingactions->getSettingValue("text-primary") ?>;
+        color: <?php echo $settingactions->getSettingValue('text-primary') ?>;
     }
 
     #mainNav .navbar-toggler {
-        background-color: <?php echo $settingactions->getSettingValue("text-primary") ?>;
+        background-color: <?php echo $settingactions->getSettingValue('text-primary') ?>;
     }
 
     ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons li a:hover {
-        background-color: <?php echo $settingactions->getSettingValue("text-primary") ?>
+        background-color: <?php echo $settingactions->getSettingValue('text-primary') ?>
     }
 
     .btn-primary {
-        background-color: <?php echo $settingactions->getSettingValue("button-color") ?>;
-        border-color: <?php echo $settingactions->getSettingValue("button-color") ?>;
+        background-color: <?php echo $settingactions->getSettingValue('button-color') ?>;
+        border-color: <?php echo $settingactions->getSettingValue('button-color') ?>;
     }
 
     .btn-primary:active, .btn-primary:focus, .btn-primary:hover {
-        background-color: <?php echo $settingactions->getSettingValue("button-color") ?> !important;
-        border-color: <?php echo $settingactions->getSettingValue("button-color") ?> !important;
+        background-color: <?php echo $settingactions->getSettingValue('button-color') ?> !important;
+        border-color: <?php echo $settingactions->getSettingValue('button-color') ?> !important;
     }
 
     #mainNav {
-        background-color: <?php echo $settingactions->getSettingValue("navigation-color") ?> !important;
+        background-color: <?php echo $settingactions->getSettingValue('navigation-color') ?> !important;
     }
 
     #mainNav .navbar-nav .nav-item .nav-link {
-        color: <?php echo $settingactions->getSettingValue("navigationtext-color") ?> !important;
+        color: <?php echo $settingactions->getSettingValue('navigationtext-color') ?> !important;
     }
 
     #mainNav .navbar-nav .nav-item .nav-link:hover {
-        color: <?php echo $settingactions->getSettingValue("text-primary") ?> !important;
+        color: <?php echo $settingactions->getSettingValue('text-primary') ?> !important;
     }
 
     #mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
-        color: <?php echo $settingactions->getSettingValue("text-primary") ?>;
+        color: <?php echo $settingactions->getSettingValue('text-primary') ?>;
     }
 
-
-    <?php echo $settingactions->getSettingValue("custom-css") ?>
+    <?php echo $settingactions->getSettingValue('custom-css') ?>
 </style>
 <!-- Navigation -->
 <?php $sectionactions->showNavigation() ?>
@@ -91,7 +89,7 @@ require_once "inc/head.php";
 <?php $footeractions->showFooter() ?>
 
 <!-- Modal 1 -->
-<?php require_once"inc/jsembed.php" ?>
+<?php require_once 'inc/jsembed.php' ?>
 </body>
 
 </html>

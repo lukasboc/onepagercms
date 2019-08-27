@@ -13,7 +13,7 @@ class SQLContactActions
         include '../database/connect.php';
 
         try {
-            $seltitle = $db->prepare("SELECT receiverMail FROM contact WHERE specialid = :specialid;");
+            $seltitle = $db->prepare('SELECT receiverMail FROM contact WHERE specialid = :specialid;');
             $seltitle->bindValue(':specialid', $id);
             $seltitle->execute();
             $title = $seltitle->fetch();

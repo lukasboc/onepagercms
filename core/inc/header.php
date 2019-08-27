@@ -49,8 +49,5 @@ echo '
         Signed in as: ' . $userid . '
     </span>
     </div>
-</nav>
-
-
-';
+</nav>';
 ?>
