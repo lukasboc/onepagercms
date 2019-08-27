@@ -44,13 +44,13 @@ if ($userActions->register($username, $generatedPass, $email)) {
   <p>this mail gives you access to a OPCMS-Website. Data:</p>
   <table>
     <tr>
-    <th>Host</th><td>' . $_SERVER["SERVER_NAME"] . '</td>
+    <th style="text-align:left">Login Page</th><td>' . $_SERVER["SERVER_NAME"] . '/opcms-login.php</td>
     </tr>
     <tr>
-      <th>Username</th><td>' . $username . '</td>
+      <th style="text-align:left">Username</th><td>' . $username . '</td>
     </tr>
     <tr>
-      <th>Password</th><td>' . $generatedPass . '</td>
+      <th style="text-align:left">Password</th><td>' . $generatedPass . '</td>
     </tr>
   </table>
   <p>The password was generated and nobody knows it except for you. Nonetheless, we recommend to change it.</p>
@@ -67,5 +67,5 @@ if ($userActions->register($username, $generatedPass, $email)) {
 
 // verschicke die E-Mail
     mail($receiver, $subject, $message, implode("\r\n", $header));
-    header('Location: ../core/settings.php');
+    header('Location: ../core/account.php');
 } else header('Location: ../core/error.php?reason=dberror');

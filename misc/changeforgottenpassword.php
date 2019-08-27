@@ -34,7 +34,7 @@ if ($userActions->changePassword($username, $generatedPass, $email)) {
   <p>you resetted you password. This mail gives you a temporary password. Your new login credentials:</p>
   <table>
     <tr>
-    <th style="text-align:left">Host</th><td>' . $_SERVER["SERVER_NAME"] . '</td>
+    <th style="text-align:left">Host</th><td>' . $_SERVER["SERVER_NAME"] . '/opcms-login.php</td>
     </tr>
     <tr>
       <th style="text-align:left">Username</th><td>' . $username . '</td>
