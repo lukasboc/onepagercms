@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
-<?php require_once "../core/inc/head.php";
-include_once "../database/SQLAdditionalPagesActions.php";
+<?php require_once '../core/inc/head.php';
+include_once '../database/SQLAdditionalPagesActions.php';
 $pagesActions = new SQLAdditionalPagesActions();
 $allPages = $pagesActions->getAllAdditionalPages();
 ?>
 
 <body>
 <?php
-include_once "../core/inc/header.php" ?>
+include_once '../core/inc/header.php' ?>
 <div class="container">
 
     <h1>Additional Pages</h1>
@@ -29,7 +29,7 @@ include_once "../core/inc/header.php" ?>
         </div>
     </div>
     <?php
-    for ($i = 0; sizeof($allPages) > $i; $i++) {
+    for ($i = 0, $iMax = count($allPages); $iMax > $i; $i++) {
         echo '
   <div class="row">
     <div class="col-2">
@@ -51,6 +51,6 @@ include_once "../core/inc/header.php" ?>
     ';
     } ?>
 </div>
-<?php include_once "inc/footer.php" ?>
+<?php include_once 'inc/footer.php' ?>
 </body>
 </html>
