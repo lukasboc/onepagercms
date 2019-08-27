@@ -1,22 +1,22 @@
 <?php
-include "../database/SQLSettingActions.php";
-include "../database/SQLUserActions.php";
+include '../database/SQLSettingActions.php';
+include '../database/SQLUserActions.php';
 $settingActions = new SQLSettingActions();
 $userActions = new SQLUserActions();
-$captchaKey = ($settingActions->getSettingValue("recaptcha_key") != null && $settingActions->getSettingValue("recaptcha_key") != "") ? $settingActions->getSettingValue("recaptcha_key") : "";
-$logocss = ($settingActions->getSettingValue("logo_css") != null && $settingActions->getSettingValue("logo_css") != "") ? $settingActions->getSettingValue("logo_css") : "";
-$logo = ($settingActions->getSettingValue("logo") != null && $settingActions->getSettingValue("logo") != "") ? $settingActions->getSettingValue("logo") : "";
-$uploadedLogo = (isset($_GET['logo'])) ? $_GET['logo'] : "";
-$websiteTitle = ($settingActions->getSettingValue('website-title') != null && $settingActions->getSettingValue('website-title') != "") ? $settingActions->getSettingValue('website-title') : "";
-$googleAnalytics = ($settingActions->getSettingValue('google-analytics') != null && $settingActions->getSettingValue('google-analytics') != "") ? $settingActions->getSettingValue('google-analytics') : "";
+$captchaKey = ($settingActions->getSettingValue('recaptcha_key') !== null && $settingActions->getSettingValue('recaptcha_key') !== '') ? $settingActions->getSettingValue('recaptcha_key') : '';
+$logocss = ($settingActions->getSettingValue('logo_css') !== null && $settingActions->getSettingValue('logo_css') !== '') ? $settingActions->getSettingValue('logo_css') : '';
+$logo = ($settingActions->getSettingValue('logo') !== null && $settingActions->getSettingValue('logo') !== '') ? $settingActions->getSettingValue('logo') : '';
+$uploadedLogo = $_GET['logo'] ?? '';
+$websiteTitle = ($settingActions->getSettingValue('website-title') !== null && $settingActions->getSettingValue('website-title') !== '') ? $settingActions->getSettingValue('website-title') : '';
+$googleAnalytics = ($settingActions->getSettingValue('google-analytics') !== null && $settingActions->getSettingValue('google-analytics') !== '') ? $settingActions->getSettingValue('google-analytics') : '';
 ?>
 
 <!DOCTYPE html>
 <html>
-<?php require_once "inc/head.php" ?>
+<?php require_once 'inc/head.php' ?>
 <body>
 
-<?php include_once "inc/header.php" ?>
+<?php include_once 'inc/header.php' ?>
 <div class="container">
     <h1>Settings</h1>
     <h2>Website-Title</h2>
@@ -38,8 +38,9 @@ $googleAnalytics = ($settingActions->getSettingValue('google-analytics') != null
     <form enctype="multipart/form-data" action="../misc/logoupload.php" method="post" id="uploadform">
         <div class="form-group">
             <label>Preview:</label><br>
-            <img class="img-fluid mb-2 text-right" style="height: 100px; max-width: 500px;"
-                 src="<?php echo ($uploadedLogo != "") ? $uploadedLogo : $logo ?>"><br>
+            <img class="img-fluid mb-2 text-right"
+                 style="height: 100px; max-width: 500px; background-image: url('../img/core/logobg.png')"
+                 src="<?php echo ($uploadedLogo !== '') ? $uploadedLogo : $logo ?>"><br>
             <label>Upload-Area:</label>
             <div class="input-group">
                 <div class="input-group-prepend">
@@ -62,7 +63,7 @@ $googleAnalytics = ($settingActions->getSettingValue('google-analytics') != null
                    id='save' value='Save'>
         </div>
     </form>
-    <h2>Extra CSS</h2>
+    <h2>Logo CSS</h2>
     <form method="post" action="../misc/changelogocss.php">
         <div class="form-group">
             <label for="logocss">CSS:</label>
@@ -112,7 +113,7 @@ $googleAnalytics = ($settingActions->getSettingValue('google-analytics') != null
 
 </div>
 
-<?php include_once "inc/footer.php" ?>
+<?php include_once 'inc/footer.php' ?>
 
 </body>
 </html>
