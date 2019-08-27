@@ -13,7 +13,7 @@ class SQLSettingActions
         include '../database/connect.php';
 
         try {
-            $select = $db->prepare("SELECT value FROM settings WHERE setting = :setting;");
+            $select = $db->prepare('SELECT value FROM settings WHERE setting = :setting;');
             $select->bindValue(':setting', $setting);
             $select->execute();
             $value = $select->fetch();
@@ -28,11 +28,11 @@ class SQLSettingActions
         include '../database/connect.php';
 
         try {
-            $update = $db->prepare("UPDATE settings SET value = :value WHERE setting = :setting;");
+            $update = $db->prepare('UPDATE settings SET value = :value WHERE setting = :setting;');
 
             $update->bindValue(':value', $key);
             $update->bindValue(':setting', $setting);
-            return ($update->execute()) ? true : false;
+            return $update->execute() ? true : false;
         } catch (Exception $exception) {
             echo 'Something went wrong: ' . $exception->getMessage();
         }

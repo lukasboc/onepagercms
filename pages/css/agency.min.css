@@ -147,11 +147,9 @@ img::-moz-selection {
 header.masthead {
     text-align: center;
     color: #fff;
-    background-image: url(../img/header-bg.jpg);
-    background-repeat: no-repeat;
-    background-attachment: scroll;
-    background-position: center center;
-    background-size: cover
+    background: #19547b; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #beff9b, #19547b); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #beff9b, #19547b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 header.masthead .intro-text {
@@ -568,63 +566,6 @@ header.masthead .intro-text .intro-heading {
 
 .team-member p {
     margin-top: 0
-}
-
-section#contact {
-    background-color: #212529;
-    background-image: url(../img/map-image.png);
-    background-repeat: no-repeat;
-    background-position: center
-}
-
-section#contact .section-heading {
-    color: #fff
-}
-
-section#contact .form-group {
-    margin-bottom: 25px
-}
-
-section#contact .form-group input, section#contact .form-group textarea {
-    padding: 20px
-}
-
-section#contact .form-group input.form-control {
-    height: auto
-}
-
-section#contact .form-group textarea.form-control {
-    height: 248px
-}
-
-section#contact .form-control:focus {
-    border-color: #fed136;
-    -webkit-box-shadow: none;
-    box-shadow: none
-}
-
-section#contact ::-webkit-input-placeholder {
-    font-weight: 700;
-    color: #ced4da;
-    font-family: Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'
-}
-
-section#contact :-moz-placeholder {
-    font-weight: 700;
-    color: #ced4da;
-    font-family: Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'
-}
-
-section#contact ::-moz-placeholder {
-    font-weight: 700;
-    color: #ced4da;
-    font-family: Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'
-}
-
-section#contact :-ms-input-placeholder {
-    font-weight: 700;
-    color: #ced4da;
-    font-family: Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'
 }
 
 .footer {

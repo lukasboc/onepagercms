@@ -13,7 +13,7 @@ class SQLSuccessActions
         include '../database/connect.php';
 
         try {
-            $selmsg = $db->prepare("SELECT message FROM success WHERE reason =:reason;");
+            $selmsg = $db->prepare('SELECT message FROM success WHERE reason =:reason;');
             $selmsg->bindValue(':reason', $reason);
             $selmsg->execute();
             $message = $selmsg->fetch();
@@ -30,7 +30,7 @@ class SQLSuccessActions
         include '../database/connect.php';
 
         try {
-            $selmsg = $db->prepare("SELECT headline FROM success WHERE reason =:reason;");
+            $selmsg = $db->prepare('SELECT headline FROM success WHERE reason =:reason;');
             $selmsg->bindValue(':reason', $reason);
             $selmsg->execute();
             $message = $selmsg->fetch();

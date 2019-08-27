@@ -28,7 +28,7 @@ class SQLAdditionalPagesActions
 
         try {
             $pages = $db->prepare('select * from additionalPages where showInFooter=:showInFooter ORDER BY title');
-            $pages->bindValue(':showInFooter', "on");
+            $pages->bindValue(':showInFooter', 'on');
             $pages->execute();
             $all = $pages->fetchAll();
             return $all;
@@ -75,7 +75,7 @@ class SQLAdditionalPagesActions
         include '../database/connect.php';
 
         try {
-            $delete = $db->prepare("DELETE FROM additionalPages WHERE id=:id;");
+            $delete = $db->prepare('DELETE FROM additionalPages WHERE id=:id;');
             $delete->bindValue(':id', $id);
             return ($delete->execute()) ? true : false;
         } catch (Exception $exception) {
@@ -88,12 +88,12 @@ class SQLAdditionalPagesActions
         include '../database/connect.php';
 
         try {
-            $count = $db->prepare("SELECT * FROM additionalPages ORDER BY id DESC LIMIT 1;");
+            $count = $db->prepare('SELECT * FROM additionalPages ORDER BY id DESC LIMIT 1;');
             $count->execute();
             $number_of_rows = $count->fetch();
-            $number = $number_of_rows["specialid"] + 1;
+            $number = $number_of_rows['specialid'] + 1;
 
-            $insert = $db->prepare("INSERT INTO additionalPages (id, title, content, showInFooter) VALUES (:id, :title, :content, :showInFooter)");
+            $insert = $db->prepare('INSERT INTO additionalPages (id, title, content, showInFooter) VALUES (:id, :title, :content, :showInFooter)');
             $insert->bindValue(':id', $number);
             $insert->bindValue(':title', $title);
             $insert->bindValue(':content', $content);

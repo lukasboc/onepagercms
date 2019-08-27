@@ -1,11 +1,11 @@
 <?php
-include "../database/SQLSettingActions.php";
+include '../database/SQLSettingActions.php';
 $settingactions = new SQLSettingActions();
 
-include "../database/SQLUserActions.php";
+include '../database/SQLUserActions.php';
 $useractions = new SQLUserActions();
-if (sizeof($useractions->getAllUsernames()) != 0) {
-    header("Location: ../pages/index.php");
+if (count($useractions->getAllUsernames()) !== 0) {
+    header('Location: ../pages/index.php');
 }
 
 ?>
