@@ -10,7 +10,7 @@ include "../database/QuestionAndAnswer.php";
 
 class SQLFAQActions
 {
-    public function getAllQuestionsAndAnswers()
+    public function getAllQuestionsAndAnswers(): ?array
     {
         include '../database/connect.php';
 
@@ -19,9 +19,9 @@ class SQLFAQActions
             $pairs = $db->prepare('select * from faq ORDER BY category');
             $pairs->execute();
             $all = $pairs->fetchAll();
-            for ($i = 0; $i < sizeof($all); $i++) {
-                $qAndA = new QuestionAndAnswer($all[$i][0], $all[$i][1], $all[$i][2], $all[$i][3]);
-                array_push($pairArray, $qAndA);
+            foreach ($all as $iValue) {
+                $qAndA = new QuestionAndAnswer($iValue[0], $iValue[1], $iValue[2], $iValue[3]);
+                $pairArray[] = $qAndA;
             }
             return $pairArray;
         } catch (Exception $exception) {
@@ -29,7 +29,7 @@ class SQLFAQActions
         }
     }
 
-    public function getAllCategories()
+    public function getAllCategories(): ?array
     {
         include '../database/connect.php';
 
@@ -38,8 +38,8 @@ class SQLFAQActions
             $cats = $db->prepare('select category from faq ORDER BY category');
             $cats->execute();
             $all = $cats->fetchAll();
-            for ($i = 0; $i < sizeof($all); $i++) {
-                array_push($categoryArray, $all[$i]['category']);
+            foreach ($all as $i => $iValue) {
+                $categoryArray[] = $all[$i]['category'];
             }
             return $categoryArray;
         } catch (Exception $exception) {

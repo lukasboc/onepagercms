@@ -8,7 +8,7 @@
 
 class SQLHeaderActions
 {
-    public function showHeader()
+    public function showHeader(): void
     {
         echo "<header class=\"masthead\" style=\"background-image: url('" . $this->getBackground() . "')\">
     <div class=\"container\">
@@ -46,7 +46,7 @@ class SQLHeaderActions
         include '../database/connect.php';
 
         try {
-            $seltitle = $db->prepare("SELECT title FROM header WHERE specialid = :specialid;");
+            $seltitle = $db->prepare('SELECT title FROM header WHERE specialid = :specialid;');
             $seltitle->bindValue(':specialid', 0);
             $seltitle->execute();
             $title = $seltitle->fetch();
@@ -57,12 +57,12 @@ class SQLHeaderActions
         }
     }
 
-    public function editHeaderEntry($mutedTitle, $title, $background, $customrow)
+    public function editHeaderEntry($mutedTitle, $title, $background, $customrow): ?bool
     {
         include '../database/connect.php';
 
         try {
-            $update = $db->prepare("UPDATE header SET mutedtitle = :mutedtitle, title = :title, background = :background, customrow = :customrow WHERE specialid = :specialid;");
+            $update = $db->prepare('UPDATE header SET mutedtitle = :mutedtitle, title = :title, background = :background, customrow = :customrow WHERE specialid = :specialid;');
             $update->bindValue(':mutedtitle', $mutedTitle);
             $update->bindValue(':title', $title);
             $update->bindValue(':background', $background);
@@ -79,7 +79,7 @@ class SQLHeaderActions
         include '../database/connect.php';
 
         try {
-            $seltitle = $db->prepare("SELECT background FROM header WHERE specialid = :specialid;");
+            $seltitle = $db->prepare('SELECT background FROM header WHERE specialid = :specialid;');
             $seltitle->bindValue(':specialid', 0);
             $seltitle->execute();
             $title = $seltitle->fetch();
@@ -94,7 +94,7 @@ class SQLHeaderActions
         include '../database/connect.php';
 
         try {
-            $seltitle = $db->prepare("SELECT customrow FROM header WHERE specialid = :specialid;");
+            $seltitle = $db->prepare('SELECT customrow FROM header WHERE specialid = :specialid;');
             $seltitle->bindValue(':specialid', 0);
             $seltitle->execute();
             $title = $seltitle->fetch();
