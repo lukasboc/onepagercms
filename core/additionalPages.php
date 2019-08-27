@@ -41,7 +41,7 @@ include_once '../core/inc/header.php' ?>
     <div class="col-5 col-sm-5 col-md-3">
 <div class="btn-group">
       <a href="../misc/additionalpage.php?id=' . $allPages[$i][0] . '&action=Edit" class="btn btn-primary" role="button"><i class="far fa-edit"></i></a>
-            <a href="../pages/additionalpage.php?id=' . $allPages[$i][0] . '" class="btn btn-info" role="button"><i class="far fa-eye"></i></a>
+            <a href="../pages/additionalpage.php?id=' . $allPages[$i][0] . '" class="btn btn-info" target="_blank" role="button"><i class="far fa-eye"></i></a>
       <a href="../misc/additionalpage.php?id=' . $allPages[$i][0] . '&action=Delete" class="btn btn-light" role="button"><i class="far fa-trash-alt"></i></a>
 </div>
     </div>
