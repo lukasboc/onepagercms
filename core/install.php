@@ -5,7 +5,7 @@ $settingactions = new SQLSettingActions();
 include "../database/SQLUserActions.php";
 $useractions = new SQLUserActions();
 if (sizeof($useractions->getAllUsernames()) != 0) {
-    header("Location: ../misc/error.php?reason=installationdone");
+    header("Location: ../pages/index.php");
 }
 
 ?>
