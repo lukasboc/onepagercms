@@ -1,5 +1,5 @@
 <?php
-include "../database/SQLSettingActions.php";
+include '../database/SQLSettingActions.php';
 $settingactions = new SQLSettingActions();
 ?>
 <!DOCTYPE html>
