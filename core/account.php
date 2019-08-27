@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
-<?php require_once "inc/head.php";
-include "../database/SQLSettingActions.php";
-include "../database/SQLUserActions.php";
+<?php require_once 'inc/head.php';
+include '../database/SQLSettingActions.php';
+include '../database/SQLUserActions.php';
 $settingActions = new SQLSettingActions();
 $userActions = new SQLUserActions();
 ?>
 <body>
 
-<?php include_once "inc/header.php" ?>
+<?php include_once 'inc/header.php' ?>
 <div class="container">
     <h1>Account</h1>
     <h2>Change Password</h2>
@@ -90,8 +90,8 @@ $userActions = new SQLUserActions();
     <ul class="list-group list-group-flush w-50 p-3">
         <?php
         $array = $userActions->getAllUsernames();
-        for ($i = 0; $i < sizeof($array); $i++) {
-            echo "<li class=\"list-group-item\">" . $array[$i]['username'] . "</li>";
+        for ($i = 0, $iMax = count($array); $i < $iMax; $i++) {
+            echo '<li class="list-group-item">' . $array[$i]['username'] . '</li>';
         }
         ?>
     </ul>
@@ -117,11 +117,7 @@ $userActions = new SQLUserActions();
             <input type='submit' class="btn btn-primary" name='createUser'
                    id='change' value='Create'>
         </div>
-
-
     </form>
-
-
 </div>
 </body>
 </html>
