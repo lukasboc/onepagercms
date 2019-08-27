@@ -14,19 +14,19 @@ class SQLUserActions
     {
         include '../database/connect.php';
 
-        $select = $db->prepare("SELECT `username`, `password`
+        $select = $db->prepare('SELECT `username`, `password`
                                    FROM users
-                                   WHERE `username` = :username");
+                                   WHERE `username` = :username');
 
         $select->bindValue(':username', $username);
         $select->execute();
         $nachricht = $select->fetch();
 
-        if (password_verify($password . secret, $nachricht["password"])) {
+        if (password_verify($password . secret, $nachricht['password'])) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function register($username, $password, $email): bool
@@ -34,14 +34,14 @@ class SQLUserActions
         include '../database/connect.php';
         $hash = password_hash($password . secret, PASSWORD_BCRYPT, array('cost' => 15));
 
-        $count = $db->prepare("SELECT * FROM users ORDER BY uid DESC LIMIT 1;");
+        $count = $db->prepare('SELECT * FROM users ORDER BY uid DESC LIMIT 1;');
         $count->execute();
         $number_of_rows = $count->fetch();
-        $number = $number_of_rows["uid"] + 1;
+        $number = $number_of_rows['uid'] + 1;
 
 
-        $insert = $db->prepare("INSERT INTO users 
-         (`uid`, `username`, `password`, `email`) VALUES (:uid, :username, :password, :email)");
+        $insert = $db->prepare('INSERT INTO users 
+         (`uid`, `username`, `password`, `email`) VALUES (:uid, :username, :password, :email)');
 
 
         $insert->bindValue(':uid', $number);
@@ -51,9 +51,9 @@ class SQLUserActions
 
         if ($insert->execute()) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
 
     }
 
@@ -61,10 +61,9 @@ class SQLUserActions
     {
         include '../database/connect.php';
         try {
-            $selusrn = $db->prepare("SELECT username FROM users;");
+            $selusrn = $db->prepare('SELECT username FROM users;');
             $selusrn->execute();
-            $usernames = $selusrn->fetchAll();
-            return $usernames;
+            return $selusrn->fetchAll();
 
         } catch (Exception $exception) {
             echo 'Something went wrong: ' . $exception->getMessage();
@@ -75,11 +74,10 @@ class SQLUserActions
     {
         include '../database/connect.php';
         try {
-            $selusrn = $db->prepare("SELECT count(username) FROM users WHERE username = :username;");
+            $selusrn = $db->prepare('SELECT count(username) FROM users WHERE username = :username;');
             $selusrn->bindValue(':username', $username);
             $selusrn->execute();
-            $count = $selusrn->fetch();
-            return $count;
+            return $selusrn->fetch();
 
         } catch (Exception $exception) {
             echo 'Something went wrong: ' . $exception->getMessage();
@@ -91,11 +89,10 @@ class SQLUserActions
     {
         include '../database/connect.php';
         try {
-            $selusrn = $db->prepare("SELECT count(email) FROM users WHERE email = :email;");
+            $selusrn = $db->prepare('SELECT count(email) FROM users WHERE email = :email;');
             $selusrn->bindValue(':email', $email);
             $selusrn->execute();
-            $count = $selusrn->fetch();
-            return $count;
+            return $selusrn->fetch();
         } catch (Exception $exception) {
             echo 'Something went wrong: ' . $exception->getMessage();
         }
@@ -105,7 +102,7 @@ class SQLUserActions
     {
         include '../database/connect.php';
         try {
-            $selusrn = $db->prepare("SELECT email FROM users WHERE username = :username;");
+            $selusrn = $db->prepare('SELECT email FROM users WHERE username = :username;');
             $selusrn->bindValue(':username', $username);
             $selusrn->execute();
             $usnm = $selusrn->fetch();
@@ -119,7 +116,7 @@ class SQLUserActions
     {
         include '../database/connect.php';
         try {
-            $selem = $db->prepare("SELECT username FROM users WHERE email = :email;");
+            $selem = $db->prepare('SELECT username FROM users WHERE email = :email;');
             $selem->bindValue(':email', $email);
             $selem->execute();
             $em = $selem->fetch();
@@ -136,26 +133,26 @@ class SQLUserActions
         try {
             $hash = password_hash($newpassword . secret, PASSWORD_BCRYPT, array('cost' => 15));
 
-            $update = $db->prepare("UPDATE users SET  password =:password  WHERE username = :username;");
+            $update = $db->prepare('UPDATE users SET  password =:password  WHERE username = :username;');
             $update->bindValue(':username', $username);
             $update->bindValue(':password', $hash);
-            return ($update->execute()) ? true : false;
+            return $update->execute() ? true : false;
         } catch (Exception $exception) {
             echo 'Something went wrong: ' . $exception->getMessage();
         }
     }
 
-    public function changeEmail($username, $password, $newMail)
+    public function changeEmail($username, $password, $newMail): ?bool
     {
         try {
             if (!$this->login($username, $password)) {
                 return false;
             }
             include '../database/connect.php';
-            $update = $db->prepare("UPDATE users SET email =:email  WHERE username = :username;");
+            $update = $db->prepare('UPDATE users SET email =:email  WHERE username = :username;');
             $update->bindValue(':username', $username);
             $update->bindValue(':email', $newMail);
-            return ($update->execute()) ? true : false;
+            return $update->execute() ? true : false;
         } catch (Exception $exception) {
             echo 'Something went wrong: ' . $exception->getMessage();
         }
