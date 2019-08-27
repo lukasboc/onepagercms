@@ -1,3 +1,3 @@
-ErrorDocument 403 misc/forbidden.html
-ErrorDocument 404 misc/notfound.html
-ErrorDocument 500 misc/servererror.html
+ErrorDocument 403 index.php
+ErrorDocument 404 index.php
+ErrorDocument 500 index.php
