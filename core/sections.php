@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<?php require_once "inc/head.php"; ?>
+<?php require_once 'inc/head.php'; ?>
 <body>
 
-<?php include_once "inc/header.php" ?>
+<?php include_once 'inc/header.php' ?>
 <div class="container">
 <?php
-include "../database/SQLSectionActions.php";
-include "../database/SQLHeaderActions.php";
+include '../database/SQLSectionActions.php';
+include '../database/SQLHeaderActions.php';
 $sectionactions = new SQLSectionActions();
 $headeractions = new SQLHeaderActions();
 $sections = $sectionactions->getAllSections();
@@ -46,7 +46,7 @@ $sections = $sectionactions->getAllSections();
             </div>
         </div>
     <?php
-for($i=0; sizeof($sections) > $i; $i++){
+    for ($i = 0, $iMax = count($sections); $iMax > $i; $i++) {
     echo'
   <div class="row">
     <div class="col-2 col-sm-2 col-md-2 col-lg-1 sectioncolfix">
@@ -76,15 +76,11 @@ for($i=0; sizeof($sections) > $i; $i++){
       <a href="../misc/changesection.php?id=' . $sections[$i]->getSuperid() . '&action=Delete&type=' . $sections[$i]->getType() . '" class="btn btn-light" role="button"><i class="far fa-trash-alt"></i></a>
 </div>
     </div>
-  </div>
-
-    
-    ';
+  </div>';
 }
 ?>
         <div class="row pb-3">
             <div class="col-2 col-sm-2 col-md-2 col-lg-1 sectioncolfix">
-
             </div>
             <div class="col-3 col-sm-2">
                 Footer
@@ -100,7 +96,6 @@ for($i=0; sizeof($sections) > $i; $i++){
         <input type="submit" name="action" value="Save Positions" class="btn btn-warning">
     </form>
     <h1 class="mt-4">New Section</h1>
-
     <form action="../misc/newsection.php" method="post">
         <div class="form-group">
     <label for="types">Type:</label>
@@ -110,10 +105,9 @@ for($i=0; sizeof($sections) > $i; $i++){
         <option>contact</option>
     </select>
     </div>
-
         <input type="submit" name="action" value="New Section" class="btn btn-success">
     </form>
 </div>
-<?php include_once "inc/footer.php" ?>
+<?php include_once 'inc/footer.php' ?>
 </body>
 </html>
