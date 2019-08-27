@@ -36,7 +36,7 @@ $faqpairs = $faqactions->getAllQuestionsAndAnswers();
 <style>
     .card-header {
         background-color: rgba(0, 0, 0, 0);
-        padding: .75rem 0.25rem;
+        padding: .35rem 0.25rem;
         border-bottom: none;
     }
 
