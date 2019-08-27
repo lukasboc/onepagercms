@@ -44,7 +44,7 @@ if ($userActions->register($username, $generatedPass, $email)) {
   <p>this mail gives you access to a OPCMS-Website. Data:</p>
   <table>
     <tr>
-    <th>Host</th><td>' . $_SERVER["SERVER_NAME"] . '</td>
+    <th>Host</th><td>' . $_SERVER["SERVER_NAME"] . '/opcms-login.php</td>
     </tr>
     <tr>
       <th>Username</th><td>' . $username . '</td>
