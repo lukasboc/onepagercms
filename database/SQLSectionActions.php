@@ -316,7 +316,7 @@ class SQLSectionActions implements ISectionActions
                 <form id="contactForm" name="sentMessage" action="../misc/contactform.php" method="post">
                     <div class="row">
                         <div class="col-md-6">
-                            ' . $namefield . $emailfield . $captchafield . '
+                            ' . $namefield . $emailfield . '
                         </div>
                         <div class="col-md-6">
                             ' . $messagefield . '
@@ -324,7 +324,7 @@ class SQLSectionActions implements ISectionActions
                         <div class="clearfix"></div>
                         <input type="hidden" name="contactId" value="' . $sectionarray[$i]->getId() . '">
                         <div class="col-lg-12 text-center">
-                            <div id="success"></div>
+                            <div class="text-center mb-1" style="width:304px; margin: 0 auto">' . $captchafield . '</div>
                             <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Send Message</button>
                         </div>
                     </div>
