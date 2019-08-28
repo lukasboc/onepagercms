@@ -18,9 +18,9 @@ $faqpairs = $faqactions->getAllQuestionsAndAnswers();
         for ($i = 0, $iMax = count($faqpairs); $i < $iMax; $i++) {
             echo '<div class="card">';
             echo '<div class="card-header">';
-            echo '<h4 class="card-header">';
+            echo '<h5 class="card-header">';
             echo '<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse' . $i . '">' . $faqpairs[$i]->getQuestion() . '</a>';
-            echo "</h4>";
+            echo "</h5>";
             echo "</div>";
             echo '<div id="collapse' . $i . '" class="panel-collapse collapse in">';
             echo '<div class="card-block">';
@@ -36,7 +36,7 @@ $faqpairs = $faqactions->getAllQuestionsAndAnswers();
 <style>
     .card-header {
         background-color: rgba(0, 0, 0, 0);
-        padding: .75rem 0.25rem;
+        padding: .35rem 0.25rem;
         border-bottom: none;
     }
 
