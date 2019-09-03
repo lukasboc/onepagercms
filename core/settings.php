@@ -9,6 +9,7 @@ $logo = ($settingActions->getSettingValue('logo') !== null && $settingActions->g
 $uploadedLogo = $_GET['logo'] ?? '';
 $websiteTitle = ($settingActions->getSettingValue('website-title') !== null && $settingActions->getSettingValue('website-title') !== '') ? $settingActions->getSettingValue('website-title') : '';
 $googleAnalytics = ($settingActions->getSettingValue('google-analytics') !== null && $settingActions->getSettingValue('google-analytics') !== '') ? $settingActions->getSettingValue('google-analytics') : '';
+$metadescription = ($settingActions->getSettingValue('page-description') !== null && $settingActions->getSettingValue('page-description') !== '') ? $settingActions->getSettingValue('page-description') : '';
 ?>
 
 <!DOCTYPE html>
@@ -31,6 +32,22 @@ $googleAnalytics = ($settingActions->getSettingValue('google-analytics') !== nul
                            id='change' value='Save'>
                 </div>
             </div>
+        </div>
+    </form>
+
+    <h2>Meta Description</h2>
+    <form method="post" action="../misc/changemetadescription.php">
+        <div class="form-group">
+            <label for="metadescription">Description:</label>
+            <div class="form-group">
+                <textarea name="metadescription" id="metadescription" rows="4"
+                          class="form-control"><?php echo $metadescription ?></textarea>
+            </div>
+            <div class="form-group">
+                <input type='submit' class="btn btn-primary" name='captchaKey'
+                       id='change' value='Save'>
+            </div>
+
         </div>
     </form>
 
@@ -97,7 +114,7 @@ $googleAnalytics = ($settingActions->getSettingValue('google-analytics') !== nul
         <div class="form-group">
             <label for="gAnalyics">Tracking-Code:</label>
             <div class="form-group">
-                <textarea name="googleAnalytics" rows="4" class="form-control" placeholder='<!-- Global site tag (gtag.js) - Google Analytics -->
+                <textarea name="googleAnalytics" id="gAnalyics" rows="4" class="form-control" placeholder='<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=X-XXXXXXX-X"></script>
     ...
     gtag("config", "XX-XXXXXXXXX-X");
