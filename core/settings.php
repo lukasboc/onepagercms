@@ -94,6 +94,69 @@ $metadescription = ($settingActions->getSettingValue('page-description') !== nul
                 </div>
             </div>
     </form>
+
+    <h2>Favicon</h2>
+    <form enctype="multipart/form-data" action="../misc/faviconupload180x180.php" method="post" id="uploadform">
+        <div class="form-group">
+            <label>Apple-touch-icon 180x180 (PNG):</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <input type='submit' class="btn btn-primary" id='image-upload' value='Save'>
+                </div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile01"
+                           aria-describedby="inputGroupFileAddon01" name="180x180png">
+                    <label class="custom-file-label" for="inputGroupFile01">Choose Logo</label>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form enctype="multipart/form-data" action="../misc/faviconupload32x32.php" method="post" id="uploadform">
+        <div class="form-group">
+            <label>Image/png 32x32 (PNG):</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <input type='submit' class="btn btn-primary" id='image-upload' value='Save'>
+                </div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile01"
+                           aria-describedby="inputGroupFileAddon01" name="32x32png">
+                    <label class="custom-file-label" for="inputGroupFile01">Choose Logo</label>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form enctype="multipart/form-data" action="../misc/faviconupload16x16.php" method="post" id="uploadform">
+        <div class="form-group">
+            <label>Image/png 16x16 (PNG):</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <input type='submit' class="btn btn-primary" id='image-upload' value='Save'>
+                </div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile01"
+                           aria-describedby="inputGroupFileAddon01" name="16x16png">
+                    <label class="custom-file-label" for="inputGroupFile01">Choose Logo</label>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form enctype="multipart/form-data" action="../misc/faviconupload48x48.php" method="post" id="uploadform">
+        <div class="form-group">
+            <label>Shortcut Icon 48x48 (ICO):</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <input type='submit' class="btn btn-primary" id='image-upload' value='Save'>
+                </div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile01"
+                           aria-describedby="inputGroupFileAddon01" name="48x48ico">
+                    <label class="custom-file-label" for="inputGroupFile01">Choose Logo</label>
+                </div>
+            </div>
+        </div>
+    </form>
+
     <h2>reCAPTCHA</h2>
     <form method="post" action="../misc/changecaptcha.php">
         <div class="form-group">
