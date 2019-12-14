@@ -6,6 +6,28 @@
     float: none;
 }
 
+hr.solid {
+    border-top: 1px solid #ddd;
+}
+
+/* Footer */
+body {
+    margin-bottom: 6px; /* Margin bottom by footer height */
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px; /* Set the fixed height of the footer here */
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+
 @media only screen and (max-width: 480px) {
     .sectioncolfix {
         padding-right: 0
@@ -22,20 +44,4 @@
     #backendFormContainer {
         max-width: 740px;
     }
-}
-
-body {
-    margin-bottom: 6px; /* Margin bottom by footer height */
-}
-
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 60px; /* Set the fixed height of the footer here */
-}
-
-html {
-    position: relative;
-    min-height: 100%;
 }
