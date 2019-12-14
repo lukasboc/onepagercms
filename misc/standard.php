@@ -32,12 +32,7 @@ if(isset($_GET['id'])){
 
 <?php include_once "../core/inc/header.php" ?>
 
-<div class="container">
-    <div class="row">
-        <div class="col">
-
-        </div>
-        <div class="col-6">
+<div class="container" id="backendFormContainer">
             <h1><?php echo "$headline" ?> Standard-Section</h1>
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
                 <div class="form-group">
@@ -100,7 +95,7 @@ if(isset($_GET['id'])){
 
                 <div class="form-group">
                     <label for="text">Text:</label>
-                    <textarea rows="4" id="text" class="form-control" required
+                    <textarea rows="4" id="text" id="wysiwyg" class="form-control" required
                               form="changeform" <?php echo $writeable ?>
                               name="text"
                               cols="73"><?php echo $text ?></textarea>
@@ -122,17 +117,42 @@ if(isset($_GET['id'])){
                 </div>
             </form>
         </div>
-        <div class="col"></div>
-    </div>
-</div>
+<!-- Import jQuery -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="../plugins/vendor/jquery/jquery.min.js"><\/script>')</script>
+<script>window.jQuery || document.write('<script src="../plugins/vendor/jquery/jquery.slim.js"><\/script>')</script>
+
+<!-- Import Trumbowyg -->
 <script src="../plugins/Trumbowyg/dist/trumbowyg.min.js"></script>
+<!-- Import Trumbowyg plugins... -->
+<script src="../plugins/Trumbowyg/dist/plugins/table/trumbowyg.table.min.js"></script>
+<script src="../plugins/Trumbowyg/dist/plugins/colors/trumbowyg.colors.min.js"></script>
 
 <script>
     $('textarea').trumbowyg({
-        semantic: true
+        btns: [
+            ['viewHTML'],
+            ['undo', 'redo'], // Only supported in Blink browsers
+            ['formatting'],
+            ['strong', 'em', 'del'],
+            ['superscript', 'subscript'],
+            ['link'],
+            ['insertImage'],
+            ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+            ['unorderedList', 'orderedList'],
+            ['horizontalRule'],
+            ['table'],
+            ['foreColor'],
+            ['fullscreen']
+        ],
+        autogrow: true,
+        changeActiveDropdownIcon: true,
+        plugins: {
+            table: {
+                // Some table plugin options, see details below
+            }
+        }
     });
 </script>
+
 </body>
 </html>
