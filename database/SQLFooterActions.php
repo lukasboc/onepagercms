@@ -15,7 +15,7 @@ class SQLFooterActions
     <div class=\"container\">
         <div class=\"row align-items-center\">
             <div class=\"col-md-4\">";
-        echo ($this->getFooterEntry('copyright')) ? "<span class=\"copyright\">&copy; OnePagerCMS 2020</span>" : "";
+        echo ($this->getFooterEntry('copyright')) ? "<span class=\"copyright\">&copy; OnePagerCMS 2021</span>" : "";
         echo "
             </div>
             <div class=\"col-md-4\">
