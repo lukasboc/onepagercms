@@ -95,6 +95,7 @@ $sections = $sectionactions->getAllSections();
         </div>
         <input type="submit" name="action" value="Save Positions" class="btn btn-warning">
     </form>
+    <hr class="solid mt-4">
     <h1 class="mt-4">New Section</h1>
     <form action="../misc/newsection.php" method="post">
         <div class="form-group">
