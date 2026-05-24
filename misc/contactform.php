@@ -19,12 +19,10 @@ $subject = 'OPCMS - New Contact Form Message';
 // Nachricht
 $tabledata = "";
 foreach ($input_data as $key => $value) {
-    $tabledata .= "
-        <tr>
-    <th style='text-align: left'>{$key}</th><td>{$value} </td>
-    </tr>
-
-    ";
+    $tabledata .= "<tr>"
+        . "<th style='text-align: left'>" . htmlspecialchars($key, ENT_QUOTES, 'UTF-8') . "</th>"
+        . "<td>" . htmlspecialchars($value, ENT_QUOTES, 'UTF-8') . "</td>"
+        . "</tr>";
 }
 
 $message = '

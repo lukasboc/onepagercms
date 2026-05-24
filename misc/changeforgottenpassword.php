@@ -20,7 +20,7 @@ $email = ($email == null) ? $userActions->getEmailByUsername($username) : $email
 $username = ($username == null) ? $userActions->getUsernameByEmail($email) : $username;
 echo $userActions->checkForSpecificUsername($username)[0];
 
-$generatedPass = substr((md5(microtime())), rand(0, 26), 8);
+$generatedPass = substr(bin2hex(random_bytes(8)), 0, 8);
 if ($userActions->changePassword($username, $generatedPass, $email)) {
     $receiver = $email;
     $subject = 'OPCMS - Your New Password';

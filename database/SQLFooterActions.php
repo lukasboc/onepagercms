@@ -58,7 +58,7 @@ class SQLFooterActions
         $pagesActions = new SQLAdditionalPagesActions();
         $footerPages = $pagesActions->getAllFooterPages();
 
-        for ($i = 0; $i < sizeof($footerPages); $i++) {
+        for ($i = 0; $i < count($footerPages); $i++) {
             echo "
             <li class=\"list-inline-item\">
                 <a href=\"additionalpage.php?id=" . $footerPages[$i]['id'] . "\">" . $footerPages[$i]['title'] . "</a>

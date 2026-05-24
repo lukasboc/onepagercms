@@ -18,7 +18,7 @@ if(isset($_GET['id'])){
 
     $title = $section->getTitle();
     $mutedTitle = $section->getMutedtitle();
-    $iconamount = sizeof($section->getIcons());
+    $iconamount = count($section->getIcons());
     $icons = $section->getIcons();
     $iconheadlines = $section->getIconHeadline();
     $icontexts = $section->getIconTexts();

@@ -25,7 +25,7 @@ if ($userActions->checkForSpecificEmail($email)[0] != 0) {
     die();
 }
 
-$generatedPass = substr((md5(microtime())), rand(0, 26), 8);
+$generatedPass = substr(bin2hex(random_bytes(8)), 0, 8);
 if ($userActions->register($username, $generatedPass, $email)) {
 // mehrere Empfänger
     $receiver = $email; // beachte das Komma
