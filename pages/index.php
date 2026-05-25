@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
 <?php
 include '../database/SQLUserActions.php';
 $useractions = new SQLUserActions();
 if (count($useractions->getAllUsernames()) === 0) {
     header('Location: ../core/install.php');
+    die();
 }
-
-
+?>
+<!DOCTYPE html>
+<html lang="en">
+<?php
 include '../database/SQLSectionActions.php';
 include '../database/SQLHeaderActions.php';
 include_once '../database/SQLSettingActions.php';

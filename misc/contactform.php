@@ -42,8 +42,10 @@ $message = '
 // für HTML-E-Mails muss der 'Content-type'-Header gesetzt werden
 $header[] = 'MIME-Version: 1.0';
 $header[] = 'Content-type: text/html; charset=utf-8';
-
-// zusätzliche Header
+$header[] = 'From: noreply@' . $_SERVER['SERVER_NAME'];
+if (!empty($input_data['email'])) {
+    $header[] = 'Reply-To: ' . $input_data['email'];
+}
 
 // verschicke die E-Mail
 (mail($receiver, $subject, $message, implode("\r\n", $header))) ? header('Location: ../misc/success.php?reason=emailsent') : header('Location: ../misc/error.php?reason=emailnotsent');

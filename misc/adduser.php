@@ -62,6 +62,7 @@ if ($userActions->register($username, $generatedPass, $email)) {
 // für HTML-E-Mails muss der 'Content-type'-Header gesetzt werden
     $header[] = 'MIME-Version: 1.0';
     $header[] = 'Content-type: text/html; charset=iso-8859-1';
+    $header[] = 'From: noreply@' . $_SERVER['SERVER_NAME'];
 
 // zusätzliche Header
 

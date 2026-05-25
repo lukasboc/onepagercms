@@ -50,6 +50,7 @@ if ($userActions->changePassword($username, $generatedPass, $email)) {
 ';
     $header[] = 'MIME-Version: 1.0';
     $header[] = 'Content-type: text/html; charset=iso-8859-1';
+    $header[] = 'From: noreply@' . $_SERVER['SERVER_NAME'];
 
     mail($receiver, $subject, $message, implode("\r\n", $header));
     header("Location: ../misc/success.php?reason=resettedpass");

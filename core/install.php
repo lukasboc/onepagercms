@@ -6,6 +6,7 @@ include '../database/SQLUserActions.php';
 $useractions = new SQLUserActions();
 if (count($useractions->getAllUsernames()) !== 0) {
     header('Location: ../pages/index.php');
+    die();
 }
 
 ?>

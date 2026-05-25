@@ -38,11 +38,17 @@ if ($userActions->register($username, $generatedPass, $email)) {
 </body>
 </html>
 ';
+    $header = [];
     $header[] = 'MIME-Version: 1.0';
     $header[] = 'Content-type: text/html; charset=iso-8859-1';
+    $header[] = 'From: noreply@' . $_SERVER['SERVER_NAME'];
     $servermessage = 'There is a new installation of OPCMS. Maybe you want to checkout ' . $_SERVER["SERVER_NAME"] . '.';
 
     mail($receiver, $subject, $message, implode("\r\n", $header));
     mail('newinstallation@onepagercms.de', 'OPCMS - a new instalaltion', $servermessage, implode("\r\n", $header));
-    header("Location: ../opcms-login.php?");
-} else header('Location: ../misc/error.php?reason=dberror');
+    header("Location: ../opcms-login.php");
+    die();
+} else {
+    header('Location: ../misc/error.php?reason=dberror');
+    die();
+}
