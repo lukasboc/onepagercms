@@ -44,6 +44,7 @@ if ($useractions->changeEmail($username, $password, $newEmailOne)) {
 </html>';
     $header[] = 'MIME-Version: 1.0';
     $header[] = 'Content-type: text/html; charset=iso-8859-1';
+    $header[] = 'From: noreply@' . $_SERVER['SERVER_NAME'];
     mail($receiver, $subject, $message, implode("\r\n", $header));
     header('Location: ../core/success.php?reason=emailchanged');
 } else header('Location: ../core/error.php?reason=dberror');

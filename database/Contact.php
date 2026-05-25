@@ -21,6 +21,7 @@ class Contact
     private $message;
     private $captcha;
     private $superid;
+    private $phone;
 
     private $background;
     private $receiverMail;

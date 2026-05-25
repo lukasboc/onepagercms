@@ -1,0 +1,5 @@
+# Node
+pages/node_modules/
+
+# Vendor (Frontend-Assets via CDN)
+pages/vendor/

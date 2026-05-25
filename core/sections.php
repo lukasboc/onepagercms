@@ -55,7 +55,7 @@ $sections = $sectionactions->getAllSections();
         <option selected disabled>'. $sections[$i]->getPosition() . '</option>
 
       ';
-        for($h=1; sizeof($sections)+1 > $h; $h++){
+        for($h=1; count($sections)+1 > $h; $h++){
         echo'
          <option value="' . $h . '">' . $h . '</option>
         ';

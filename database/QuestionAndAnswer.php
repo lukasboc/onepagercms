@@ -24,6 +24,7 @@ class QuestionAndAnswer
         $this->id = $id;
         $this->question = $question;
         $this->answer = $answer;
+        $this->category = $category;
     }
 
     /**

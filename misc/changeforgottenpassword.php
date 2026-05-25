@@ -20,7 +20,7 @@ $email = ($email == null) ? $userActions->getEmailByUsername($username) : $email
 $username = ($username == null) ? $userActions->getUsernameByEmail($email) : $username;
 echo $userActions->checkForSpecificUsername($username)[0];
 
-$generatedPass = substr((md5(microtime())), rand(0, 26), 8);
+$generatedPass = substr(bin2hex(random_bytes(8)), 0, 8);
 if ($userActions->changePassword($username, $generatedPass, $email)) {
     $receiver = $email;
     $subject = 'OPCMS - Your New Password';
@@ -50,6 +50,7 @@ if ($userActions->changePassword($username, $generatedPass, $email)) {
 ';
     $header[] = 'MIME-Version: 1.0';
     $header[] = 'Content-type: text/html; charset=iso-8859-1';
+    $header[] = 'From: noreply@' . $_SERVER['SERVER_NAME'];
 
     mail($receiver, $subject, $message, implode("\r\n", $header));
     header("Location: ../misc/success.php?reason=resettedpass");

@@ -8,7 +8,7 @@
 <h1>Welcome to OP-CMS!</h1>
     <h2>News</h2>
     <?php
-    $rss_feed = simplexml_load_string(file_get_contents('http://onepagercms.de/rss/OnePagerCMS.xml'));
+    $rss_feed = simplexml_load_string(file_get_contents('https://onepagercms.de/rss/OnePagerCMS.xml'));
     if ($rss_feed !== null) {
         $i = 0;
         foreach ($rss_feed->channel->item as $feed_item) {

@@ -192,7 +192,7 @@ class SQLSectionActions implements ISectionActions
     public function showAllSections()
     {
         $sectionarray = $this->getAllSections();
-        if (sizeof($sectionarray) > 0) {
+        if (count($sectionarray) > 0) {
             foreach ($sectionarray as $i => $iValue) {
                 if ($i % 2 == 0) {
                     $bgcolor = '';

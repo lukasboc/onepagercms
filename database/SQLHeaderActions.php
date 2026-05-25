@@ -15,7 +15,7 @@ class SQLHeaderActions
         <div class=\"intro-text\">
             <div class=\"intro-lead-in\">" . $this->getHeaderMutedTitle() . "</div>
             <h1><div class=\"intro-heading text-uppercase\">" . $this->getHeaderTitle() . "</div></h1>";
-        if ($this->getBackground() != "" || $this->getBackground() != null) {
+        if ($this->getCustomRow() !== null && $this->getCustomRow() !== "") {
             echo "<div class=\"intro-custom\">" . $this->getCustomRow() . "</div>";
         }
         echo "

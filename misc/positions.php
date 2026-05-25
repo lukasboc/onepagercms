@@ -6,7 +6,7 @@ $positions = Array();
 foreach ($_POST as $key => $value) {
     $positions[$key] = $value;
 }
-if (sizeof($positions) == 1) {
+if (count($positions) == 1) {
     header('Location: ../core/error.php?reason=criticalinput');
     die();
 }
