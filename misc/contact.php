@@ -43,12 +43,7 @@ if (isset($_GET['id'])) {
 
 <?php include_once "../core/inc/header.php" ?>
 
-<div class="container">
-    <div class="row">
-        <div class="col">
-
-        </div>
-        <div class="col-6">
+<div class="container" id="backendFormContainer">
             <h1><?php echo "$headline" ?> Contact-Section</h1>
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
                 <div class="form-group">
@@ -165,8 +160,6 @@ if (isset($_GET['id'])) {
             </form>
 
         </div>
-        <div class="col"></div>
-    </div>
-</div>
+
 </body>
 </html>

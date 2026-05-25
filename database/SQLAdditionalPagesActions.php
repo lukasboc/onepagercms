@@ -91,7 +91,7 @@ class SQLAdditionalPagesActions
             $count = $db->prepare('SELECT * FROM additionalPages ORDER BY id DESC LIMIT 1;');
             $count->execute();
             $number_of_rows = $count->fetch();
-            $number = $number_of_rows['specialid'] + 1;
+            $number = $number_of_rows['id'] + 1;
 
             $insert = $db->prepare('INSERT INTO additionalPages (id, title, content, showInFooter) VALUES (:id, :title, :content, :showInFooter)');
             $insert->bindValue(':id', $number);

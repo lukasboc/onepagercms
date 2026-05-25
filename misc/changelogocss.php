@@ -4,7 +4,7 @@ include "../database/SQLSettingActions.php";
 $logocss = $_POST['logocss'] ?? null;
 $settingactions = new SQLSettingActions();
 
-if ($logocss == null || strlen($logocss === 0)) {
+if ($logocss === null || strlen($logocss) === 0) {
     header('Location: ../core/error.php?reason=criticalinput');
     die();
 }

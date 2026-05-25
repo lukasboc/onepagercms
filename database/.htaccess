@@ -1,0 +1,3 @@
+<Files "SQLiteDatabase.db">
+  Require all denied
+</Files>

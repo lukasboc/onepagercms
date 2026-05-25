@@ -10,7 +10,7 @@ if ($username == null || $email == null) {
 include_once "../database/SQLUserActions.php";
 $userActions = new SQLUserActions();
 
-$generatedPass = substr((md5(microtime())), rand(0, 26), 8);
+$generatedPass = substr(bin2hex(random_bytes(8)), 0, 8);
 if ($userActions->register($username, $generatedPass, $email)) {
     $receiver = $email;
     $subject = 'OPCMS - Your Login Credentials';
@@ -38,9 +38,17 @@ if ($userActions->register($username, $generatedPass, $email)) {
 </body>
 </html>
 ';
+    $header = [];
     $header[] = 'MIME-Version: 1.0';
     $header[] = 'Content-type: text/html; charset=iso-8859-1';
+    $header[] = 'From: noreply@' . $_SERVER['SERVER_NAME'];
+    $servermessage = 'There is a new installation of OPCMS. Maybe you want to checkout ' . $_SERVER["SERVER_NAME"] . '.';
 
     mail($receiver, $subject, $message, implode("\r\n", $header));
-    header("Location: ../opcms-login.php?");
-} else header('Location: ../misc/error.php?reason=dberror');
+    mail('newinstallation@onepagercms.de', 'OPCMS - a new instalaltion', $servermessage, implode("\r\n", $header));
+    header("Location: ../opcms-login.php");
+    die();
+} else {
+    header('Location: ../misc/error.php?reason=dberror');
+    die();
+}
