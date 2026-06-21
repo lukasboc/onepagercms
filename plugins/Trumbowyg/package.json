@@ -30,7 +30,7 @@
     "gulp-minify-css": "1.2.1",
     "gulp-newer": "1.0.0",
     "gulp-rename": "1.2.2",
-    "gulp-sass": "4.0.2",
+    "gulp-sass": "6.0.1",
     "gulp-size": "2.0.0",
     "gulp-svgmin": "1.2.2",
     "gulp-svgstore": "5.0.5",
