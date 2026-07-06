@@ -21,4 +21,4 @@ For example the login to the OPCMS demo page can be found here:
 https://demo.onepagercms.de/opcms-login.php
 
 ## Can I support you?
-Sure. You would help a lot, if you report every possible bug that you find. We would prefer you to create an issue on our GitHub page. But you can also fill out the contact form on [https://onepagercms.de](https://onepagercms.de). You can also support the project financially by [https://www.buymeacoffee.com/lukasboc](buying me a coffee).
+Sure. You would help a lot, if you report every possible bug that you find. We would prefer you to create an issue on our GitHub page. But you can also fill out the contact form on [https://onepagercms.de](https://onepagercms.de). You can also support the project financially by [buying me a coffee](https://www.buymeacoffee.com/lukasboc).
