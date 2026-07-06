@@ -78,6 +78,29 @@ $sections = $sectionactions->getAllSections();
     </div>
   </div>';
 }
+foreach ($sectionactions->getOrphanSectionRows() as $opcmsOrphanRow) {
+    echo '
+  <div class="row text-muted">
+    <div class="col-2 col-sm-2 col-md-2 col-lg-1 sectioncolfix">
+     <div class="form-group">
+      <select class="form-control" disabled>
+        <option selected>' . htmlspecialchars((string)$opcmsOrphanRow['position']) . '</option>
+      </select>
+      </div>
+    </div>
+    <div class="col-3 col-sm-2">
+      ' . htmlspecialchars($opcmsOrphanRow['type']) . '
+    </div>
+    <div class="col-3 col-sm-5 col-md-5 col-lg-6">
+      <em>unavailable &mdash; plugin inactive</em>
+    </div>
+    <div class="col-3">
+<div class="btn-group">
+      <a href="../misc/deletesectionentry.php?id=' . urlencode($opcmsOrphanRow['id']) . '" class="btn btn-light" role="button" onclick="return confirm(\'Remove this orphaned section entry? The plugin\\\'s own data is not touched.\');"><i class="far fa-trash-alt"></i></a>
+</div>
+    </div>
+  </div>';
+}
 ?>
         <div class="row pb-3">
             <div class="col-2 col-sm-2 col-md-2 col-lg-1 sectioncolfix">
@@ -104,6 +127,13 @@ $sections = $sectionactions->getAllSections();
         <option>standard</option>
         <option>icons</option>
         <option>contact</option>
+<?php
+if (function_exists('opcms_get_section_types')) {
+    foreach (opcms_get_section_types() as $opcmsSectionType => $opcmsSectionTypeConfig) {
+        echo '        <option value="' . htmlspecialchars($opcmsSectionType) . '">' . htmlspecialchars($opcmsSectionTypeConfig['label']) . '</option>' . "\n";
+    }
+}
+?>
     </select>
     </div>
         <input type="submit" name="action" value="New Section" class="btn btn-success">

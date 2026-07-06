@@ -87,6 +87,7 @@ $value = apply_filters($hook, $value, ...$args);
 | `opcms_admin_nav_items` | filter | array of `['label' => ..., 'href' => ...]` nav entries |
 | `opcms_admin_pages` | filter | map `pageslug => ['title' => ..., 'render' => callable]` |
 | `opcms_admin_footer` | action | before the admin footer |
+| `opcms_extension_handlers` | filter | map `handlerslug => callable` — POST handlers dispatched by `misc/extension.php?handler=<slug>` (session-guarded, runs before any output so the callback can redirect via `header()`) |
 
 A plugin admin page registered via `opcms_admin_pages` is reachable at
 `core/extension.php?page=<pageslug>`; add a matching nav item via
@@ -108,6 +109,75 @@ the core uses). Clean up in the uninstall hook.
   and classes with your slug to avoid collisions.
 - Plugin code runs with full CMS privileges. Marketplace submissions are
   reviewed, but users should only install code they trust.
+
+## Custom section types
+
+Plugins can register entirely new section types (e.g. Portfolio, image gallery)
+that behave like the built-in ones: they appear in the "New Section" dropdown,
+get their own admin form, participate in position ordering and navigation, and
+render on the one-pager.
+
+```php
+opcms_register_section_type('gallery', array(
+    'label'    => 'Image Gallery',      // shown in the New Section dropdown
+    'build'    => function (array $registryRow) { ... },
+    'render'   => function ($section, $bgcolor, $index) { return '<section>...</section>'; },
+    'form_url' => '../core/extension.php?page=gallery-form',
+));
+```
+
+Registration rules: call it at the top level of your main file (it must run on
+every request). The type name must match `^[a-z0-9][a-z0-9-]{1,49}$`, must not
+be `standard`/`icons`/`contact`, and the first registration of a name wins —
+the function returns `false` on any conflict. Accessors:
+`opcms_get_section_types()` and `opcms_get_section_type($type)`.
+
+### How the pieces fit together
+
+- **Storage**: the core `sections` table is only a registry (`id`, `type`,
+  `specialid`, `position`). Your plugin owns its data table (create it in the
+  activate hook with `CREATE TABLE IF NOT EXISTS`). To create a section: insert
+  your data row first (allocate `specialid` as max+1 of *your* table), then call
+  `SQLSectionActions::addSectionEntry($type, $specialid)` — that order never
+  leaves a dangling registry row.
+- **`build`** (required): called for every registry row of your type with
+  `array('id' => ..., 'type' => ..., 'specialid' => ..., 'position' => ...)`.
+  Return a `PluginSection` (or `null` to skip the section):
+  `new PluginSection($type, $registryRow['id'], $registryRow['position'], $title, $dataBag)`.
+  The object exposes `getType/getSuperid/getPosition/getTitle`, plus
+  `get($key, $default)` / `getData()` for your fields. Because your sections go
+  through the same pipeline as built-ins, navigation links and position
+  ordering work automatically. Use the section title as the `id` attribute of
+  your `<section>` element so the nav anchor (`index.php#<title>`) works.
+- **`render`** (optional): returns the frontend HTML
+  (`function ($section, $bgcolor, $index)`; prepend `$bgcolor` to your section
+  class for the alternating background). If the active theme ships a
+  `templates/section-<type>.php` template, **the theme template wins** and your
+  callback is not called — that is how themes can restyle plugin sections.
+  Without both, the section renders empty (the `opcms_section_html` filter
+  still runs).
+- **`form_url`** (required): where the admin is redirected for New/Edit/Delete.
+  Core appends `action=New|Edit|Delete` and (for Edit/Delete) `id=<sections.id>`
+  — `?` vs `&` is auto-detected. Typically this is an `opcms_admin_pages` page
+  (`../core/extension.php?page=...`). Map `id` to your `specialid` via
+  `SQLSectionActions::getSectionRow($id)`. Render Delete as a readonly
+  confirmation form, like the built-in types do.
+- **Saving**: point your form's POST at
+  `../misc/extension.php?handler=<yourslug>` and register the callback via the
+  `opcms_extension_handlers` filter. The dispatcher checks the admin session and
+  runs before any output, so your handler can finish with a
+  `header('Location: ../core/sections.php')` (or
+  `../core/success.php?reason=sectionchanged`) redirect.
+- **Cleanup**: in your uninstall hook, drop your table and call
+  `SQLSectionActions::deleteSectionEntriesByType($type)`.
+- **Deactivation semantics**: while your plugin is inactive, the frontend
+  silently skips your sections (no errors, no nav entries). The admin Sections
+  page lists them greyed out with a delete-only button so users can remove
+  orphans — deleting there only removes the registry row, never your data.
+
+A complete working reference is the **gallery-example** plugin (separate
+repository next to the CMS): title + image-URL list rendered as a responsive
+grid, with activate/uninstall hooks, admin form and POST handler.
 
 ## Themes
 

@@ -6,11 +6,11 @@
  * Time: 21:54
  */
 
-include "../database/ISectionActions.php";
-include "../database/Standard.php";
-include "../database/Icons.php";
-include "../database/Contact.php";
-include "../database/SQLSettingActions.php";
+include_once "../database/ISectionActions.php";
+include_once "../database/Standard.php";
+include_once "../database/Icons.php";
+include_once "../database/Contact.php";
+include_once "../database/SQLSettingActions.php";
 
 class SQLSectionActions implements ISectionActions
 {
@@ -85,6 +85,26 @@ class SQLSectionActions implements ISectionActions
 
                 $contact = new Contact($selection[0][0], $iValue[3], $selection[0][2], $selection[0][3], $selection[0][4], $selection[0][5], $selection[0][6], $selection[0][7], $selection[0][8], $selection[0][9], $selection[0][10], $superid[0]['id'], $selection[0]['background'], $selection[0]['receiverMail']);
                 $secation_array[] = $contact;
+            }
+
+            if ($iValue[1] !== 'standard' && $iValue[1] !== 'icons' && $iValue[1] !== 'contact'
+                    && function_exists('opcms_get_section_type')) {
+                $opcmsTypeConfig = opcms_get_section_type($iValue[1]);
+                if ($opcmsTypeConfig !== null) {
+                    try {
+                        $opcmsBuilt = call_user_func($opcmsTypeConfig['build'], array(
+                            'id' => $iValue['id'],
+                            'type' => $iValue['type'],
+                            'specialid' => $iValue['specialid'],
+                            'position' => $iValue['position'],
+                        ));
+                        if (is_object($opcmsBuilt)) {
+                            $secation_array[] = $opcmsBuilt;
+                        }
+                    } catch (Throwable $opcmsBuildError) {
+                        // A broken plugin section must not take the page down.
+                    }
+                }
             }
         }
         return $secation_array;
@@ -204,7 +224,17 @@ class SQLSectionActions implements ISectionActions
                 foreach ($sectionarray as $i => $iValue) {
                     $bgcolor = ($i % 2 == 0) ? '' : 'bg-light ';
                     $template = 'section-' . $iValue->getType();
-                    $html = opcms_theme()->capture($template, array('section' => $iValue, 'bgcolor' => $bgcolor, 'index' => $i));
+                    if (opcms_theme()->hasTemplate($template)) {
+                        $html = opcms_theme()->capture($template, array('section' => $iValue, 'bgcolor' => $bgcolor, 'index' => $i));
+                    } else {
+                        $html = '';
+                        if (function_exists('opcms_get_section_type')) {
+                            $opcmsTypeConfig = opcms_get_section_type($iValue->getType());
+                            if ($opcmsTypeConfig !== null && isset($opcmsTypeConfig['render']) && is_callable($opcmsTypeConfig['render'])) {
+                                $html = (string)call_user_func($opcmsTypeConfig['render'], $iValue, $bgcolor, $i);
+                            }
+                        }
+                    }
                     echo function_exists('apply_filters') ? apply_filters('opcms_section_html', $html, $iValue, $i) : $html;
                 }
             } else {
@@ -229,6 +259,11 @@ class SQLSectionActions implements ISectionActions
                     $this->showIconsSection($i, $bgcolor, $sectionarray);
                 } elseif ($iValue->getType() === 'contact') {
                     $this->showContactSection($i, $bgcolor, $sectionarray);
+                } elseif (function_exists('opcms_get_section_type')) {
+                    $opcmsTypeConfig = opcms_get_section_type($iValue->getType());
+                    if ($opcmsTypeConfig !== null && isset($opcmsTypeConfig['render']) && is_callable($opcmsTypeConfig['render'])) {
+                        echo (string)call_user_func($opcmsTypeConfig['render'], $iValue, $bgcolor, $i);
+                    }
                 }
             }
         } else {
@@ -893,6 +928,100 @@ class SQLSectionActions implements ISectionActions
             return $update->execute() ? true : false;
         } catch (Exception $exception) {
             echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
+
+    // Generic registry helpers for plugin-provided section types.
+    // Plugins own their data tables: insert the data row (specialid = max+1 of
+    // their own table) first, then call addSectionEntry with that specialid.
+
+    public function addSectionEntry($type, $specialid): bool
+    {
+        include '../database/connect.php';
+        try {
+            $ncount = $db->prepare('SELECT * FROM sections ORDER BY id DESC LIMIT 1;');
+            $ncount->execute();
+            $tnumber_of_rows = $ncount->fetch();
+            $gnumber = $tnumber_of_rows['id'] + 1;
+
+            $maxpos = $db->prepare('SELECT * FROM sections ORDER BY position DESC LIMIT 1;');
+            $maxpos->execute();
+            $maximumposition = $maxpos->fetch();
+            $newposition = $maximumposition['position'] + 1;
+
+            $section = $db->prepare('INSERT INTO sections (`id`, `type`, `specialid`, `position`) VALUES (:id, :type, :specialid, :position)');
+            $section->bindValue(':id', $gnumber);
+            $section->bindValue(':type', $type);
+            $section->bindValue(':specialid', $specialid);
+            $section->bindValue(':position', $newposition);
+            return $section->execute() ? true : false;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+            return false;
+        }
+    }
+
+    public function deleteSectionEntry($id): bool
+    {
+        include '../database/connect.php';
+        try {
+            $delete = $db->prepare('DELETE FROM sections WHERE `id` = :id');
+            $delete->bindValue(':id', $id);
+            return $delete->execute() ? true : false;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+            return false;
+        }
+    }
+
+    public function deleteSectionEntriesByType($type): bool
+    {
+        include '../database/connect.php';
+        try {
+            $delete = $db->prepare('DELETE FROM sections WHERE `type` = :type');
+            $delete->bindValue(':type', $type);
+            return $delete->execute() ? true : false;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+            return false;
+        }
+    }
+
+    public function getSectionRow($id): ?array
+    {
+        include '../database/connect.php';
+        try {
+            $select = $db->prepare('SELECT * FROM sections WHERE id = :id');
+            $select->bindValue(':id', $id);
+            $select->execute();
+            $row = $select->fetch(PDO::FETCH_ASSOC);
+            return ($row === false) ? null : $row;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+            return null;
+        }
+    }
+
+    public function getOrphanSectionRows(): array
+    {
+        include '../database/connect.php';
+        try {
+            $select = $db->prepare('SELECT * FROM sections ORDER BY position');
+            $select->execute();
+            $orphans = array();
+            foreach ($select->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                if (in_array($row['type'], array('standard', 'icons', 'contact'), true)) {
+                    continue;
+                }
+                if (function_exists('opcms_get_section_type') && opcms_get_section_type($row['type']) !== null) {
+                    continue;
+                }
+                $orphans[] = $row;
+            }
+            return $orphans;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+            return array();
         }
     }
 }

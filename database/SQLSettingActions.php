@@ -17,7 +17,7 @@ class SQLSettingActions
             $select->bindValue(':setting', $setting);
             $select->execute();
             $value = $select->fetch();
-            return $value[0];
+            return ($value === false) ? null : $value[0];
         } catch (Exception $exception) {
             echo 'Something went wrong: ' . $exception->getMessage();
         }
@@ -61,6 +61,19 @@ class SQLSettingActions
             $statement->bindValue(':setting', $setting);
             $statement->bindValue(':value', $value);
             return $statement->execute() ? true : false;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+            return false;
+        }
+    }
+
+    public function deleteSettingsByPrefix($prefix): bool
+    {
+        include '../database/connect.php';
+        try {
+            $delete = $db->prepare("DELETE FROM settings WHERE setting LIKE :pattern ESCAPE '\\'");
+            $delete->bindValue(':pattern', str_replace(array('\\', '%', '_'), array('\\\\', '\\%', '\\_'), $prefix) . '%');
+            return $delete->execute() ? true : false;
         } catch (Exception $exception) {
             echo 'Something went wrong: ' . $exception->getMessage();
             return false;

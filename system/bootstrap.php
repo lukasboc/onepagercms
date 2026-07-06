@@ -10,6 +10,9 @@ require_once __DIR__ . '/hooks.php';
 if (is_file(__DIR__ . '/ThemeEngine.php')) {
     require_once __DIR__ . '/ThemeEngine.php';
 }
+if (is_file(__DIR__ . '/sections.php')) {
+    require_once __DIR__ . '/sections.php';
+}
 
 if (class_exists('ThemeEngine') && !function_exists('opcms_theme')) {
     function opcms_theme(): ThemeEngine

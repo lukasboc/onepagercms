@@ -6,7 +6,7 @@
  * Time: 11:58
  */
 
-include "../database/QuestionAndAnswer.php";
+include_once "../database/QuestionAndAnswer.php";
 
 class SQLFAQActions
 {

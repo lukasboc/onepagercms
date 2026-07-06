@@ -160,6 +160,10 @@ if ($activeTab === 'marketplace' && $httpAvailable) {
                        value="<?php echo htmlspecialchars($marketplaceSearch) ?>">
                 <input type="submit" class="btn btn-primary" value="Search">
             </form>
+            <form class="mb-4" method="post" action="../misc/marketplacerefresh.php"
+                  title="Marketplace results are cached for a few hours; refresh to fetch the latest listings.">
+                <input type="submit" class="btn btn-sm btn-outline-secondary" value="Refresh listings">
+            </form>
 
             <?php if (!$httpAvailable): ?>
                 <div class="alert alert-warning">The marketplace cannot be reached because this server has no HTTP client available.</div>
