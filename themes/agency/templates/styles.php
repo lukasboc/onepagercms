@@ -1,34 +1,3 @@
-<?php
-include '../database/SQLUserActions.php';
-$useractions = new SQLUserActions();
-if (count($useractions->getAllUsernames()) === 0) {
-    header('Location: ../core/install.php');
-    die();
-}
-require_once '../system/bootstrap.php';
-include '../database/SQLSectionActions.php';
-include '../database/SQLHeaderActions.php';
-include_once '../database/SQLSettingActions.php';
-include_once '../database/SQLFooterActions.php';
-$sectionactions = new SQLSectionActions();
-$headeractions = new SQLHeaderActions();
-$footeractions = new SQLFooterActions();
-$settingactions = new SQLSettingActions();
-
-if (function_exists('opcms_theme') && opcms_theme()->hasTemplate('index')) {
-    opcms_theme()->render('index', array(
-        'sectionactions' => $sectionactions,
-        'headeractions' => $headeractions,
-        'footeractions' => $footeractions,
-        'settingactions' => $settingactions,
-    ));
-    return;
-}
-?>
-<!DOCTYPE html>
-<html lang="en">
-<?php require_once 'inc/head.php' ?>
-<body id="page-top">
 <style>
     .text-primary {
         color: <?php echo $settingactions->getSettingValue('text-primary') ?> !important
@@ -84,22 +53,5 @@ if (function_exists('opcms_theme') && opcms_theme()->hasTemplate('index')) {
         color: <?php echo $settingactions->getSettingValue('text-primary') ?>;
     }
 
-    <?php echo $settingactions->getSettingValue('custom-css') ?>
+    <?php echo apply_filters('opcms_custom_css', $settingactions->getSettingValue('custom-css')) ?>
 </style>
-<!-- Navigation -->
-<?php $sectionactions->showNavigation() ?>
-
-<!-- Header -->
-<?php $headeractions->showHeader() ?>
-
-<!-- Sections -->
-<?php $sectionactions->showAllSections() ?>
-
-<!-- Footer -->
-<?php $footeractions->showFooter() ?>
-
-<!-- Modal 1 -->
-<?php require_once 'inc/jsembed.php' ?>
-</body>
-
-</html>

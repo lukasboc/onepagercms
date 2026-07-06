@@ -5,6 +5,18 @@ if (!isset($_SESSION['profile'])) {
 } else {
     $userid = $_SESSION["profile"];
 }
+$opcmsPluginNavItems = '';
+if (function_exists('apply_filters')) {
+    foreach (apply_filters('opcms_admin_nav_items', array()) as $opcmsNavItem) {
+        if (!isset($opcmsNavItem['label'], $opcmsNavItem['href'])) {
+            continue;
+        }
+        $opcmsPluginNavItems .= '
+            <li class="nav-item">
+                <a class="nav-link" href="' . htmlspecialchars($opcmsNavItem['href']) . '">' . htmlspecialchars($opcmsNavItem['label']) . '</a>
+            </li>';
+    }
+}
 echo '
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">
@@ -41,6 +53,9 @@ echo '
             <li class="nav-item">
                 <a class="nav-link" href="../core/faq.php">FAQ</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../core/extensions.php">Extensions</a>
+            </li>' . $opcmsPluginNavItems . '
             <li class="nav-item">
                 <a class="nav-link" href="../core/logout.php">Logout</a>
             </li>

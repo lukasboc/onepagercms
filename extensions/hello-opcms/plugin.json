@@ -1,0 +1,15 @@
+{
+  "slug": "hello-opcms",
+  "type": "plugin",
+  "name": "Hello OPCMS",
+  "version": "1.0.0",
+  "description": "Sample plugin demonstrating the OnePagerCMS hook API.",
+  "author": "OnePagerCMS",
+  "author_url": "https://onepagercms.de",
+  "main": "hello-opcms.php",
+  "requires_opcms": "1.2.0",
+  "requires_php": "7.1",
+  "paid": false,
+  "update_endpoint": null,
+  "requires_license": false
+}

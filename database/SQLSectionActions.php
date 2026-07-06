@@ -192,6 +192,30 @@ class SQLSectionActions implements ISectionActions
     public function showAllSections()
     {
         $sectionarray = $this->getAllSections();
+
+        if (function_exists('opcms_theme') && opcms_theme()->hasTemplate('section-standard')) {
+            if (function_exists('apply_filters')) {
+                $sectionarray = apply_filters('opcms_sections', $sectionarray);
+            }
+            if (function_exists('do_action')) {
+                do_action('opcms_before_sections');
+            }
+            if (count($sectionarray) > 0) {
+                foreach ($sectionarray as $i => $iValue) {
+                    $bgcolor = ($i % 2 == 0) ? '' : 'bg-light ';
+                    $template = 'section-' . $iValue->getType();
+                    $html = opcms_theme()->capture($template, array('section' => $iValue, 'bgcolor' => $bgcolor, 'index' => $i));
+                    echo function_exists('apply_filters') ? apply_filters('opcms_section_html', $html, $iValue, $i) : $html;
+                }
+            } else {
+                opcms_theme()->render('sections-empty');
+            }
+            if (function_exists('do_action')) {
+                do_action('opcms_after_sections');
+            }
+            return;
+        }
+
         if (count($sectionarray) > 0) {
             foreach ($sectionarray as $i => $iValue) {
                 if ($i % 2 == 0) {
@@ -342,6 +366,17 @@ class SQLSectionActions implements ISectionActions
         $logo = $settingActions->getSettingValue('logo');
         $logoCSS = $settingActions->getSettingValue('logo_css');
         $title = $settingActions->getSettingValue('website-title');
+
+        if (function_exists('opcms_theme') && opcms_theme()->hasTemplate('nav')) {
+            if (function_exists('do_action')) {
+                do_action('opcms_before_nav');
+            }
+            opcms_theme()->render('nav', array('titles' => $titles, 'logo' => $logo, 'logoCSS' => $logoCSS, 'title' => $title));
+            if (function_exists('do_action')) {
+                do_action('opcms_after_nav');
+            }
+            return;
+        }
 
         echo '
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">

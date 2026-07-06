@@ -1,4 +1,7 @@
 <?php
+if (function_exists('do_action')) {
+    do_action('opcms_admin_footer');
+}
 echo '
 <footer class="footer">
     <div class="footer-backend text-center py-3">

@@ -1,35 +1,7 @@
-<?php
-require_once '../system/bootstrap.php';
-include_once '../database/SQLAdditionalPagesActions.php';
-include_once '../database/SQLSectionActions.php';
-include_once '../database/SQLFooterActions.php';
-$pagesActions = new SQLAdditionalPagesActions();
-$sectionactions = new SQLSectionActions();
-$settingactions = new SQLSettingActions();
-$footeractions = new SQLFooterActions();
-
-$id = $_GET['id'] ?? null;
-
-if ($id != null) {
-    $title = $pagesActions->getPagesEntry('title', $id);
-    $content = $pagesActions->getPagesEntry('content', $id);
-}
-
-if (function_exists('opcms_theme') && opcms_theme()->hasTemplate('page')) {
-    opcms_theme()->render('page', array(
-        'title' => isset($title) ? $title : null,
-        'content' => isset($content) ? $content : null,
-        'sectionactions' => $sectionactions,
-        'settingactions' => $settingactions,
-        'footeractions' => $footeractions,
-    ));
-    return;
-}
-?>
 <!DOCTYPE html>
 <html lang="de">
 
-<?php require_once "inc/head.php" ?>
+<?php $opcmsTheme->render('head', $opcmsData); ?>
 <body id="page-top">
 <style>
     .text-primary {
@@ -82,6 +54,6 @@ if (function_exists('opcms_theme') && opcms_theme()->hasTemplate('page')) {
 <!-- Footer -->
 <?php $footeractions->showFooter() ?>
 <!-- Modal 1 -->
-<?php require_once "inc/jsembed.php" ?>
+<?php $opcmsTheme->render('jsembed', $opcmsData); do_action('opcms_body_end'); ?>
 </body>
 </html>

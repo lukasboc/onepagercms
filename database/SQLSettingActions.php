@@ -41,6 +41,32 @@ class SQLSettingActions
         }
     }
 
+    public function setSettingValue($setting, $value): bool
+    {
+        include '../database/connect.php';
+        try {
+            $select = $db->prepare('SELECT count(*) FROM settings WHERE setting = :setting;');
+            $select->bindValue(':setting', $setting);
+            $select->execute();
+            $exists = ((int)$select->fetch()[0]) > 0;
+
+            if ($exists) {
+                $statement = $db->prepare('UPDATE settings SET value = :value WHERE setting = :setting;');
+            } else {
+                $ncount = $db->prepare('SELECT COALESCE(MAX(id), 0) + 1 FROM settings;');
+                $ncount->execute();
+                $statement = $db->prepare('INSERT INTO settings (`id`, `setting`, `value`) VALUES (:id, :setting, :value)');
+                $statement->bindValue(':id', (int)$ncount->fetch()[0]);
+            }
+            $statement->bindValue(':setting', $setting);
+            $statement->bindValue(':value', $value);
+            return $statement->execute() ? true : false;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+            return false;
+        }
+    }
+
     private function checkIfSettingExist($setting)
     {
         include '../database/connect.php';

@@ -10,6 +10,25 @@ class SQLFooterActions
 {
     public function showFooter()
     {
+        if (function_exists('opcms_theme') && opcms_theme()->hasTemplate('footer')) {
+            include_once "../database/SQLAdditionalPagesActions.php";
+            $pagesActions = new SQLAdditionalPagesActions();
+            opcms_theme()->render('footer', array(
+                'copyright' => $this->getFooterEntry('copyright'),
+                'twitterPage' => $this->getFooterEntry('twitter_page'),
+                'facebookPage' => $this->getFooterEntry('facebook_page'),
+                'linkedinPage' => $this->getFooterEntry('linkedin_page'),
+                'customIcon' => $this->getFooterEntry('custom_icon'),
+                'customPage' => $this->getFooterEntry('custom_page'),
+                'custom' => $this->getFooterEntry('custom'),
+                'footerPages' => $pagesActions->getAllFooterPages(),
+            ));
+            if (function_exists('do_action')) {
+                do_action('opcms_footer');
+            }
+            return;
+        }
+
         echo "
         <footer class=\"footer\">
     <div class=\"container\">

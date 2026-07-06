@@ -87,6 +87,40 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
         </div>
     </form>
 
+    <h2>Themes</h2>
+    <div class="row">
+        <?php
+        $activeThemeSlug = (function_exists('opcms_theme')) ? opcms_theme()->getActiveTheme() : 'agency';
+        foreach (glob('../themes/*/theme.json') as $themeManifestPath) {
+            $themeManifest = json_decode(file_get_contents($themeManifestPath), true);
+            if (!is_array($themeManifest) || empty($themeManifest['slug'])) {
+                continue;
+            }
+            $themeSlug = $themeManifest['slug'];
+            $themeDir = dirname($themeManifestPath);
+            $isActiveTheme = ($themeSlug === $activeThemeSlug);
+            ?>
+            <div class="col-md-4 mb-4">
+                <div class="card<?php if ($isActiveTheme) echo ' border-success'; ?>">
+                    <?php if (file_exists($themeDir . '/screenshot.png')): ?>
+                        <img src="<?php echo htmlspecialchars($themeDir . '/screenshot.png') ?>" class="card-img-top" alt="Theme screenshot">
+                    <?php endif; ?>
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo htmlspecialchars(isset($themeManifest['name']) ? $themeManifest['name'] : $themeSlug) ?></h5>
+                        <p class="card-text"><small class="text-muted">Version <?php echo htmlspecialchars(isset($themeManifest['version']) ? $themeManifest['version'] : '?') ?></small></p>
+                        <?php if ($isActiveTheme): ?>
+                            <span class="badge badge-success">Active</span>
+                        <?php else: ?>
+                            <form method="post" action="../misc/activatetheme.php">
+                                <input type="hidden" name="slug" value="<?php echo htmlspecialchars($themeSlug) ?>">
+                                <input type="submit" class="btn btn-sm btn-primary" value="Activate">
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
 
 </div>
 

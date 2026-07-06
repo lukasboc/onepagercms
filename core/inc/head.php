@@ -1,4 +1,5 @@
 <?php
+require_once '../system/bootstrap.php';
 echo '
 <head>
     <title>OP-CMS</title>
@@ -9,6 +10,7 @@ echo '
     <link rel="stylesheet" href="../css/customCSS.css">
     <link rel="stylesheet" href="../plugins/Trumbowyg/dist/ui/trumbowyg.min.css">';
 if (file_exists('../img/favicon/opcms48x48.ico')) echo "<link rel=\"shortcut icon\" href=\"../img/favicon/opcms48x48.ico\">";
+do_action('opcms_admin_head');
 echo '
 </head>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
