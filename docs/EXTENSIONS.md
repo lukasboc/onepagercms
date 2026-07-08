@@ -21,7 +21,8 @@ themes/<slug>/            one directory per theme
 ```
 
 `plugins/` (lowercase, in the web root) is **not** related to this system — it holds
-vendored JS libraries for the admin backend (Trumbowyg etc.).
+vendored libraries for the admin backend (Trumbowyg, jQuery, Font Awesome Free),
+each with its license file.
 
 ## Manifest (plugin.json / theme.json)
 
@@ -94,6 +95,56 @@ $value = apply_filters($hook, $value, ...$args);
 A plugin admin page registered via `opcms_admin_pages` is reachable at
 `core/extension.php?page=<pageslug>`; add a matching nav item via
 `opcms_admin_nav_items` with `href => '../core/extension.php?page=<pageslug>'`.
+Nav items render as entries in the admin sidebar menu (same array shape as
+before 1.2.0).
+
+### Admin design system (since 1.2.0)
+
+The admin backend is styled with **Tailwind CSS 4 + daisyUI 5** (compiled into
+`css/admin.css`; rebuilt from `dev/admin.src.css`, see `dev/README.md`).
+**Bootstrap 4 was removed in 1.2.0** — this is a breaking change for plugin
+admin pages that relied on Bootstrap classes. Some names coincidentally still
+work because daisyUI uses them too (`btn btn-primary`, `alert alert-warning`,
+`badge badge-info`, `card`/`card-body`/`card-title`, `table`), but others do
+not: `alert-danger` is now `alert-error`, and `form-group`/`form-control`,
+`row`/`col-*`, `custom-file`, `input-group` have no effect anymore.
+
+The admin sets `data-theme="light"` or `data-theme="dark"` on `<html>` (user
+toggle, defaults to the OS preference). Use daisyUI's semantic colors
+(`bg-base-100`, `bg-base-200`, `text-base-content`, `border-base-300`,
+`primary`, …) so your pages look right in both themes.
+
+What plugin admin pages may rely on:
+
+1. **All daisyUI 5 component classes** (buttons, cards, alerts, badges,
+   tables, tabs, modals, toggles, tooltips, …) — the full component set is
+   compiled in even where the core does not use it.
+2. **A safelist of common Tailwind utilities**, always compiled in (see
+   `dev/admin.src.css`, keep both lists in sync):
+   - spacing: `m*/p*`-`{0,1,2,3,4,5,6,8,10,12,16}` (all sides/axes, plus
+     `sm:`/`md:`/`lg:` variants)
+   - layout: `flex`, `grid`, `hidden`, `block`, `inline-block`,
+     `grid-cols-{1,2,3,4,6,12}`, `col-span-{1,2,3,4,6,12}` (with responsive
+     variants), `items-*`, `justify-*`, `gap-{1,2,3,4,6,8}`, `flex-row/col/wrap/1`,
+     `grow`, `shrink-0`, `mx-auto`, `space-y-*`, `space-x-*`
+   - sizing: `w-full/auto/fit/1/2/1/3/2/3`, `max-w-{sm..4xl,full}`,
+     `h-full/auto`, `min-h-screen`
+   - text: `text-left/center/right`, `text-{xs..3xl}`,
+     `font-normal/medium/semibold/bold/mono`
+   - misc: `rounded*`, `border*`, `shadow*`, `overflow-*`, `opacity-{50,60,70,80}`
+3. **The `.container` wrapper** provided by `core/extension.php` around your
+   `render` output (centered column, max-width, padding).
+4. **Globally loaded scripts/styles**: jQuery 3.7 (full), Trumbowyg core
+   (JS + CSS, so `$('textarea').trumbowyg()` works out of the box) and
+   Font Awesome 5 icons.
+5. **`opcms_admin_head` as escape hatch** — inject your own `<style>`/`<link>`
+   /`<script>` there if you need anything beyond the lists above; arbitrary
+   Tailwind utilities NOT in the safelist are *not* guaranteed to exist in the
+   compiled CSS.
+
+Plain `<h1>`–`<h5>` and `<p>` get sensible default typography, so simple
+markup needs no classes at all. All admin hooks kept their signatures — only
+the surrounding design changed.
 
 ### Lifecycle hooks
 

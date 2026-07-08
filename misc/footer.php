@@ -28,96 +28,88 @@ $customIcon = $footeractions->getFooterEntry('custom_icon');
 <html>
 
 <?php include_once "../core/inc/head.php" ?>
+<body>
 
 <?php include_once "../core/inc/header.php" ?>
 
 <div class="container">
-    <div class="row">
-        <div class="col">
-
-        </div>
-        <div class="col-6">
             <h1><?php echo "$headline" ?> Footer-Section</h1>
 
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
-                <div class="form-group">
-                    <img class="img-fluid" src="<?php echo $backgroundimage ?>"><br>
-                    <label for="image-upload">Background-Image:</label>
-                    <input name="background-upload" class="form-control-file" type="file" <?php echo $disabled ?>>
+                <div class="mb-4">
+                    <img class="max-w-full rounded" src="<?php echo $backgroundimage ?>"><br>
+                    <label class="label" for="image-upload">Background-Image:</label>
+                    <input name="background-upload" class="file-input w-full" type="file" <?php echo $disabled ?>>
                 </div>
-                <div class="form-group">
+                <div class="mb-4">
 
-                    <input type='submit' class="btn btn-secondary" name='upload'
+                    <input type='submit' class="btn btn-neutral" name='upload'
                            id='image-upload' value='Upload' <?php echo $disabled ?>>
                 </div>
 
             </form>
 
             <form action="../misc/changefooter.php" method="post" id="changeform">
-                <div class="form-group">
-                    <input type="hidden" id="specialid" class="form-control" readonly>
-                </div>
+                <input type="hidden" id="specialid" readonly>
                 <h3>Text</h3>
-                <div class="form-group">
-                    <label for="custonText">Custom Text:</label>
-                    <input type="text" id="custonText" class="form-control" name="custom"
+                <div class="mb-4">
+                    <label class="label" for="custonText">Custom Text:</label>
+                    <input type="text" id="custonText" class="input w-full" name="custom"
                            value="<?php echo $customtext ?>" <?php echo $writeable ?>>
                 </div>
                 <h3>Icons</h3>
-                <div class="form-group">
-                    <label for="facebook">Facebook:</label>
-                    <input type="text" id="facebook" class="form-control" <?php echo $writeable ?>
+                <div class="mb-4">
+                    <label class="label" for="facebook">Facebook:</label>
+                    <input type="text" id="facebook" class="input w-full" <?php echo $writeable ?>
                            name="facebook" value="<?php echo $facebook ?>">
                 </div>
 
-                <div class="form-group">
-                    <label for="twitter">Twitter:</label>
-                    <input type="text" id="twitter" class="form-control" <?php echo $writeable ?>
+                <div class="mb-4">
+                    <label class="label" for="twitter">Twitter:</label>
+                    <input type="text" id="twitter" class="input w-full" <?php echo $writeable ?>
                            name="twitter" value="<?php echo $twitter ?>">
                 </div>
 
-                <div class="form-group">
-                    <label for="linkedin"">LinkedIn:</label>
-                    <input type="text" id="linkedin" class="form-control" <?php echo $writeable ?>
+                <div class="mb-4">
+                    <label class="label" for="linkedin">LinkedIn:</label>
+                    <input type="text" id="linkedin" class="input w-full" <?php echo $writeable ?>
                            name="linkedin" value="<?php echo $linkedin ?>">
                 </div>
 
-                <label for="customLink">Custom Link:</label>
-                <div class="form-row">
-                    <div class="form-group col-md-5">
-                        <input type="text" class="form-control" name="customIcon" placeholder="fas fa-shopping-cart"
+                <label class="label" for="customLink">Custom Link:</label>
+                <div class="grid grid-cols-12 gap-2 mb-4">
+                    <div class="col-span-12 md:col-span-5">
+                        <input type="text" class="input w-full" name="customIcon" placeholder="fas fa-shopping-cart"
                                value="<?php echo $customIcon ?>">
                     </div>
-                    <div class="form-group col-md">
-                        <input type="text" class="form-control" name="customPage"
+                    <div class="col-span-12 md:col-span-7">
+                        <input type="text" class="input w-full" name="customPage"
                                placeholder="http://www.domain-name.tld" value="<?php echo $customPage ?>">
                     </div>
                 </div>
 
                 <h3>Copyright</h3>
 
-                <div class="form-group custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="copyright"
-                           name="copyright" <?php if ($copyright == "on") {
-                        echo 'checked';
-                    } ?> <?php echo $disabled ?>>
-                    <label class="custom-control-label" for="copyright">Show Copyright</label>
+                <div class="mb-4">
+                    <label class="label cursor-pointer justify-start gap-2" for="copyright">
+                        <input type="checkbox" class="toggle" id="copyright"
+                               name="copyright" <?php if ($copyright == "on") {
+                            echo 'checked';
+                        } ?> <?php echo $disabled ?>>
+                        Show Copyright
+                    </label>
                 </div>
 
-                <div class="form-group">
-                    <input type="hidden" id="image" class="form-control" required name="image" readonly
-                           value="">
-                </div>
+                <input type="hidden" id="image" required name="image" readonly
+                       value="">
 
-                <div class="form-group">
+                <div class="mb-4">
                     <input type='submit' class="btn btn-primary" name='action'
                            id='change' value='<?php echo $headline ?>'>
                 </div>
             </form>
 
-        </div>
-        <div class="col"></div>
-    </div>
 </div>
+<?php include_once "../core/inc/footer.php" ?>
 </body>
 </html>

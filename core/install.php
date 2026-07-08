@@ -13,46 +13,35 @@ if (count($useractions->getAllUsernames()) !== 0) {
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-    <link href="../css/login.css" rel="stylesheet">
+    <title>Installation - OP-CMS</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <script>(function(){var t=localStorage.getItem("opcms-admin-theme")||(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);})();</script>
+    <link href="../css/admin.css" rel="stylesheet">
 </head>
-<body>
+<body class="min-h-screen flex items-center justify-center bg-base-200">
 
-<div class="container login-container">
-    <div class="row">
-        <div class="col-1 col-md-3"></div>
-        <div class="col login-form-1">
-            <div class="row mb-5">
-                <div class="col text-center">
-                    <img src="../img/logo/logo_black.png"
-                         style="<?php echo $settingactions->getSettingValue('logo_css') ?>"
-                         style="max-width:300px; max-height: 200px">
-                </div>
-            </div>
-            <h3>First Installation</h3>
-            <div class="row">
-                <div class="col text-center">
-                    <small class="form-text text-muted">Please enter your prefered username and your email adress. A
-                        generated password will be sent to the entered email adress.
-                    </small>
-                </div>
-            </div>
-            <form method="post" action="../misc/firstuserdata.php">
-                <div class="form-group">
-                    <input type="text" class="form-control" name="username" placeholder="Username"/>
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-control" name="email" placeholder="Email"/>
-                </div>
-                <div class="form-group text-center">
-                    <input type="submit" class="btnSubmit" name="installation" value="Let's go!"/>
-                </div>
-            </form>
+<div class="card card-border bg-base-100 shadow-lg w-full max-w-sm m-4">
+    <div class="card-body">
+        <div class="text-center mb-6">
+            <img class="opcms-logo inline-block" src="../img/logo/logo_black.png"
+                 style="max-width:300px; max-height: 200px; <?php echo $settingactions->getSettingValue('logo_css') ?>">
         </div>
-        <div class="col-1 col-md-3"></div>
+        <h3 class="text-xl font-semibold mb-2">First Installation</h3>
+        <p class="text-sm text-base-content/60 text-center mb-4">Please enter your prefered username and your email adress. A
+            generated password will be sent to the entered email adress.
+        </p>
+        <form method="post" action="../misc/firstuserdata.php">
+            <div class="mb-4">
+                <input type="text" class="input w-full" name="username" placeholder="Username"/>
+            </div>
+            <div class="mb-4">
+                <input type="email" class="input w-full" name="email" placeholder="Email"/>
+            </div>
+            <div class="mb-4">
+                <input type="submit" class="btn btn-primary btn-block" name="installation" value="Let's go!"/>
+            </div>
+        </form>
     </div>
 </div>
 </body>

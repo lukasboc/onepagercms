@@ -12,57 +12,72 @@ if (function_exists('apply_filters')) {
             continue;
         }
         $opcmsPluginNavItems .= '
-            <li class="nav-item">
-                <a class="nav-link" href="' . htmlspecialchars($opcmsNavItem['href']) . '">' . htmlspecialchars($opcmsNavItem['label']) . '</a>
-            </li>';
+            <li><a href="' . htmlspecialchars($opcmsNavItem['href']) . '"><i class="fas fa-plug w-4"></i>' . htmlspecialchars($opcmsNavItem['label']) . '</a></li>';
     }
 }
+$opcmsCurrentPage = basename($_SERVER['PHP_SELF']);
+function opcms_nav_item($file, $icon, $label)
+{
+    global $opcmsCurrentPage;
+    $active = $opcmsCurrentPage === $file ? ' class="menu-active"' : '';
+    return '
+            <li><a' . $active . ' href="../core/' . $file . '"><i class="fas ' . $icon . ' w-4"></i>' . $label . '</a></li>';
+}
+
 echo '
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">
-    <img src="../img/logo/logo_black.png" height="35" alt="OnePager CMS">
-</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="../core/home.php">Overview<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../core/sections.php">Sections</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Customize</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="../core/settings.php">Settings</a>
-                    <a class="dropdown-item" href="../core/design.php">Design</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../core/preview.php">Preview</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../core/additionalPages.php">Additional Pages</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../core/extensions.php">Extensions</a>
-            </li>' . $opcmsPluginNavItems . '
-            <li class="nav-item">
-                <a class="nav-link" href="../core/account.php">Account</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../core/faq.php">FAQ</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../core/logout.php">Logout</a>
-            </li>
-        </ul>
-            <span class="navbar-text">
-        Signed in as: ' . $userid . '
-    </span>
+<div class="drawer lg:drawer-open">
+    <input id="opcms-drawer" type="checkbox" class="drawer-toggle">
+    <div class="drawer-side">
+        <label for="opcms-drawer" aria-label="Close sidebar" class="drawer-overlay"></label>
+        <aside class="bg-base-100 border-r border-base-300 w-64 min-h-full flex flex-col">
+            <div class="px-4 py-5">
+                <a href="../core/home.php">
+                    <img class="opcms-logo h-12 w-auto" src="../img/logo/logo_black.png" alt="OnePager CMS">
+                </a>
+            </div>
+            <ul class="menu w-full px-2 gap-1 flex-1">'
+    . opcms_nav_item('home.php', 'fa-home', 'Overview')
+    . opcms_nav_item('sections.php', 'fa-layer-group', 'Sections') . '
+            <li>
+                <details' . (in_array($opcmsCurrentPage, array('settings.php', 'design.php')) ? ' open' : '') . '>
+                    <summary><i class="fas fa-paint-brush w-4"></i>Customize</summary>
+                    <ul>
+                        <li><a' . ($opcmsCurrentPage === 'settings.php' ? ' class="menu-active"' : '') . ' href="../core/settings.php">Settings</a></li>
+                        <li><a' . ($opcmsCurrentPage === 'design.php' ? ' class="menu-active"' : '') . ' href="../core/design.php">Design</a></li>
+                    </ul>
+                </details>
+            </li>'
+    . opcms_nav_item('preview.php', 'fa-eye', 'Preview')
+    . opcms_nav_item('additionalPages.php', 'fa-file-alt', 'Additional Pages')
+    . opcms_nav_item('extensions.php', 'fa-puzzle-piece', 'Extensions')
+    . $opcmsPluginNavItems
+    . opcms_nav_item('account.php', 'fa-user', 'Account')
+    . opcms_nav_item('faq.php', 'fa-question-circle', 'FAQ') . '
+            </ul>
+        </aside>
     </div>
-</nav>';
+    <div class="drawer-content flex flex-col min-h-screen bg-base-200">
+        <div class="navbar bg-base-100 border-b border-base-300 px-4 gap-2">
+            <label for="opcms-drawer" aria-label="Open sidebar" class="btn btn-ghost btn-square lg:hidden">
+                <i class="fas fa-bars"></i>
+            </label>
+            <div class="flex-1"></div>
+            <label class="swap swap-rotate btn btn-ghost btn-circle" title="Toggle dark mode">
+                <input type="checkbox" id="opcms-theme-toggle" aria-label="Toggle dark mode">
+                <i class="fas fa-sun swap-on"></i>
+                <i class="fas fa-moon swap-off"></i>
+            </label>
+            <span class="text-sm text-base-content/60 hidden sm:inline">Signed in as: ' . $userid . '</span>
+            <a href="../core/logout.php" class="btn btn-ghost btn-sm"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+        <script>(function () {
+            var toggle = document.getElementById("opcms-theme-toggle");
+            toggle.checked = document.documentElement.getAttribute("data-theme") === "dark";
+            toggle.addEventListener("change", function () {
+                var theme = toggle.checked ? "dark" : "light";
+                document.documentElement.setAttribute("data-theme", theme);
+                localStorage.setItem("opcms-admin-theme", theme);
+            });
+        })();</script>
+        <main class="flex-1">';
 ?>

@@ -16,7 +16,7 @@ $opcmsRequestedPage = isset($_GET['page']) ? $_GET['page'] : '';
         }
         call_user_func($opcmsAdminPages[$opcmsRequestedPage]['render']);
     } else {
-        echo '<div class="alert alert-danger mt-3"><h1 class="alert-heading">Unknown page</h1>The requested extension page is not registered. Maybe the plugin providing it was deactivated.</div>';
+        echo '<div class="alert alert-error mt-3 items-start"><i class="fas fa-exclamation-triangle mt-1"></i><div><h1>Unknown page</h1>The requested extension page is not registered. Maybe the plugin providing it was deactivated.</div></div>';
     }
     ?>
 </div>

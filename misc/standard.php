@@ -29,38 +29,30 @@ if(isset($_GET['id'])){
 <html>
 
 <?php include_once "../core/inc/head.php" ?>
+<body>
 
 <?php include_once "../core/inc/header.php" ?>
 
-<div class="container" id="backendFormContainer">
+<div class="container">
             <h1><?php echo "$headline" ?> Standard-Section</h1>
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
-                <div class="form-group">
-                    <label for="image-upload">Background:</label>
-                    <input type="hidden" id="id" class="form-control" name="id" readonly
+                <div class="mb-4">
+                    <label class="label" for="image-upload">Background:</label>
+                    <input type="hidden" id="id" name="id" readonly
                            value="<?php echo $id ?>">
 
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Upload</span>
-                        </div>
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="image-upload"
-                                   aria-describedby="inputGroupFileAddon01"
-                                   name="background-image" <?php echo $disabled ?>>
-                            <label class="custom-file-label" for="image-upload">Choose file</label>
-                        </div>
-                </div>
+                    <input type="file" class="file-input w-full" id="image-upload"
+                           name="background-image" <?php echo $disabled ?>>
                 </div>
 
                 <?php
                 if ($backgroundimage != "" && file_exists($backgroundimage)) {
-                    echo " <div class=\"form-group\">";
-                    echo "<label>Preview:</label>";
-                    echo "<img class=\"img-fluid\" src=\"" . $backgroundimage . "\">";
+                    echo " <div class=\"mb-4\">";
+                    echo "<label class=\"label\">Preview:</label>";
+                    echo "<img class=\"max-w-full rounded\" src=\"" . $backgroundimage . "\">";
                     echo "</div>";
                 } ?>
-                <div class="form-group">
+                <div class="mb-4">
 
                     <input type='submit' class="btn btn-primary" name='upload'
                            id='image-upload' value='Upload' <?php echo $disabled ?>>
@@ -68,62 +60,49 @@ if(isset($_GET['id'])){
             </form>
 
             <form action="../misc/changestandard.php" method="post" id="changeform">
-                <div class="form-group">
-                    <input type="hidden" id="id" class="form-control" name="id" readonly value="<?php echo $sid ?>">
-                </div>
-                <input type="hidden" class="form-control" value="<?php echo $backgroundimage ?>"
+                <input type="hidden" id="id" name="id" readonly value="<?php echo $sid ?>">
+                <input type="hidden" value="<?php echo $backgroundimage ?>"
                        name="background-image">
 
-                <div class="form-group">
-                    <input type="hidden" id="specialid" class="form-control" name="author" readonly
-                           >
-                </div>
+                <input type="hidden" id="specialid" name="author" readonly>
 
-                <div class="form-group">
-                    <label for="title">Title:</label>
-                    <input type="text" id="title" class="form-control" required name="title"
+                <div class="mb-4">
+                    <label class="label" for="title">Title:</label>
+                    <input type="text" id="title" class="input w-full" required name="title"
                            value="<?php echo $title ?>" <?php echo $writeable ?>
                            >
                 </div>
 
-                <div class="form-group">
-                    <label for="mutedtitle">Muted Title:</label>
-                    <input type="text" id=mutedtitle" class="form-control" required <?php echo $writeable ?>
+                <div class="mb-4">
+                    <label class="label" for="mutedtitle">Muted Title:</label>
+                    <input type="text" id="mutedtitle" class="input w-full" required <?php echo $writeable ?>
                            name="mutedtitle" value="<?php echo $mutedTitle ?>"
                            >
                 </div>
 
-                <div class="form-group">
-                    <label for="text">Text:</label>
-                    <textarea rows="4" id="text" id="wysiwyg" class="form-control" required
+                <div class="mb-4">
+                    <label class="label" for="text">Text:</label>
+                    <textarea rows="4" id="text" class="textarea w-full" required
                               form="changeform" <?php echo $writeable ?>
                               name="text"
                               cols="73"><?php echo $text ?></textarea>
                 </div>
 
-                <div class="form-group">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="delete-background" value="yes"
+                <div class="mb-4">
+                    <label class="label cursor-pointer justify-start gap-2" for="delete-background">
+                        <input class="checkbox" type="checkbox" id="delete-background" value="yes"
                                name="delete-background">
-                        <label class="form-check-label" for="delete-background">
-                            Delete Background-Image
-                        </label>
-                    </div>
+                        Delete Background-Image
+                    </label>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-4">
                     <input type='submit' class="btn btn-primary" name='action'
                            id='change' value='<?php echo $headline ?>'>
                 </div>
             </form>
         </div>
-<!-- Import jQuery -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js"><\/script>')</script>
-
-<!-- Import Trumbowyg -->
-<script src="../plugins/Trumbowyg/dist/trumbowyg.min.js"></script>
-<!-- Import Trumbowyg plugins... -->
+<!-- Trumbowyg core (CSS + JS) and jQuery are loaded globally in core/inc/head.php -->
 <script src="../plugins/Trumbowyg/dist/plugins/table/trumbowyg.table.min.js"></script>
 <script src="../plugins/Trumbowyg/dist/plugins/colors/trumbowyg.colors.min.js"></script>
 
@@ -154,5 +133,6 @@ if(isset($_GET['id'])){
     });
 </script>
 
+<?php include_once "../core/inc/footer.php" ?>
 </body>
 </html>

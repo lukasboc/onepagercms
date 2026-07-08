@@ -18,77 +18,67 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
     <h1>Design</h1>
     <h2>Colors</h2>
     <form method="post" action="../misc/changeprimarycolor.php">
-        <div class="form-group">
-            <label for="primaryColor">Primary:</label>
-            <div class="input-group">
-                <input type="text" name="primaryColor" id="primaryColor" class="form-control"
+        <div class="mb-4">
+            <label class="label" for="primaryColor">Primary:</label>
+            <div class="join w-full">
+                <input type="text" name="primaryColor" id="primaryColor" class="input join-item w-full"
                        value="<?php echo $primaryColor ?>">
-                <div class="input-group-append">
-                    <input type='submit' class="btn btn-primary" name='action'
-                           id='change' value='Update'>
-                </div>
+                <input type='submit' class="btn btn-primary join-item" name='action'
+                       id='change' value='Update'>
             </div>
         </div>
     </form>
     <form method="post" action="../misc/changebuttoncolor.php">
-        <div class="form-group">
-            <label for="buttonColor">Buttons:</label>
-            <div class="input-group">
-                <input type="text" name="buttonColor" id="buttonColor" class="form-control"
+        <div class="mb-4">
+            <label class="label" for="buttonColor">Buttons:</label>
+            <div class="join w-full">
+                <input type="text" name="buttonColor" id="buttonColor" class="input join-item w-full"
                        value="<?php echo $buttonColor ?>">
-                <div class="input-group-append">
-                    <input type='submit' class="btn btn-primary" name='action'
-                           id='change' value='Update'>
-                </div>
+                <input type='submit' class="btn btn-primary join-item" name='action'
+                       id='change' value='Update'>
             </div>
         </div>
     </form>
 
     <form method="post" action="../misc/changenavbackgroundcolor.php">
-        <div class="form-group">
-            <label for="buttonColor">Navigation Background:</label>
-            <div class="input-group">
-                <input type="text" name="navigation-color" id="buttonColor" class="form-control"
+        <div class="mb-4">
+            <label class="label" for="navBackgroundColor">Navigation Background:</label>
+            <div class="join w-full">
+                <input type="text" name="navigation-color" id="navBackgroundColor" class="input join-item w-full"
                        value="<?php echo $navbackgroundcolor ?>">
-                <div class="input-group-append">
-                    <input type='submit' class="btn btn-primary" name='action'
-                           id='change' value='Update'>
-                </div>
+                <input type='submit' class="btn btn-primary join-item" name='action'
+                       id='change' value='Update'>
             </div>
         </div>
     </form>
 
     <form method="post" action="../misc/changenavtextcolor.php">
-        <div class="form-group">
-            <label for="buttonColor">Navigation Text:</label>
-            <div class="input-group">
-                <input type="text" name="navigationtext-color" id="buttonColor" class="form-control"
+        <div class="mb-4">
+            <label class="label" for="navTextColor">Navigation Text:</label>
+            <div class="join w-full">
+                <input type="text" name="navigationtext-color" id="navTextColor" class="input join-item w-full"
                        value="<?php echo $navtextcolor ?>">
-                <div class="input-group-append">
-                    <input type='submit' class="btn btn-primary" name='action'
-                           id='change' value='Update'>
-                </div>
+                <input type='submit' class="btn btn-primary join-item" name='action'
+                       id='change' value='Update'>
             </div>
         </div>
     </form>
 
     <h2>Custom CSS</h2>
     <form method="post" action="../misc/changecustomcss.php">
-        <div class="form-group row">
-            <label for="customcss" class="col-sm-2 col-form-label">CSS:</label>
-            <div class="col-sm-10">
-                <textarea class="form-control" id="customcss" name="customcss"
-                          placeholder=".class { ... }"
-                          rows="10"><?php echo $customcss ?></textarea>
-            </div>
+        <div class="mb-4">
+            <label class="label" for="customcss">CSS:</label>
+            <textarea class="textarea w-full font-mono" id="customcss" name="customcss"
+                      placeholder=".class { ... }"
+                      rows="10"><?php echo $customcss ?></textarea>
         </div>
-        <div class="form-group text-center">
+        <div class="mb-4 text-center">
             <input class="btn btn-success" type="submit" name="changecustomcss" value="Save">
         </div>
     </form>
 
     <h2>Themes</h2>
-    <div class="row">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <?php
         $activeThemeSlug = (function_exists('opcms_theme')) ? opcms_theme()->getActiveTheme() : 'agency';
         foreach (glob('../themes/*/theme.json') as $themeManifestPath) {
@@ -100,23 +90,21 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
             $themeDir = dirname($themeManifestPath);
             $isActiveTheme = ($themeSlug === $activeThemeSlug);
             ?>
-            <div class="col-md-4 mb-4">
-                <div class="card<?php if ($isActiveTheme) echo ' border-success'; ?>">
-                    <?php if (file_exists($themeDir . '/screenshot.png')): ?>
-                        <img src="<?php echo htmlspecialchars($themeDir . '/screenshot.png') ?>" class="card-img-top" alt="Theme screenshot">
+            <div class="card card-border bg-base-100 shadow-sm<?php if ($isActiveTheme) echo ' border-success'; ?>">
+                <?php if (file_exists($themeDir . '/screenshot.png')): ?>
+                    <figure><img src="<?php echo htmlspecialchars($themeDir . '/screenshot.png') ?>" alt="Theme screenshot"></figure>
+                <?php endif; ?>
+                <div class="card-body p-4">
+                    <h5 class="card-title text-base"><?php echo htmlspecialchars(isset($themeManifest['name']) ? $themeManifest['name'] : $themeSlug) ?></h5>
+                    <p class="text-sm"><small class="text-base-content/60">Version <?php echo htmlspecialchars(isset($themeManifest['version']) ? $themeManifest['version'] : '?') ?></small></p>
+                    <?php if ($isActiveTheme): ?>
+                        <div><span class="badge badge-success">Active</span></div>
+                    <?php else: ?>
+                        <form method="post" action="../misc/activatetheme.php">
+                            <input type="hidden" name="slug" value="<?php echo htmlspecialchars($themeSlug) ?>">
+                            <input type="submit" class="btn btn-sm btn-primary" value="Activate">
+                        </form>
                     <?php endif; ?>
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo htmlspecialchars(isset($themeManifest['name']) ? $themeManifest['name'] : $themeSlug) ?></h5>
-                        <p class="card-text"><small class="text-muted">Version <?php echo htmlspecialchars(isset($themeManifest['version']) ? $themeManifest['version'] : '?') ?></small></p>
-                        <?php if ($isActiveTheme): ?>
-                            <span class="badge badge-success">Active</span>
-                        <?php else: ?>
-                            <form method="post" action="../misc/activatetheme.php">
-                                <input type="hidden" name="slug" value="<?php echo htmlspecialchars($themeSlug) ?>">
-                                <input type="submit" class="btn btn-sm btn-primary" value="Activate">
-                            </form>
-                        <?php endif; ?>
-                    </div>
                 </div>
             </div>
         <?php } ?>
@@ -128,9 +116,9 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
     if (count($activeThemeOptions) > 0):
         ?>
         <h2>Theme Options</h2>
-        <div class="card mb-4">
+        <div class="card card-border bg-base-100 shadow-sm mb-4">
             <div class="card-body">
-                <p class="text-muted"><small>Options provided by the active theme. Leave a field empty to use the theme default.</small></p>
+                <p class="text-base-content/60"><small>Options provided by the active theme. Leave a field empty to use the theme default.</small></p>
                 <form method="post" action="../misc/savethemeoptions.php">
                     <input type="hidden" name="slug" value="<?php echo htmlspecialchars($activeThemeSlug) ?>">
                     <?php foreach ($activeThemeOptions as $themeOption):
@@ -138,10 +126,10 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
                         $themeOptionSaved = ($themeOptionSaved === null) ? '' : $themeOptionSaved;
                         $themeOptionField = 'theme-option-' . $themeOption['key'];
                         ?>
-                        <div class="form-group">
-                            <label for="<?php echo htmlspecialchars($themeOptionField) ?>"><?php echo htmlspecialchars($themeOption['label']) ?>:</label>
+                        <div class="mb-4">
+                            <label class="label" for="<?php echo htmlspecialchars($themeOptionField) ?>"><?php echo htmlspecialchars($themeOption['label']) ?>:</label>
                             <?php if ($themeOption['type'] === 'select'): ?>
-                                <select class="form-control" id="<?php echo htmlspecialchars($themeOptionField) ?>"
+                                <select class="select w-full" id="<?php echo htmlspecialchars($themeOptionField) ?>"
                                         name="options[<?php echo htmlspecialchars($themeOption['key']) ?>]">
                                     <?php
                                     $themeOptionSelected = ($themeOptionSaved !== '') ? $themeOptionSaved : $themeOption['default'];
@@ -150,13 +138,13 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
                                     <?php endforeach; ?>
                                 </select>
                             <?php else: ?>
-                                <input type="text" class="form-control" id="<?php echo htmlspecialchars($themeOptionField) ?>"
+                                <input type="text" class="input w-full" id="<?php echo htmlspecialchars($themeOptionField) ?>"
                                        name="options[<?php echo htmlspecialchars($themeOption['key']) ?>]"
                                        value="<?php echo htmlspecialchars($themeOptionSaved) ?>"
                                        placeholder="<?php echo htmlspecialchars($themeOption['default']) ?>">
                             <?php endif; ?>
                             <?php if ($themeOption['description'] !== ''): ?>
-                                <small class="form-text text-muted"><?php echo htmlspecialchars($themeOption['description']) ?></small>
+                                <small class="text-sm text-base-content/60"><?php echo htmlspecialchars($themeOption['description']) ?></small>
                             <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
@@ -165,7 +153,7 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
                 <form method="post" action="../misc/savethemeoptions.php" class="mt-2">
                     <input type="hidden" name="slug" value="<?php echo htmlspecialchars($activeThemeSlug) ?>">
                     <input type="hidden" name="reset" value="1">
-                    <input type="submit" class="btn btn-sm btn-outline-secondary" value="Reset to Defaults">
+                    <input type="submit" class="btn btn-sm btn-outline btn-neutral" value="Reset to Defaults">
                 </form>
             </div>
         </div>
