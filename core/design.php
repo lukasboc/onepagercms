@@ -122,6 +122,55 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
         <?php } ?>
     </div>
 
+    <?php
+    $activeThemeOptions = (function_exists('opcms_theme') && method_exists(opcms_theme(), 'getDeclaredOptions'))
+        ? opcms_theme()->getDeclaredOptions() : array();
+    if (count($activeThemeOptions) > 0):
+        ?>
+        <h2>Theme Options</h2>
+        <div class="card mb-4">
+            <div class="card-body">
+                <p class="text-muted"><small>Options provided by the active theme. Leave a field empty to use the theme default.</small></p>
+                <form method="post" action="../misc/savethemeoptions.php">
+                    <input type="hidden" name="slug" value="<?php echo htmlspecialchars($activeThemeSlug) ?>">
+                    <?php foreach ($activeThemeOptions as $themeOption):
+                        $themeOptionSaved = $settingActions->getSettingValue('theme-option:' . $activeThemeSlug . ':' . $themeOption['key']);
+                        $themeOptionSaved = ($themeOptionSaved === null) ? '' : $themeOptionSaved;
+                        $themeOptionField = 'theme-option-' . $themeOption['key'];
+                        ?>
+                        <div class="form-group">
+                            <label for="<?php echo htmlspecialchars($themeOptionField) ?>"><?php echo htmlspecialchars($themeOption['label']) ?>:</label>
+                            <?php if ($themeOption['type'] === 'select'): ?>
+                                <select class="form-control" id="<?php echo htmlspecialchars($themeOptionField) ?>"
+                                        name="options[<?php echo htmlspecialchars($themeOption['key']) ?>]">
+                                    <?php
+                                    $themeOptionSelected = ($themeOptionSaved !== '') ? $themeOptionSaved : $themeOption['default'];
+                                    foreach ($themeOption['choices'] as $themeOptionChoice): ?>
+                                        <option value="<?php echo htmlspecialchars($themeOptionChoice) ?>"<?php if ($themeOptionChoice === $themeOptionSelected) echo ' selected'; ?>><?php echo htmlspecialchars($themeOptionChoice) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            <?php else: ?>
+                                <input type="text" class="form-control" id="<?php echo htmlspecialchars($themeOptionField) ?>"
+                                       name="options[<?php echo htmlspecialchars($themeOption['key']) ?>]"
+                                       value="<?php echo htmlspecialchars($themeOptionSaved) ?>"
+                                       placeholder="<?php echo htmlspecialchars($themeOption['default']) ?>">
+                            <?php endif; ?>
+                            <?php if ($themeOption['description'] !== ''): ?>
+                                <small class="form-text text-muted"><?php echo htmlspecialchars($themeOption['description']) ?></small>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                    <input type="submit" class="btn btn-success" value="Save Options">
+                </form>
+                <form method="post" action="../misc/savethemeoptions.php" class="mt-2">
+                    <input type="hidden" name="slug" value="<?php echo htmlspecialchars($activeThemeSlug) ?>">
+                    <input type="hidden" name="reset" value="1">
+                    <input type="submit" class="btn btn-sm btn-outline-secondary" value="Reset to Defaults">
+                </form>
+            </div>
+        </div>
+    <?php endif; ?>
+
 </div>
 
 

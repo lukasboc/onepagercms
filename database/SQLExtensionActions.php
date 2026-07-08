@@ -195,6 +195,7 @@ class SQLExtensionActions
                 array(504, 'extensionupdated', 'Extension updated', 'The extension was updated successfully.'),
                 array(505, 'themeactivated', 'Theme activated', 'The theme was activated successfully.'),
                 array(506, 'licensesaved', 'License saved', 'The license key was saved successfully.'),
+                array(507, 'themeoptionssaved', 'Theme options saved', 'The theme options were saved successfully.'),
             );
 
             $insertError = $db->prepare('INSERT OR IGNORE INTO error (`id`, `reason`, `headline`, `message`) VALUES (:id, :reason, :headline, :message)');

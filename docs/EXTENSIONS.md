@@ -52,7 +52,9 @@ Rules enforced by the installer:
 - Archives are checked against zip-slip paths; max size 20 MB.
 - Paid items must set `"paid": true` and an `update_endpoint` (see below).
 
-Themes use the same schema in `theme.json` (no `main`).
+Themes use the same schema in `theme.json` (no `main`). Themes may additionally
+declare an `options` array of user-editable settings (see "Theme options"
+below); unknown manifest keys are ignored by the installer.
 
 ## Hook API
 
@@ -194,6 +196,46 @@ Inside a template you have `$opcmsTheme` (the engine: `render()`, `assetUrl()`)
 and `$opcmsData` plus the extracted data variables (see the default templates
 for what each receives). The active theme is switched on the Design page and
 stored in the `active-theme` setting.
+
+### Theme options
+
+A theme can declare user-editable options in its `theme.json`. When the theme
+is active, the Design page shows a "Theme Options" card with one field per
+option (plus a "Reset to Defaults" button); values are saved by
+`misc/savethemeoptions.php` into the settings table under
+`theme-option:<slug>:<key>`.
+
+```json
+"options": [
+  { "key": "sidebar-bg", "type": "color", "label": "Sidebar background",
+    "default": "#1e2126", "description": "Base color of the sidebar." },
+  { "key": "font-display", "type": "select", "label": "Headline font",
+    "default": "Sora", "choices": ["Sora", "Space Grotesk"] }
+]
+```
+
+- `key` (required): `^[a-z0-9][a-z0-9-]{0,49}$`, unique within the theme.
+- `type`: `color`, `text` (both rendered as text inputs, so `rgba(...)` and
+  color names work) or `select` (requires a non-empty `choices` array).
+- `default`: used when no value is saved; also shown as the input placeholder.
+- `label` / `description`: shown on the Design page.
+
+Only keys declared in the manifest are ever written; select values are
+validated against `choices`. An empty saved value means "use the default".
+
+Templates read options via the helper:
+
+```php
+$sidebarBg = function_exists('opcms_theme_option')
+    ? opcms_theme_option('sidebar-bg') : '';
+```
+
+`opcms_theme_option($key, $default = '')` returns the saved value, falling
+back to the manifest default, then to `$default`. Guarding with
+`function_exists()` keeps the theme installable on OnePagerCMS versions
+without theme-options support (everything simply stays at the theme's CSS
+defaults there). The engine equivalents are `opcms_theme()->getOption($key)`
+and `opcms_theme()->getDeclaredOptions()`.
 
 ## Paid extensions & license keys
 

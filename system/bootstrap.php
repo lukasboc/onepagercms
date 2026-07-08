@@ -25,6 +25,23 @@ if (class_exists('ThemeEngine') && !function_exists('opcms_theme')) {
     }
 }
 
+if (class_exists('ThemeEngine') && !function_exists('opcms_theme_option')) {
+    /**
+     * Value of a theme option declared in the active theme's theme.json,
+     * saved on the Design page. Falls back to the manifest default, then
+     * to $default when the option is unknown or unset.
+     */
+    function opcms_theme_option($key, $default = '')
+    {
+        try {
+            $value = opcms_theme()->getOption($key);
+        } catch (Throwable $opcmsThemeOptionError) {
+            $value = '';
+        }
+        return ($value === '') ? $default : $value;
+    }
+}
+
 // Load active plugins. Every step is guarded: without the extensions/ dir,
 // the actions class or a readable extensions table the site must render as before.
 if (is_dir(OPCMS_ROOT . '/extensions') && is_file(OPCMS_ROOT . '/database/SQLExtensionActions.php')) {
