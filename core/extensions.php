@@ -108,7 +108,7 @@ if ($activeTab === 'marketplace' && $httpAvailable) {
                                 <?php if ($isActive): ?>
                                     <form class="inline" method="post" action="../misc/extensiondeactivate.php">
                                         <input type="hidden" name="slug" value="<?php echo htmlspecialchars($slug) ?>">
-                                        <input type="submit" class="btn btn-sm btn-outline btn-neutral" value="Deactivate">
+                                        <input type="submit" class="btn btn-sm btn-outline" value="Deactivate">
                                     </form>
                                 <?php else: ?>
                                     <form class="inline" method="post" action="../misc/extensionactivate.php">
@@ -156,8 +156,8 @@ if ($activeTab === 'marketplace' && $httpAvailable) {
                        value="<?php echo htmlspecialchars($marketplaceSearch) ?>">
                 <input type="submit" class="btn btn-primary" value="Search">
             </form>
-            <form class="mb-4 tooltip" data-tip="Marketplace results are cached for a few hours; refresh to fetch the latest listings." method="post" action="../misc/marketplacerefresh.php">
-                <input type="submit" class="btn btn-sm btn-outline btn-neutral" value="Refresh listings">
+            <form class="mb-4 tooltip tooltip-left" data-tip="Marketplace results are cached for a few hours; refresh to fetch the latest listings." method="post" action="../misc/marketplacerefresh.php">
+                <input type="submit" class="btn btn-sm btn-outline" value="Refresh listings">
             </form>
 
             <?php if (!$httpAvailable): ?>

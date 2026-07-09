@@ -153,7 +153,7 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
                 <form method="post" action="../misc/savethemeoptions.php" class="mt-2">
                     <input type="hidden" name="slug" value="<?php echo htmlspecialchars($activeThemeSlug) ?>">
                     <input type="hidden" name="reset" value="1">
-                    <input type="submit" class="btn btn-sm btn-outline btn-neutral" value="Reset to Defaults">
+                    <input type="submit" class="btn btn-sm btn-outline" value="Reset to Defaults">
                 </form>
             </div>
         </div>

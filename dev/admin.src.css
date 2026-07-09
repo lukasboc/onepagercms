@@ -91,3 +91,16 @@
     filter: invert(1) hue-rotate(180deg);
   }
 }
+
+/*
+ * daisyUI keeps --color-neutral near-black in the dark theme too, so
+ * `btn-outline btn-neutral` renders a black border and black text on the
+ * dark background. Swap the roles in dark mode: base-content for border/text
+ * at rest, neutral for the text on the light hover fill.
+ * Deliberately unlayered: the daisyui layer is declared after components in
+ * the compiled output, so a rule inside @layer components would lose to it.
+ */
+[data-theme="dark"] .btn-outline.btn-neutral {
+  --btn-color: var(--color-base-content);
+  --btn-fg: var(--color-neutral);
+}
