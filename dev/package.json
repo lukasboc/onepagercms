@@ -1,0 +1,16 @@
+{
+  "name": "opcms-admin-css",
+  "private": true,
+  "description": "Developer-only build for the OnePagerCMS admin stylesheet (css/admin.css). End users never need to run this.",
+  "scripts": {
+    "build": "tailwindcss -i ./admin.src.css -o ../css/admin.css --minify",
+    "watch": "tailwindcss -i ./admin.src.css -o ../css/admin.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.0",
+    "tailwindcss": "^4.1.0",
+    "daisyui": "^5.0.0",
+    "@fortawesome/fontawesome-free": "5.15.4",
+    "jquery": "3.7.1"
+  }
+}

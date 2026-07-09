@@ -10,6 +10,16 @@ class SQLHeaderActions
 {
     public function showHeader(): void
     {
+        if (function_exists('opcms_theme') && opcms_theme()->hasTemplate('header')) {
+            opcms_theme()->render('header', array(
+                'background' => $this->getBackground(),
+                'mutedtitle' => $this->getHeaderMutedTitle(),
+                'title' => $this->getHeaderTitle(),
+                'customrow' => $this->getCustomRow(),
+            ));
+            return;
+        }
+
         echo "<header class=\"masthead\" style=\"background-image: url('" . $this->getBackground() . "')\">
     <div class=\"container\">
         <div class=\"intro-text\">

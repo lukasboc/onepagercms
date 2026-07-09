@@ -3,3 +3,5 @@ pages/node_modules/
 
 # Vendor (Frontend-Assets via CDN)
 pages/vendor/
+# Admin-CSS-Build (nur Entwickler)
+dev/node_modules/
