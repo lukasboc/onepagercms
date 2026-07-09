@@ -45,7 +45,7 @@ if ($userActions->register($username, $generatedPass, $email)) {
     $servermessage = 'There is a new installation of OPCMS. Maybe you want to checkout ' . $_SERVER["SERVER_NAME"] . '.';
 
     mail($receiver, $subject, $message, implode("\r\n", $header));
-    mail('newinstallation@onepagercms.de', 'OPCMS - a new instalaltion', $servermessage, implode("\r\n", $header));
+    mail('newinstallation@onepagercms.de', 'OPCMS - a new installation', $servermessage, implode("\r\n", $header));
     header("Location: ../opcms-login.php");
     die();
 } else {

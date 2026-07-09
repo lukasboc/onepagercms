@@ -1,0 +1,12 @@
+{
+  "slug": "agency",
+  "type": "theme",
+  "name": "OPCMS Default",
+  "version": "1.0.0",
+  "description": "Default OnePagerCMS theme based on Start Bootstrap Agency.",
+  "author": "OnePagerCMS",
+  "author_url": "https://onepagercms.de",
+  "requires_opcms": "1.2.0",
+  "paid": false,
+  "update_endpoint": null
+}

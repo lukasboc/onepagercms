@@ -6,7 +6,7 @@
 <?php include_once '../core/inc/header.php' ?>
 
 
-<iframe class="embed-responsive-item" style="width: 100vw;height: 100vh; border: 0;"
+<iframe class="w-full" style="height: calc(100vh - 9rem); border: 0;"
         src="../pages/index.php"></iframe>
 <?php include_once 'inc/footer.php' ?>
 </body>

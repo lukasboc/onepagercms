@@ -5,10 +5,7 @@ if (count($useractions->getAllUsernames()) === 0) {
     header('Location: ../core/install.php');
     die();
 }
-?>
-<!DOCTYPE html>
-<html lang="en">
-<?php
+require_once '../system/bootstrap.php';
 include '../database/SQLSectionActions.php';
 include '../database/SQLHeaderActions.php';
 include_once '../database/SQLSettingActions.php';
@@ -17,8 +14,20 @@ $sectionactions = new SQLSectionActions();
 $headeractions = new SQLHeaderActions();
 $footeractions = new SQLFooterActions();
 $settingactions = new SQLSettingActions();
-require_once 'inc/head.php';
+
+if (function_exists('opcms_theme') && opcms_theme()->hasTemplate('index')) {
+    opcms_theme()->render('index', array(
+        'sectionactions' => $sectionactions,
+        'headeractions' => $headeractions,
+        'footeractions' => $footeractions,
+        'settingactions' => $settingactions,
+    ));
+    return;
+}
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<?php require_once 'inc/head.php' ?>
 <body id="page-top">
 <style>
     .text-primary {

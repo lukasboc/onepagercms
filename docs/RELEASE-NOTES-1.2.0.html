@@ -1,0 +1,313 @@
+<h1>Release Notes — v1.2.0</h1>
+<p class="release-subtitle">Extensions, Themes &amp; Marketplace Update</p>
+
+<!-- Highlights -->
+<div class="release-section">
+  <h2>Highlights</h2>
+
+  <p>
+    Version 1.2.0 is the biggest OnePagerCMS release so far.
+    The CMS is now <strong>extendable</strong>: you can install
+    <strong>plugins</strong> and <strong>themes</strong> — either directly
+    from the new <strong>marketplace</strong> inside the admin backend or
+    by uploading a ZIP file. On top of that, the complete admin backend
+    has been redesigned.
+  </p>
+
+  <ul>
+    <li>New <strong>plugin system</strong> with a WordPress-style hooks API</li>
+    <li>New <strong>theme system</strong> — change the entire look of your one-pager without touching core files</li>
+    <li>Built-in <strong>marketplace</strong> — browse, install and update extensions with one click</li>
+    <li>Completely <strong>redesigned admin backend</strong></li>
+    <li>Improved <code>update.php</code> with a visual migration report</li>
+  </ul>
+</div>
+
+<!-- Plugins -->
+<div class="release-section">
+  <h2>New: Plugins</h2>
+
+  <p>
+    Plugins live in the new <code>extensions/</code> directory and are
+    managed on the new <strong>Extensions</strong> page in the admin
+    backend (Installed / Marketplace / Upload tabs). Each plugin ships a
+    <code>plugin.json</code> manifest and a main entry file.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Hooks API:</strong>
+      plugins register into the CMS via <code>add_action()</code> and
+      <code>add_filter()</code> — the same mental model you know from
+      WordPress.
+    </li>
+
+    <li>
+      <strong>Custom section types:</strong>
+      plugins can register entirely new section types via
+      <code>opcms_register_section_type()</code>. They appear in the
+      normal "New Section" dialog next to Standard, Icons and Contact
+      and integrate with section ordering and deletion.
+    </li>
+
+    <li>
+      <strong>Plugin admin pages:</strong>
+      plugins can add their own settings pages to the admin backend.
+    </li>
+
+    <li>
+      <strong>Safe installation:</strong>
+      ZIP uploads are validated and protected against path traversal
+      (zip-slip). Plugins can declare a minimum CMS version via
+      <code>requires_opcms</code>.
+    </li>
+  </ul>
+</div>
+
+<!-- Themes -->
+<div class="release-section">
+  <h2>New: Themes</h2>
+
+  <p>
+    The frontend rendering has been moved into a template-based
+    <strong>theme engine</strong>. Themes live in the new
+    <code>themes/</code> directory and are activated on the
+    <strong>Design</strong> page.
+  </p>
+
+  <ul>
+    <li>
+      The bundled default theme <strong>Agency</strong> reproduces the
+      previous frontend output exactly — after updating, your website
+      looks the same as before.
+    </li>
+
+    <li>
+      Themes bring their own templates for the index page, additional
+      pages, header, footer, navigation and every section type. A theme
+      can also override how plugin sections are rendered.
+    </li>
+
+    <li>
+      <strong>Theme options:</strong>
+      themes can define their own settings (colors, layout options, …),
+      which show up automatically on the Design page.
+    </li>
+
+    <li>
+      Themes can be installed from the marketplace or via ZIP upload,
+      just like plugins.
+    </li>
+  </ul>
+</div>
+
+<!-- Marketplace -->
+<div class="release-section">
+  <h2>New: Marketplace</h2>
+
+  <p>
+    The Extensions page contains a <strong>Marketplace</strong> tab that
+    lists available plugins and themes directly inside the admin backend.
+  </p>
+
+  <ul>
+    <li>One-click <strong>install</strong> and <strong>update</strong> of extensions</li>
+    <li>Update notifications for installed extensions</li>
+    <li>
+      <strong>Paid extensions:</strong>
+      OnePagerCMS itself stays 100% free and contains no payment code.
+      For paid third-party extensions you enter a license key in the
+      backend; downloads and updates are then delivered through the
+      developer's own update endpoint.
+    </li>
+  </ul>
+</div>
+
+<!-- Admin redesign -->
+<div class="release-section">
+  <h2>Redesigned Admin Backend</h2>
+
+  <p>
+    Every backend page — login, sections, design, settings, account,
+    FAQ, additional pages and the new extensions area — has been rebuilt
+    with a modern, responsive UI (Tailwind CSS 4 + DaisyUI). Functionality
+    and URLs are unchanged; everything is just cleaner and faster to use.
+  </p>
+
+  <ul>
+    <li>Consistent navigation with a corrected menu order</li>
+    <li>Faster logout</li>
+    <li>
+      The stylesheet is pre-built and shipped as
+      <code>css/admin.css</code> — end users do <strong>not</strong>
+      need Node.js or any build step.
+    </li>
+  </ul>
+</div>
+
+<!-- Bug Fixes -->
+<div class="release-section">
+  <h2>Improvements &amp; Bug Fixes</h2>
+
+  <ul>
+    <li>
+      <strong>E-mails:</strong>
+      the contact form and account e-mails now send an
+      RFC 2822-compliant <code>From:</code> header
+      (<code>noreply@your-domain</code>) plus a <code>Reply-To:</code>
+      header with the sender's address. Previously, strict mail servers
+      rejected these e-mails.
+    </li>
+
+    <li>
+      <strong>FAQ:</strong>
+      new installations now ship with a set of default FAQ entries
+      including categories; existing installations receive the updated
+      defaults through <code>update.php</code>.
+    </li>
+
+    <li>
+      <strong>Security:</strong>
+      all new action handlers (extensions, themes, marketplace) verify
+      the admin session before doing anything.
+    </li>
+
+    <li>
+      <strong>Smaller download:</strong>
+      vendored library source trees (Trumbowyg sources, duplicated
+      Bootstrap/jQuery copies under <code>pages/vendor/</code>) were
+      removed — only the required distribution files ship with the CMS.
+    </li>
+
+    <li>
+      Fixed missing icons on some backend pages.
+    </li>
+  </ul>
+</div>
+
+<!-- Developers -->
+<div class="release-section">
+  <h2>For Developers</h2>
+
+  <p>
+    Want to build your own plugin or theme? The full developer
+    documentation lives in the repository at
+    <code>docs/EXTENSIONS.md</code> and covers the hooks API, the
+    <code>plugin.json</code> / <code>theme.json</code> manifests,
+    custom section types, theme templates, theme options and the
+    update/license protocol for paid extensions.
+  </p>
+</div>
+
+<!-- Migration -->
+<div class="release-section warning-box">
+  <h2>Database Migration Required</h2>
+
+  <p>
+    Existing installations must run <code>update.php</code> once after
+    uploading the new files. The script is <strong>idempotent</strong> —
+    it detects what your database is missing and only applies those
+    changes. It works for updates from <strong>v1.0.x</strong> as well
+    as from <strong>v1.1.0</strong>. No content is deleted or changed.
+  </p>
+
+  <p>
+    <strong>Fresh installations don't need <code>update.php</code></strong> —
+    the database is created automatically with the current schema on
+    first access. Just follow the normal installation instructions and
+    delete <code>update.php</code> from your webspace afterwards.
+  </p>
+</div>
+
+<!-- Update Instructions -->
+<div class="release-section">
+  <h2>How to update — v1.2.0</h2>
+
+  <p>
+    <strong>Before you start:</strong>
+    Save your database!
+  </p>
+
+  <div class="code-box">
+    yourOpcmsInstallation / database / SQLiteDatabase.db
+  </div>
+
+  <p>
+    Copy this file to your computer before doing anything else.
+  </p>
+
+  <h3>Steps (from v1.0.x or v1.1.0)</h3>
+
+  <ol class="update-steps">
+    <li>
+      <strong>Save your database</strong> —
+      copy <code>database/SQLiteDatabase.db</code> to your computer.
+    </li>
+
+    <li>
+      <strong>Download v1.2.0</strong> from onepagercms.de.
+      The "Download" button always links to the latest version.
+    </li>
+
+    <li>
+      <strong>Upload the new files</strong> to your webspace —
+      just like during the initial installation.
+      Override all existing files.
+    </li>
+
+    <li>
+      <strong>Restore your database</strong> —
+      upload the <code>SQLiteDatabase.db</code> you saved in step 1
+      back into the <code>database/</code> folder and override
+      the file that came with the download.
+    </li>
+
+    <li>
+      <strong>Run the update script</strong> —
+      open the following URL in your browser:
+    </li>
+  </ol>
+
+  <div class="code-box">
+    https://your-domain.de/update.php
+  </div>
+
+  <p>
+    The script now shows a detailed report of every migration
+    (executed / skipped / error) and creates a lock file
+    (<code>.update.lock</code>) so it cannot run twice by accident.
+  </p>
+
+  <p>
+    <strong>Delete <code>update.php</code></strong>
+    from your webspace once the script has finished successfully.
+  </p>
+
+  <h3>Coming from v1.0.x?</h3>
+
+  <p>
+    The same steps apply — no extra work needed.
+    <code>update.php</code> automatically includes all v1.1.0 migrations
+    (renamed section columns, section positions, background images,
+    header/footer tables, FAQ categories, additional pages, and more)
+    and applies whichever ones your database is still missing.
+  </p>
+
+  <div class="note-box">
+    <strong>Note for v1.0.x users — FAQ categories:</strong><br>
+    If you use FAQ sections with categories, re-open each FAQ entry
+    in the admin and save it once. Due to a bug in v1.0.x, the category
+    field was accepted but never stored — this has been fixed in v1.1.0.
+  </div>
+
+  <div class="note-box">
+    <strong>Note on extensions:</strong><br>
+    The new plugin, theme and marketplace features require
+    <strong>no manual migration</strong>. The <code>extensions</code>
+    database table is created automatically the first time you open the
+    Extensions page. After the update, the bundled <strong>Agency</strong>
+    theme renders your website exactly as before — nothing changes on
+    your live site until you actively install or activate something new.
+  </div>
+
+</div>

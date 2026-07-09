@@ -32,38 +32,30 @@ if(isset($_GET['id'])){
 <html>
 
 <?php include_once "../core/inc/head.php" ?>
+<body>
 
 <?php include_once "../core/inc/header.php" ?>
 
-<div class="container" id="backendFormContainer">
+<div class="container">
             <h1><?php echo "$headline" ?> Icons-Section</h1>
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
-                <div class="form-group">
-                    <label for="image-upload">Background:</label>
-                    <input type="hidden" id="id" class="form-control" name="id" readonly
+                <div class="mb-4">
+                    <label class="label" for="image-upload">Background:</label>
+                    <input type="hidden" id="id" name="id" readonly
                            value="<?php echo $id ?>">
 
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Upload</span>
-                        </div>
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="image-upload"
-                                   aria-describedby="inputGroupFileAddon01"
-                                   name="background-image" <?php echo $disabled ?>>
-                            <label class="custom-file-label" for="image-upload">Choose file</label>
-                        </div>
-                    </div>
+                    <input type="file" class="file-input w-full" id="image-upload"
+                           name="background-image" <?php echo $disabled ?>>
                 </div>
 
                 <?php
                 if ($backgroundimage != "" && file_exists($backgroundimage)) {
-                    echo " <div class=\"form-group\">";
-                    echo "<label>Preview:</label>";
-                    echo "<img class=\"img-fluid\" src=\"" . $backgroundimage . "\">";
+                    echo " <div class=\"mb-4\">";
+                    echo "<label class=\"label\">Preview:</label>";
+                    echo "<img class=\"max-w-full rounded\" src=\"" . $backgroundimage . "\">";
                     echo "</div>";
                 } ?>
-                <div class="form-group">
+                <div class="mb-4">
 
                     <input type='submit' class="btn btn-primary" name='upload'
                            id='image-upload' value='Upload' <?php echo $disabled ?>>
@@ -71,28 +63,26 @@ if(isset($_GET['id'])){
             </form>
 
             <form action="../misc/changeicons.php" method="post" id="changeform">
-                <div class="form-group">
-                    <input type="hidden" id="id" class="form-control" name="id" readonly value="<?php echo $id ?>">
-                </div>
-                <input type="hidden" class="form-control" value="<?php echo $backgroundimage ?>"
+                <input type="hidden" id="id" name="id" readonly value="<?php echo $id ?>">
+                <input type="hidden" value="<?php echo $backgroundimage ?>"
                        name="background-image">
 
-                <div class="form-group">
-                    <label for="title">Title:</label>
-                    <input type="text" id="title" class="form-control" required name="title" value="<?php echo $title ?>"
+                <div class="mb-4">
+                    <label class="label" for="title">Title:</label>
+                    <input type="text" id="title" class="input w-full" required name="title" value="<?php echo $title ?>"
                     >
                 </div>
 
-                <div class="form-group">
-                    <label for="mutedtitle">Muted Title:</label>
-                    <input type="text" id=mutedtitle" class="form-control" required
+                <div class="mb-4">
+                    <label class="label" for="mutedtitle">Muted Title:</label>
+                    <input type="text" id="mutedtitle" class="input w-full" required
                            name="mutedtitle" value="<?php echo $mutedTitle ?>"
                     >
                 </div>
 
-                <div class="form-group">
-                    <label for="description">Amount of Icons:</label>
-                    <select class="form-control" id="amound-of-sections"
+                <div class="mb-4">
+                    <label class="label" for="amound-of-sections">Amount of Icons:</label>
+                    <select class="select w-full" id="amound-of-sections"
                             name="amound-of-sections" <?php echo $writeable ?>>
                         <?php
                         for($i = 1; $i < 9; $i++){
@@ -120,18 +110,19 @@ if(isset($_GET['id'])){
                         $icontext = "";
                     }
                     echo '
-                    <div class="form-group iconoption" id="' . $i . '">
+                    <div class="mb-4 iconoption" id="' . $i . '">
                     <h2>Icon ' . $i . '</h2>
-                    <input type="text" id=icon-' . $i . '" class="form-control mb-3"
+                    <input type="text" id="icon-' . $i . '" class="input w-full mb-3"
                            name="icon-' . $i . '" placeholder="Icon" value="' . $icon . '" ' . $writeable . '>';
                     if ($i == 1) echo '
                     <div class="alert alert-info" role="alert">
-                        Example: fas fa-shopping-cart
+                        <i class="fas fa-info-circle"></i>
+                        <span>Example: fas fa-shopping-cart</span>
                     </div> ';
                     echo '
-                            <input type="text" id=icon-' . $i . '-headline" class="form-control mb-3"
+                            <input type="text" id="icon-' . $i . '-headline" class="input w-full mb-3"
                            name="icon-' . $i . '-headline" placeholder="Headline" value="' . $iconheadline . '" ' . $writeable . '>
-                    <input type="text" id=icon-1-text" class="form-control"
+                    <input type="text" id="icon-' . $i . '-text" class="input w-full"
                            name="icon-' . $i . '-text" placeholder="Text" value="' . $icontext . '" ' . $writeable . '>
 
                 </div>
@@ -139,88 +130,43 @@ if(isset($_GET['id'])){
                 }
                 ?>
 
-                <div class="form-group">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="delete-background" value="yes"
+                <div class="mb-4">
+                    <label class="label cursor-pointer justify-start gap-2" for="delete-background">
+                        <input class="checkbox" type="checkbox" id="delete-background" value="yes"
                                name="delete-background">
-                        <label class="form-check-label" for="delete-background">
-                            Delete Background-Image
-                        </label>
-                    </div>
+                        Delete Background-Image
+                    </label>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-4">
                     <input type='submit' class="btn btn-primary" name='action'
                            id='change' value='<?php echo $headline ?>'>
                 </div>
             </form>
 
         </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<!-- jQuery is loaded globally in core/inc/head.php -->
 <script>
     $(document).ready(function(){
-        $("select").change(function(){
+        $("#amound-of-sections").change(function(){
             $(this).find("option:selected").each(function(){
-                if($(this).attr("value")=="1"){
-                    $(".iconoption").not("#1").hide();
-                    $("#1").show();
-                }else if($(this).attr("value")=="2"){
-                    $(".iconoption").not("#2").hide();
-                    $("#1").show();
-                    $("#2").show();
-                }else if($(this).attr("value")=="3"){
-                    $(".iconoption").not("#3").hide();
-                    $("#1").show();
-                    $("#2").show();
-                    $("#3").show();
-                }else if($(this).attr("value")=="4"){
-                    $(".iconoption").not("#4").hide();
-                    $("#1").show();
-                    $("#2").show();
-                    $("#3").show();
-                    $("#4").show();
-                }else if($(this).attr("value")=="5"){
-                    $(".iconoption").not("#5").hide();
-                    $("#1").show();
-                    $("#2").show();
-                    $("#3").show();
-                    $("#4").show();
-                    $("#5").show();
-                }else if($(this).attr("value")=="6"){
-                    $(".iconoption").not("#6").hide();
-                    $("#1").show();
-                    $("#2").show();
-                    $("#3").show();
-                    $("#4").show();
-                    $("#5").show();
-                    $("#6").show();
-
-                }else if($(this).attr("value")=="7"){
-                    $(".iconoption").not("#7").hide();
-                    $("#1").show();
-                    $("#2").show();
-                    $("#3").show();
-                    $("#4").show();
-                    $("#5").show();
-                    $("#6").show();
-                    $("#7").show();
-
-                }else if($(this).attr("value")=="8"){
-                    $(".iconoption").not("#8").hide();
-                    $("#1").show();
-                    $("#2").show();
-                    $("#3").show();
-                    $("#4").show();
-                    $("#5").show();
-                    $("#6").show();
-                    $("#7").show();
-                    $("#8").show();
-                } else{
+                var amount = parseInt($(this).attr("value"), 10);
+                if (isNaN(amount)) {
                     $(".iconoption").hide();
+                    return;
                 }
+                $(".iconoption").each(function(){
+                    var iconIndex = parseInt($(this).attr("id"), 10);
+                    if (iconIndex <= amount) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
             });
         }).change();
     });
 </script>
+<?php include_once "../core/inc/footer.php" ?>
 </body>
 </html>

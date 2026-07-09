@@ -17,7 +17,7 @@ class SQLSettingActions
             $select->bindValue(':setting', $setting);
             $select->execute();
             $value = $select->fetch();
-            return $value[0];
+            return ($value === false) ? null : $value[0];
         } catch (Exception $exception) {
             echo 'Something went wrong: ' . $exception->getMessage();
         }
@@ -38,6 +38,45 @@ class SQLSettingActions
             return $update->execute() ? true : false;
         } catch (Exception $exception) {
             echo 'Something went wrong: ' . $exception->getMessage();
+        }
+    }
+
+    public function setSettingValue($setting, $value): bool
+    {
+        include '../database/connect.php';
+        try {
+            $select = $db->prepare('SELECT count(*) FROM settings WHERE setting = :setting;');
+            $select->bindValue(':setting', $setting);
+            $select->execute();
+            $exists = ((int)$select->fetch()[0]) > 0;
+
+            if ($exists) {
+                $statement = $db->prepare('UPDATE settings SET value = :value WHERE setting = :setting;');
+            } else {
+                $ncount = $db->prepare('SELECT COALESCE(MAX(id), 0) + 1 FROM settings;');
+                $ncount->execute();
+                $statement = $db->prepare('INSERT INTO settings (`id`, `setting`, `value`) VALUES (:id, :setting, :value)');
+                $statement->bindValue(':id', (int)$ncount->fetch()[0]);
+            }
+            $statement->bindValue(':setting', $setting);
+            $statement->bindValue(':value', $value);
+            return $statement->execute() ? true : false;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+            return false;
+        }
+    }
+
+    public function deleteSettingsByPrefix($prefix): bool
+    {
+        include '../database/connect.php';
+        try {
+            $delete = $db->prepare("DELETE FROM settings WHERE setting LIKE :pattern ESCAPE '\\'");
+            $delete->bindValue(':pattern', str_replace(array('\\', '%', '_'), array('\\\\', '\\%', '\\_'), $prefix) . '%');
+            return $delete->execute() ? true : false;
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+            return false;
         }
     }
 

@@ -1,0 +1,106 @@
+/*
+ * Source for css/admin.css — the OnePagerCMS admin backend stylesheet.
+ * Rebuild with: cd dev && npm install && npm run build
+ * End users never run this build; the compiled css/admin.css is committed.
+ */
+@import "tailwindcss" source(none);
+@source "../core/**/*.php";
+@source "../misc/**/*.php";
+
+/*
+ * Full prebuilt daisyUI (all components + light/dark themes via data-theme).
+ * Deliberately NOT `@plugin "daisyui"`: the plugin tree-shakes to the
+ * components the core uses, but third-party plugin admin pages must be able
+ * to rely on the complete daisyUI component set (see docs/EXTENSIONS.md).
+ * The OS dark-mode preference is applied by the theme-init script in
+ * core/inc/head.php, which always sets data-theme explicitly.
+ */
+@import "daisyui/daisyui.css";
+
+/*
+ * Utility safelist — the documented contract for plugin admin pages
+ * (see docs/EXTENSIONS.md). Plugin pages render inside the admin shell and
+ * cannot rebuild this file, so these utilities are always emitted even when
+ * core markup does not use them. Keep this list in sync with EXTENSIONS.md.
+ */
+@source inline("{sm:,md:,lg:,}{m,p}{t,r,b,l,x,y,}-{0,1,2,3,4,5,6,8,10,12,16}");
+@source inline("{sm:,md:,lg:,}grid-cols-{1,2,3,4,6,12} col-span-{1,2,3,4,6,12} {sm:,md:,lg:,}{flex,hidden,block,grid} inline-block");
+@source inline("items-{start,center,end} justify-{start,center,end,between} gap-{1,2,3,4,6,8} flex-{row,col,wrap,1} grow shrink-0 mx-auto");
+@source inline("w-{full,auto,fit,1/2,1/3,2/3} max-w-{sm,md,lg,xl,2xl,4xl,full} h-{full,auto} min-h-screen");
+@source inline("text-{left,center,right,xs,sm,base,lg,xl,2xl,3xl} font-{normal,medium,semibold,bold,mono} rounded{,-md,-lg,-full}");
+@source inline("border{,-t,-b,-2,-0} shadow{,-sm,-md,-lg} overflow-{hidden,auto,x-auto} opacity-{50,60,70,80} space-y-{1,2,3,4,6} space-x-{1,2,3,4}");
+
+@layer base {
+  /*
+   * Tailwind's preflight strips all heading styles. Admin pages (including
+   * third-party plugin pages) emit plain h1–h6/p, so give them sensible
+   * defaults instead of classing every heading during migration.
+   */
+  h1 { font-size: 1.875rem; line-height: 2.25rem; font-weight: 700; margin-bottom: 1rem; }
+  h2 { font-size: 1.5rem; line-height: 2rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+  h3 { font-size: 1.25rem; line-height: 1.75rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
+  h4, h5 { font-size: 1.125rem; line-height: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; }
+  p { margin-bottom: 0.75rem; }
+}
+
+@layer components {
+  /*
+   * Every admin page (including plugin pages hosted by core/extension.php)
+   * wraps its content in .container. Defined here as our own component —
+   * core markup must never use Tailwind's own `container` utility, or the
+   * emission order could override this rule.
+   */
+  .container {
+    @apply w-full max-w-4xl mx-auto px-4 py-6;
+  }
+
+  /* Trumbowyg ships only a light skin — dark-theme overrides */
+  [data-theme="dark"] .trumbowyg-box,
+  [data-theme="dark"] .trumbowyg-editor,
+  [data-theme="dark"] .trumbowyg-textarea {
+    background: var(--color-base-200);
+    color: var(--color-base-content);
+    border-color: var(--color-base-300);
+  }
+  [data-theme="dark"] .trumbowyg-button-pane {
+    background: var(--color-base-300);
+    border-color: var(--color-base-300);
+  }
+  [data-theme="dark"] .trumbowyg-button-pane button svg {
+    fill: var(--color-base-content);
+    color: var(--color-base-content);
+  }
+  [data-theme="dark"] .trumbowyg-button-pane button:not(.trumbowyg-disable):hover,
+  [data-theme="dark"] .trumbowyg-button-pane button:not(.trumbowyg-disable):focus {
+    background: var(--color-base-100);
+  }
+  [data-theme="dark"] .trumbowyg-dropdown {
+    background: var(--color-base-200);
+    border-color: var(--color-base-300);
+  }
+  [data-theme="dark"] .trumbowyg-dropdown button {
+    background: var(--color-base-200);
+    color: var(--color-base-content);
+  }
+  [data-theme="dark"] .trumbowyg-dropdown button:hover {
+    background: var(--color-base-100);
+  }
+
+  /* Logo is a black PNG — invert it on the dark sidebar */
+  [data-theme="dark"] .opcms-logo {
+    filter: invert(1) hue-rotate(180deg);
+  }
+}
+
+/*
+ * daisyUI keeps --color-neutral near-black in the dark theme too, so
+ * `btn-outline btn-neutral` renders a black border and black text on the
+ * dark background. Swap the roles in dark mode: base-content for border/text
+ * at rest, neutral for the text on the light hover fill.
+ * Deliberately unlayered: the daisyui layer is declared after components in
+ * the compiled output, so a rule inside @layer components would lose to it.
+ */
+[data-theme="dark"] .btn-outline.btn-neutral {
+  --btn-color: var(--color-base-content);
+  --btn-fg: var(--color-neutral);
+}

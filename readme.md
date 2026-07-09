@@ -15,13 +15,10 @@ It's as simple as it can be. Just add the files to your webspace, enter your use
 
 ## How do I log into the backend?
 You can log into your backend by opening:
-http://*yourdomain*.*tld*/opcms-login.php
+https://*yourdomain*.*tld*/opcms-login.php
 
 For example the login to the OPCMS demo page can be found here:
-http://demo.onepagercms.de/opcms-login.php
+https://demo.onepagercms.de/opcms-login.php
 
 ## Can I support you?
-Sure. You would help a lot, if you report every possible bug that you find. We would prefer you to create an issue on our GitHub page. But you can also fill out the contact form on [https://onepagercms.de](https://onepagercms.de).
-
-## OPCMS is really cool, do you accept donations?
-Yes and no. You can buy me a coffee if you want to. :) 
+Sure. You would help a lot, if you report every possible bug that you find. We would prefer you to create an issue on our GitHub page. But you can also fill out the contact form on [https://onepagercms.de](https://onepagercms.de). You can also support the project financially by [buying me a coffee](https://www.buymeacoffee.com/lukasboc).

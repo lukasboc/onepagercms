@@ -69,6 +69,20 @@ Standalone pages (not part of the one-pager scroll) managed via `core/additional
 
 Key-value pairs in the `settings` table control: primary/button/nav colors, logo, logo CSS, website title, custom CSS, Google Analytics ID, reCAPTCHA key, meta description, favicon paths.
 
+## Extension system (plugins, themes, marketplace)
+
+Added in 1.2.0. Full developer docs: `docs/EXTENSIONS.md`.
+
+- `system/` — framework code: `bootstrap.php` (defines `OPCMS_ROOT`/`OPCMS_VERSION`, loads hooks + ThemeEngine + active plugins; guarded so everything no-ops when `extensions/` or the DB table are missing), `hooks.php` (WordPress-style `add_action`/`add_filter` API), `ThemeEngine.php`, `Installer.php` (ZIP install with zip-slip protection), `MarketplaceClient.php` (HTTP + settings-table cache).
+- `extensions/<slug>/` — installed plugins (manifest `plugin.json` + `main` entry file). **Not** to be confused with the legacy `plugins/` dir (vendored admin JS).
+- `themes/<slug>/` — themes; `themes/agency/` is the bundled default whose templates reproduce the original frontend output byte-for-byte. `pages/index.php` and `pages/additionalpage.php` are thin controllers that render the `index`/`page` templates; the `show*()` methods in `SQL*Actions` delegate to templates with the old echo code kept as legacy fallback. Active theme = `active-theme` setting.
+- `database/SQLExtensionActions.php` — `extensions` table, created lazily via `CREATE TABLE IF NOT EXISTS` in every method (the CMS install/update process must stay unchanged; never add required migrations to `update.php` for extension features). New success/error reasons are inserted lazily with IDs ≥ 500 via `ensureMessages()`.
+- Admin UI: `core/extensions.php` (Installed/Marketplace/Upload tabs), `core/extension.php` (dispatcher for plugin admin pages). Handlers: `misc/extension*.php`, `misc/activatetheme.php` — all new handlers check the session (`$_SESSION['profile']`), unlike the legacy handlers.
+- Custom section types: plugins register new types via `opcms_register_section_type($type, [label, build, render, form_url])` (`system/sections.php`, incl. the generic `PluginSection` value object). Plugin sections live in the core `sections` registry (generic helpers `addSectionEntry`/`deleteSectionEntry`/`deleteSectionEntriesByType`/`getSectionRow`/`getOrphanSectionRows` in `SQLSectionActions`); their data tables belong to the plugin. Admin New/Edit/Delete redirects to the type's `form_url`; form POSTs go to `misc/extension.php?handler=<slug>` (filter `opcms_extension_handlers`, redirect-capable). A theme template `section-<type>.php` always beats the plugin's `render` callback. Reference plugin: sibling repo `../gallery-example/`.
+- Paid extensions: no payment code in the CMS. License keys are stored per extension; downloads/updates for paid items go through the developer's own `update_endpoint` (EDD-style protocol, documented in `docs/EXTENSIONS.md`).
+- The marketplace server is a separate Laravel app in the sibling directory `../marketplace/` (own README).
+- `SQLSettingActions::setSettingValue()` is the correct upsert for settings; the older `updateSettingValue()` silently fails to create missing keys (type-comparison bug) — do not rely on it for new settings.
+
 ## Key path relationships
 
 - `index.php` (root) → redirects to `pages/index.php`
