@@ -73,7 +73,9 @@ class MarketplaceClient
 
     public function downloadToTemp($url): ?string
     {
-        if (!preg_match('#^https?://#i', $url)) {
+        // Extension ZIPs are executed after install, so the download must be
+        // authenticated (HTTPS to a public host) and free of SSRF redirects.
+        if (!$this->isSafeUrl($url)) {
             return null;
         }
         $tempFile = tempnam(sys_get_temp_dir(), 'opcms-download-');
@@ -88,19 +90,24 @@ class MarketplaceClient
             curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($curl, CURLOPT_MAXREDIRS, 3);
             curl_setopt($curl, CURLOPT_TIMEOUT, 60);
+            $this->restrictToHttps($curl);
             curl_setopt($curl, CURLOPT_USERAGENT, 'OnePagerCMS/' . (defined('OPCMS_VERSION') ? OPCMS_VERSION : '1.x'));
             $ok = curl_exec($curl);
             $status = (int)curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
+            $primaryIp = (string)curl_getinfo($curl, CURLINFO_PRIMARY_IP);
             curl_close($curl);
             fclose($out);
-            if ($ok === false || $status >= 400 || filesize($tempFile) === 0) {
+            // Reject if any (post-redirect) hop landed on a non-public address.
+            if ($ok === false || $status >= 400 || filesize($tempFile) === 0
+                || ($primaryIp !== '' && !$this->isPublicIp($primaryIp))) {
                 unlink($tempFile);
                 return null;
             }
             return $tempFile;
         }
 
-        $context = stream_context_create(array('http' => array('timeout' => 60, 'follow_location' => 1)));
+        // No curl: disable redirects entirely (we cannot re-validate their target).
+        $context = stream_context_create(array('http' => array('timeout' => 60, 'follow_location' => 0, 'max_redirects' => 0)));
         $content = @file_get_contents($url, false, $context);
         if ($content === false || $content === '') {
             unlink($tempFile);
@@ -112,17 +119,25 @@ class MarketplaceClient
 
     public function httpGet($url): ?string
     {
+        if (!$this->isSafeUrl($url)) {
+            return null;
+        }
         if (function_exists('curl_init')) {
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($curl, CURLOPT_MAXREDIRS, 3);
             curl_setopt($curl, CURLOPT_TIMEOUT, self::HTTP_TIMEOUT);
+            $this->restrictToHttps($curl);
             curl_setopt($curl, CURLOPT_HTTPHEADER, array('Accept: application/json'));
             curl_setopt($curl, CURLOPT_USERAGENT, 'OnePagerCMS/' . (defined('OPCMS_VERSION') ? OPCMS_VERSION : '1.x'));
             $body = curl_exec($curl);
             $status = (int)curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
+            $primaryIp = (string)curl_getinfo($curl, CURLINFO_PRIMARY_IP);
             curl_close($curl);
+            if ($primaryIp !== '' && !$this->isPublicIp($primaryIp)) {
+                return null;
+            }
             return ($body === false || $status >= 400) ? null : $body;
         }
 
@@ -131,11 +146,77 @@ class MarketplaceClient
         }
         $context = stream_context_create(array('http' => array(
             'timeout' => self::HTTP_TIMEOUT,
-            'follow_location' => 1,
+            'follow_location' => 0,
+            'max_redirects' => 0,
             'header' => "Accept: application/json\r\nUser-Agent: OnePagerCMS/" . (defined('OPCMS_VERSION') ? OPCMS_VERSION : '1.x') . "\r\n",
         )));
         $body = @file_get_contents($url, false, $context);
         return ($body === false) ? null : $body;
+    }
+
+    /**
+     * Restrict a curl handle to HTTPS for both the initial request and any
+     * followed redirects, blocking downgrade/file/gopher SSRF vectors.
+     */
+    private function restrictToHttps($curl): void
+    {
+        if (defined('CURLPROTO_HTTPS')) {
+            curl_setopt($curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
+            curl_setopt($curl, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTPS);
+        }
+    }
+
+    /**
+     * True only for an HTTPS URL whose host resolves exclusively to public IP
+     * addresses. Blocks plaintext HTTP (MITM) and requests to private/reserved
+     * ranges such as cloud metadata (169.254.169.254) and localhost.
+     */
+    private function isSafeUrl($url): bool
+    {
+        $parts = parse_url((string)$url);
+        if (!is_array($parts) || empty($parts['host']) || empty($parts['scheme'])) {
+            return false;
+        }
+        if (strtolower($parts['scheme']) !== 'https') {
+            return false;
+        }
+        $host = $parts['host'];
+        $ips = array();
+        if (filter_var($host, FILTER_VALIDATE_IP)) {
+            $ips[] = $host;
+        } else {
+            $records = @dns_get_record($host, DNS_A | DNS_AAAA);
+            if (is_array($records)) {
+                foreach ($records as $record) {
+                    if (isset($record['ip'])) {
+                        $ips[] = $record['ip'];
+                    }
+                    if (isset($record['ipv6'])) {
+                        $ips[] = $record['ipv6'];
+                    }
+                }
+            }
+            if (count($ips) === 0) {
+                $resolved = gethostbynamel($host);
+                if (is_array($resolved)) {
+                    $ips = $resolved;
+                }
+            }
+        }
+        if (count($ips) === 0) {
+            return false;
+        }
+        foreach ($ips as $ip) {
+            if (!$this->isPublicIp($ip)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private function isPublicIp($ip): bool
+    {
+        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false;
     }
 
     private function httpGetCached($url, $ttl): ?string

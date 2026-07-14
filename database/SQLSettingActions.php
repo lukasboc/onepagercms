@@ -19,7 +19,7 @@ class SQLSettingActions
             $value = $select->fetch();
             return ($value === false) ? null : $value[0];
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -37,7 +37,7 @@ class SQLSettingActions
             $update->bindValue(':setting', $setting);
             return $update->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -62,7 +62,7 @@ class SQLSettingActions
             $statement->bindValue(':value', $value);
             return $statement->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return false;
         }
     }
@@ -75,7 +75,7 @@ class SQLSettingActions
             $delete->bindValue(':pattern', str_replace(array('\\', '%', '_'), array('\\\\', '\\%', '\\_'), $prefix) . '%');
             return $delete->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return false;
         }
     }
@@ -93,7 +93,7 @@ class SQLSettingActions
             return $value[0] === 0;
 
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -114,7 +114,7 @@ class SQLSettingActions
             $section->bindValue(':value', '');
             return $section->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 }

@@ -73,7 +73,7 @@ if (function_exists('opcms_theme') && opcms_theme()->hasTemplate('page')) {
 <!-- Navigation -->
 <?php $sectionactions->showNavigation() ?>
 <div class="container" style="margin-top:120px">
-    <h1><?php echo $title ?></h1>
+    <h1><?php echo opcms_esc($title) ?></h1>
 
     <p>
         <?php echo $content ?>

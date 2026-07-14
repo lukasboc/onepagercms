@@ -20,7 +20,7 @@ class SQLContactActions
             return $title['receiverMail'];
 
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -36,7 +36,7 @@ class SQLContactActions
             return ($config === false) ? null : $config;
 
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return null;
         }
     }

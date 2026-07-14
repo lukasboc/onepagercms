@@ -1,5 +1,5 @@
 <h1>Release Notes — v1.2.1</h1>
-<p class="release-subtitle">Spam Protection Update</p>
+<p class="release-subtitle">Spam Protection &amp; Security Hardening</p>
 
 <!-- Highlights -->
 <div class="release-section">
@@ -13,6 +13,15 @@
     third parties and no cookie consent is required.
   </p>
 
+  <p>
+    It also ships a broad <strong>security-hardening pass</strong> for the
+    admin backend: every action that changes your site now requires a valid
+    admin session <em>and</em> a CSRF token, all public output is escaped
+    against cross-site scripting, and several older weaknesses in the
+    password reset, file uploads and the extension marketplace have been
+    closed.
+  </p>
+
   <ul>
     <li>Invisible <strong>honeypot</strong> field that traps form-filling bots</li>
     <li><strong>Signed form tokens</strong> — bots posting directly to the form handler are blocked entirely</li>
@@ -20,6 +29,9 @@
     <li><strong>Rate limiting</strong> — at most 3 messages per 10 minutes per visitor</li>
     <li>Strict <strong>server-side validation</strong> of every submission</li>
     <li>Google reCAPTCHA has been <strong>removed</strong></li>
+    <li><strong>All admin actions now require login + CSRF protection</strong></li>
+    <li><strong>Cross-site scripting (XSS) output escaping</strong> across the public site and backend</li>
+    <li>Hardened password reset, image uploads and marketplace downloads</li>
   </ul>
 </div>
 
@@ -91,9 +103,82 @@
   </ul>
 </div>
 
-<!-- Security -->
+<!-- Security hardening -->
 <div class="release-section">
-  <h2>Security &amp; Bug Fixes</h2>
+  <h2>Security Hardening</h2>
+
+  <p>
+    This release fixes a class of issues where admin-only actions could be
+    triggered by visitors who were not logged in, and where content could be
+    manipulated through the browser of a logged-in administrator. If your
+    site is publicly reachable, updating is strongly recommended.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Login required for every change:</strong>
+      all backend action handlers (saving sections, design, settings,
+      account changes, uploads, extension management, …) now verify an admin
+      session. Previously many of them accepted requests from anyone.
+    </li>
+
+    <li>
+      <strong>CSRF protection:</strong>
+      every admin form now carries a one-time security token that is checked
+      on submit, so a malicious website can no longer make your browser
+      perform backend actions while you are logged in. Blocked requests show
+      a "Security check failed" page asking you to reload and retry.
+    </li>
+
+    <li>
+      <strong>Password reset fixed:</strong>
+      the new password is now always e-mailed to the address stored for the
+      account, never to an address supplied in the request. The endpoint no
+      longer reveals whether a username or e-mail exists and is rate-limited.
+    </li>
+
+    <li>
+      <strong>No more arbitrary file deletion:</strong>
+      removing a section's background image is now restricted to the image
+      upload folders. Crafted requests can no longer delete files outside
+      them (for example the database file).
+    </li>
+
+    <li>
+      <strong>Cross-site scripting (XSS) escaping:</strong>
+      titles, the site title, the meta description, navigation entries,
+      background paths and similar values are now HTML-escaped wherever they
+      are printed, on both the public site and the backend editors. Your
+      rich-text section content keeps rendering as HTML as before.
+    </li>
+
+    <li>
+      <strong>Hardened image uploads:</strong>
+      uploads are now content-checked as real images (fail-closed), the file
+      size limit is actually enforced, and the upload folders ship with an
+      <code>.htaccess</code> that forbids executing scripts placed there.
+    </li>
+
+    <li>
+      <strong>Safer marketplace &amp; updates:</strong>
+      extension and theme downloads are now forced over HTTPS and blocked
+      from reaching internal/private network addresses (SSRF protection).
+    </li>
+
+    <li>
+      <strong>More hardening:</strong>
+      the login now regenerates the session ID and throttles repeated failed
+      attempts per IP; internal Referer-based redirects are validated to the
+      same site; database errors are written to the server log instead of
+      being shown to visitors; user names and host names are escaped in
+      notification e-mails.
+    </li>
+  </ul>
+</div>
+
+<!-- Contact-form bug fixes (carried over) -->
+<div class="release-section">
+  <h2>Contact Form Fixes</h2>
 
   <ul>
     <li>
@@ -138,6 +223,21 @@
     the documented <code>class_exists()</code> guard remain compatible with
     older CMS versions.
   </p>
+
+  <p>
+    <strong>Escape your output.</strong> Custom themes are responsible for
+    escaping the values they print. The CMS can only escape inside its own
+    bundled templates — it cannot reach into yours. Wrap any user-controlled
+    value (section title, muted title, background path, site title,
+    navigation entries, footer links, additional-page title, …) with the new
+    helper <code>opcms_esc()</code> when you print it in HTML or attribute
+    context, e.g.
+    <code>&lt;?php echo opcms_esc($section-&gt;getTitle()) ?&gt;</code>.
+    Leave intentionally rich content (a section's rich-text body, the
+    <code>Extra CSS</code> and <code>Google Analytics</code> settings) raw,
+    exactly as the bundled <code>agency</code> theme does. See
+    <code>themes/agency/templates/</code> for the updated reference.
+  </p>
 </div>
 
 <!-- Migration -->
@@ -145,9 +245,11 @@
   <h2>How to update — v1.2.1</h2>
 
   <p>
-    <strong>No database migration is required.</strong> Everything the new
-    spam protection needs (its table, its secret key and its status
-    messages) is created automatically on first use.
+    <strong>No manual database migration is required.</strong> The new spam
+    protection and the security fixes work as soon as the new files are in
+    place. Running <code>update.php</code> once (step 4 below) simply adds the
+    new "Security check failed" status message text; without it, blocked
+    requests are still stopped, they just show a generic page.
   </p>
 
   <ol class="update-steps">
@@ -162,23 +264,38 @@
 
     <li>
       <strong>Upload the new files</strong> to your webspace and override
-      all existing files. Then delete <code>misc/changecaptcha.php</code>
-      from your webspace if it is still there.
+      all existing files. This adds the new <code>system/</code> helpers,
+      the <code>misc/inc/auth.php</code> guard and the <code>.htaccess</code>
+      files in the <code>img/</code> upload folders. Then delete
+      <code>misc/changecaptcha.php</code> from your webspace if it is still
+      there.
     </li>
 
     <li>
       <strong>Restore your database</strong> —
       upload the <code>SQLiteDatabase.db</code> you saved in step 1 back
-      into the <code>database/</code> folder.
+      into the <code>database/</code> folder. Then open
+      <code>https://your-domain.tld/update.php</code> once in your browser
+      to add the new status message, and <strong>delete
+      <code>update.php</code></strong> from your webspace afterwards. This
+      step is safe to run repeatedly and never touches your content.
     </li>
   </ol>
 
   <p>
-    Updating from <strong>v1.1.0 or older</strong>? Run
-    <code>update.php</code> once after uploading (and delete it afterwards),
-    exactly as described in the v1.2.0 release notes — it applies all
-    missing migrations up to the current version.
+    Updating from <strong>v1.1.0 or older</strong>? The same
+    <code>update.php</code> run in step 4 also applies all missing
+    migrations up to the current version — exactly as described in the
+    v1.2.0 release notes.
   </p>
+
+  <div class="note-box">
+    <strong>After updating:</strong><br>
+    Because the login now issues a fresh session on sign-in, you may be asked
+    to log in again once. If you use a <strong>custom theme</strong>, remember
+    that its templates need their own XSS escaping (see "For Theme
+    Developers" above) — the CMS only escapes inside its bundled themes.
+  </div>
 
   <div class="note-box">
     <strong>Note on the Captcha setting:</strong><br>

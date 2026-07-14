@@ -34,12 +34,13 @@ if(isset($_GET['id'])){
 <?php include_once "../core/inc/header.php" ?>
 
 <div class="container">
-            <h1><?php echo "$headline" ?> Standard-Section</h1>
+            <h1><?php echo opcms_esc($headline) ?> Standard-Section</h1>
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
+                <?php echo opcms_csrf_field(); ?>
                 <div class="mb-4">
                     <label class="label" for="image-upload">Background:</label>
                     <input type="hidden" id="id" name="id" readonly
-                           value="<?php echo $id ?>">
+                           value="<?php echo opcms_esc($id) ?>">
 
                     <input type="file" class="file-input w-full" id="image-upload"
                            name="background-image" <?php echo $disabled ?>>
@@ -49,7 +50,7 @@ if(isset($_GET['id'])){
                 if ($backgroundimage != "" && file_exists($backgroundimage)) {
                     echo " <div class=\"mb-4\">";
                     echo "<label class=\"label\">Preview:</label>";
-                    echo "<img class=\"max-w-full rounded\" src=\"" . $backgroundimage . "\">";
+                    echo "<img class=\"max-w-full rounded\" src=\"" . opcms_esc($backgroundimage) . "\">";
                     echo "</div>";
                 } ?>
                 <div class="mb-4">
@@ -60,8 +61,9 @@ if(isset($_GET['id'])){
             </form>
 
             <form action="../misc/changestandard.php" method="post" id="changeform">
+                <?php echo opcms_csrf_field(); ?>
                 <input type="hidden" id="id" name="id" readonly value="<?php echo $sid ?>">
-                <input type="hidden" value="<?php echo $backgroundimage ?>"
+                <input type="hidden" value="<?php echo opcms_esc($backgroundimage) ?>"
                        name="background-image">
 
                 <input type="hidden" id="specialid" name="author" readonly>
@@ -98,7 +100,7 @@ if(isset($_GET['id'])){
 
                 <div class="mb-4">
                     <input type='submit' class="btn btn-primary" name='action'
-                           id='change' value='<?php echo $headline ?>'>
+                           id='change' value='<?php echo opcms_esc($headline) ?>'>
                 </div>
             </form>
         </div>

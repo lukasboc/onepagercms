@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/inc/auth.php';
 include "../database/SQLSettingActions.php";
 
 $logocss = $_POST['logocss'] ?? null;

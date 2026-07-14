@@ -13,6 +13,7 @@ $userActions = new SQLUserActions();
     <h1>Account</h1>
     <h2>Change Password</h2>
     <form method="post" action="../misc/changepassword.php">
+                <?php echo opcms_csrf_field(); ?>
         <input type="hidden" name="username" value="<?php echo $userid ?>">
         <div class="mb-4">
             <label class="label" for="oldpassword">Current Password:</label>
@@ -38,6 +39,7 @@ $userActions = new SQLUserActions();
 
     <h2>Change E-Mail</h2>
     <form method="post" action="../misc/changeemail.php">
+                <?php echo opcms_csrf_field(); ?>
         <input type="hidden" name="username" value="<?php echo $userid ?>">
         <div class="mb-4">
             <label class="label" for="oldemail">Current E-Mail:</label>
@@ -81,6 +83,7 @@ $userActions = new SQLUserActions();
 
     <h3>New User:</h3>
     <form method="post" action="../misc/adduser.php">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
             <label class="label" for="username">Username:</label>
             <input type="text" class="input w-full" id="username" placeholder="Username" name="username">

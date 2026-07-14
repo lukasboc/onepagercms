@@ -47,7 +47,7 @@ class SQLHeaderActions
             return $mtitle['mutedtitle'];
 
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -63,7 +63,7 @@ class SQLHeaderActions
             return $title['title'];
 
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -80,7 +80,7 @@ class SQLHeaderActions
             $update->bindValue(':specialid', 0);
             return ($update->execute()) ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -95,7 +95,7 @@ class SQLHeaderActions
             $title = $seltitle->fetch();
             return $title['background'];
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -110,7 +110,7 @@ class SQLHeaderActions
             $title = $seltitle->fetch();
             return $title['customrow'];
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 

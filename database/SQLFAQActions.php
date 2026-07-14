@@ -25,7 +25,7 @@ class SQLFAQActions
             }
             return $pairArray;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -43,7 +43,7 @@ class SQLFAQActions
             }
             return $categoryArray;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
 
     }

@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/inc/auth.php';
 require_once '../system/bootstrap.php';
 $type = $_POST['type'];
 

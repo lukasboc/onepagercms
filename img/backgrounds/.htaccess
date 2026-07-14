@@ -1,0 +1,18 @@
+# Defense in depth: uploads must never be executed as server-side scripts.
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .phar .cgi .pl .py
+RemoveType .php .phtml .php3 .php4 .php5 .php7 .phar
+<FilesMatch "(?i)\.(php|php3|php4|php5|php7|phtml|pht|phar|cgi|pl|py)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>

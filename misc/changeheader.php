@@ -1,15 +1,11 @@
 <?php
+require __DIR__ . '/inc/auth.php';
 
 $title = $_POST['title'];
 $mutedtitle = $_POST['mutedtitle'];
 $background = (isset($_POST['delete-background'])) ? "" : $_POST['background-image'];
 if (isset($_POST['delete-background'])) {
-    if (file_exists($_POST['background-image'])) {
-        try {
-            unlink($_POST['background-image']);
-        } catch (Exception $exception) {
-        }
-    }
+    opcms_delete_upload($_POST['background-image']);
 }
 $customrow = $_POST['customrow'];
 

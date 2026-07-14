@@ -66,7 +66,7 @@ class SQLUserActions
             return $selusrn->fetchAll();
 
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -80,7 +80,7 @@ class SQLUserActions
             return $selusrn->fetch();
 
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
 
     }
@@ -94,7 +94,7 @@ class SQLUserActions
             $selusrn->execute();
             return $selusrn->fetch();
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -108,7 +108,7 @@ class SQLUserActions
             $usnm = $selusrn->fetch();
             return $usnm[0];
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -122,7 +122,7 @@ class SQLUserActions
             $em = $selem->fetch();
             return $em[0];
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -138,7 +138,7 @@ class SQLUserActions
             $update->bindValue(':password', $hash);
             return $update->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -154,7 +154,7 @@ class SQLUserActions
             $update->bindValue(':email', $newMail);
             return $update->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 

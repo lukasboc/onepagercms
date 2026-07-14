@@ -5,6 +5,7 @@ if (!isset($_SESSION['profile'])) {
 } else {
     $userid = $_SESSION["profile"];
 }
+require_once '../system/csrf.php';
 $opcmsPluginNavItems = '';
 if (function_exists('apply_filters')) {
     foreach (apply_filters('opcms_admin_nav_items', array()) as $opcmsNavItem) {

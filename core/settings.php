@@ -21,6 +21,7 @@ $metadescription = ($settingActions->getSettingValue('page-description') !== nul
     <h1>Settings</h1>
     <h2>Website-Title</h2>
     <form method="post" action="../misc/changewebsitetitle.php">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
             <label class="label" for="title">Title:</label>
             <div class="join w-full">
@@ -34,6 +35,7 @@ $metadescription = ($settingActions->getSettingValue('page-description') !== nul
 
     <h2>Meta Description</h2>
     <form method="post" action="../misc/changemetadescription.php">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
             <label class="label" for="metadescription">Description:</label>
             <div class="mb-3">
@@ -50,6 +52,7 @@ $metadescription = ($settingActions->getSettingValue('page-description') !== nul
 
     <h2>Logo</h2>
     <form enctype="multipart/form-data" action="../misc/logoupload.php" method="post" id="uploadform">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
             <label class="label">Preview:</label><br>
             <img class="max-w-full mb-2 rounded"
@@ -63,6 +66,7 @@ $metadescription = ($settingActions->getSettingValue('page-description') !== nul
         </div>
     </form>
     <form method="post" action="../misc/changelogo.php">
+                <?php echo opcms_csrf_field(); ?>
         <label class="label">Happy with the preview? Safe:</label>
         <input type="hidden" id="action" name="logo" readonly
                value="<?php echo $uploadedLogo ?>">
@@ -73,6 +77,7 @@ $metadescription = ($settingActions->getSettingValue('page-description') !== nul
     </form>
     <h2>Logo CSS</h2>
     <form method="post" action="../misc/changelogocss.php">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
             <label class="label" for="logocss">CSS:</label>
             <div class="mb-3">
@@ -88,6 +93,7 @@ $metadescription = ($settingActions->getSettingValue('page-description') !== nul
 
     <h2>Favicon</h2>
     <form enctype="multipart/form-data" action="../misc/faviconupload180x180.php" method="post" id="uploadform">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
             <label class="label">Apple-touch-icon 180x180 (PNG):</label>
             <div class="join w-full">
@@ -97,6 +103,7 @@ $metadescription = ($settingActions->getSettingValue('page-description') !== nul
         </div>
     </form>
     <form enctype="multipart/form-data" action="../misc/faviconupload32x32.php" method="post" id="uploadform">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
             <label class="label">Image/png 32x32 (PNG):</label>
             <div class="join w-full">
@@ -106,6 +113,7 @@ $metadescription = ($settingActions->getSettingValue('page-description') !== nul
         </div>
     </form>
     <form enctype="multipart/form-data" action="../misc/faviconupload16x16.php" method="post" id="uploadform">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
             <label class="label">Image/png 16x16 (PNG):</label>
             <div class="join w-full">
@@ -115,6 +123,7 @@ $metadescription = ($settingActions->getSettingValue('page-description') !== nul
         </div>
     </form>
     <form enctype="multipart/form-data" action="../misc/faviconupload48x48.php" method="post" id="uploadform">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
             <label class="label">Shortcut Icon 48x48 (ICO):</label>
             <div class="join w-full">
@@ -126,6 +135,7 @@ $metadescription = ($settingActions->getSettingValue('page-description') !== nul
 
     <h2>Google Analytics</h2>
     <form method="post" action="../misc/changegoogleanalytics.php">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
             <label class="label" for="gAnalyics">Tracking-Code:</label>
             <div class="mb-3">

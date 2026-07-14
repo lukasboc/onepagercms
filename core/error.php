@@ -1,10 +1,11 @@
 <?php
 include '../database/SQLErrorActions.php';
+require_once '../system/uploads.php';
 $reason = $_GET['reason'] ?? 'none';
 $erroractions = new SQLErrorActions();
 $message = $erroractions->showErrorMessage($reason);
 $headline = $erroractions->showErrorHeadline($reason);
-header('refresh:7; url= ' . $_SERVER['HTTP_REFERER']);
+header('refresh:7; url=' . opcms_safe_referer('../core/home.php'));
 ?>
 <!DOCTYPE html>
 <html>

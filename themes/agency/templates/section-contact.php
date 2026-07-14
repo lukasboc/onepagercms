@@ -30,12 +30,12 @@ if ($section->getMessage()) {
                             ';
 }
 echo '
-                  <section class="' . $bgcolor . 'page-section" id="' . $section->getTitle() . '" style="background-image: url(' . $section->getBackground() . ')">
+                  <section class="' . $bgcolor . 'page-section" id="' . opcms_esc($section->getTitle()) . '" style="background-image: url(' . opcms_esc($section->getBackground()) . ')">
                         <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading text-uppercase">' . $section->getTitle() . '</h2>
-                <h3 class="section-subheading text-muted">' . $section->getMutedTitle() . '</h3>
+                <h2 class="section-heading text-uppercase">' . opcms_esc($section->getTitle()) . '</h2>
+                <h3 class="section-subheading text-muted">' . opcms_esc($section->getMutedTitle()) . '</h3>
                 <div class="text-center mb-5">' . $section->getText() . '
 
       </div>

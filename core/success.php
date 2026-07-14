@@ -1,10 +1,11 @@
 <?php
 include '../database/SQLSuccessActions.php';
+require_once '../system/uploads.php';
 $reason = $_GET['reason'] ?? 'none';
 $successactions = new SQLSuccessActions();
 $message = $successactions->showSuccessMessage($reason);
 $headline = $successactions->showSuccessHeadline($reason);
-header('refresh:4; url= ' . $_SERVER['HTTP_REFERER']);
+header('refresh:4; url=' . opcms_safe_referer('../core/home.php'));
 ?>
 <!DOCTYPE html>
 <html>

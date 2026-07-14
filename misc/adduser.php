@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/inc/auth.php';
 $username = $_POST['username'] ?? null;
 $email = $_POST['email'] ?? null;
 
@@ -25,6 +26,8 @@ if ($userActions->checkForSpecificEmail($email)[0] != 0) {
     die();
 }
 
+$safeUsername = htmlspecialchars((string)$username, ENT_QUOTES, 'UTF-8');
+$safeHost = htmlspecialchars($_SERVER['SERVER_NAME'] ?? '', ENT_QUOTES, 'UTF-8');
 $generatedPass = substr(bin2hex(random_bytes(8)), 0, 8);
 if ($userActions->register($username, $generatedPass, $email)) {
 // mehrere Empfänger
@@ -40,14 +43,14 @@ if ($userActions->register($username, $generatedPass, $email)) {
   <title>OPCMS - New Login Credentials</title>
 </head>
 <body>
-  <p>Hello ' . $username . ',</p>
+  <p>Hello ' . $safeUsername . ',</p>
   <p>this mail gives you access to a OPCMS-Website. Data:</p>
   <table>
     <tr>
-    <th style="text-align:left">Login Page</th><td>' . $_SERVER["SERVER_NAME"] . '/opcms-login.php</td>
+    <th style="text-align:left">Login Page</th><td>' . $safeHost . '/opcms-login.php</td>
     </tr>
     <tr>
-      <th style="text-align:left">Username</th><td>' . $username . '</td>
+      <th style="text-align:left">Username</th><td>' . $safeUsername . '</td>
     </tr>
     <tr>
       <th style="text-align:left">Password</th><td>' . $generatedPass . '</td>

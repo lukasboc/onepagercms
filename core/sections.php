@@ -22,6 +22,7 @@ $sections = $sectionactions->getAllSections();
     </div>
 
     <form method="post" action="../misc/positions.php" id="positionsform">
+                <?php echo opcms_csrf_field(); ?>
         <div class="grid grid-cols-12 gap-2 items-center py-2 border-t border-base-300">
             <div class="col-span-2 lg:col-span-1">
             </div>
@@ -108,6 +109,7 @@ foreach ($sectionactions->getOrphanSectionRows() as $opcmsOrphanRow) {
     <div class="divider"></div>
     <h1 class="mt-4">New Section</h1>
     <form action="../misc/newsection.php" method="post">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
     <label class="label" for="types">Type:</label>
             <select class="select w-full max-w-xs" name="type" id="types">

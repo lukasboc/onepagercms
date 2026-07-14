@@ -30,7 +30,7 @@ class SQLExtensionActions
             $select->execute();
             return $select->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return array();
         }
     }
@@ -55,7 +55,7 @@ class SQLExtensionActions
             $extension = $select->fetch(PDO::FETCH_ASSOC);
             return ($extension === false) ? null : $extension;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return null;
         }
     }
@@ -86,7 +86,7 @@ class SQLExtensionActions
 
             return $insert->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return false;
         }
     }
@@ -101,7 +101,7 @@ class SQLExtensionActions
             $update->bindValue(':active', $active ? 1 : 0);
             return $update->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return false;
         }
     }
@@ -116,7 +116,7 @@ class SQLExtensionActions
             $update->bindValue(':slug', $slug);
             return $update->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return false;
         }
     }
@@ -131,7 +131,7 @@ class SQLExtensionActions
             $update->bindValue(':version', $version);
             return $update->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return false;
         }
     }
@@ -146,7 +146,7 @@ class SQLExtensionActions
             $update->bindValue(':license_key', ($key === null || $key === '') ? null : $key);
             return $update->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return false;
         }
     }
@@ -160,7 +160,7 @@ class SQLExtensionActions
             $delete->bindValue(':slug', $slug);
             return $delete->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return false;
         }
     }
@@ -216,7 +216,7 @@ class SQLExtensionActions
                 $insertSuccess->execute();
             }
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 }

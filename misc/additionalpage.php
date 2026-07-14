@@ -28,11 +28,12 @@ if ($id != null) {
 <?php include_once "../core/inc/header.php" ?>
 
 <div class="container">
-            <h1><?php echo "$headline" ?> Additional Page</h1>
+            <h1><?php echo opcms_esc($headline) ?> Additional Page</h1>
 
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
+                <?php echo opcms_csrf_field(); ?>
                 <div class="mb-4">
-                    <img class="max-w-full rounded" src="<?php echo $backgroundimage ?>"><br>
+                    <img class="max-w-full rounded" src="<?php echo opcms_esc($backgroundimage) ?>"><br>
                     <label class="label" for="image-upload">Background-Image:</label>
                     <input name="background-upload" class="file-input w-full" type="file" <?php echo $disabled ?>>
                 </div>
@@ -44,7 +45,8 @@ if ($id != null) {
             </form>
 
             <form action="../misc/changeadditionalpage.php" method="post" id="changeform">
-                <input type="hidden" id="id" readonly name="id" value="<?php echo $id ?>">
+                <?php echo opcms_csrf_field(); ?>
+                <input type="hidden" id="id" readonly name="id" value="<?php echo opcms_esc($id) ?>">
                 <div class="mb-4">
                     <label class="label" for="custonText">Title:</label>
                     <input type="text" id="custonText" class="input w-full" name="title" required
@@ -77,7 +79,7 @@ if ($id != null) {
 
                 <div class="mb-4">
                     <input type='submit' class="btn btn-primary" name='action'
-                           id='change' value='<?php echo $headline ?>'>
+                           id='change' value='<?php echo opcms_esc($headline) ?>'>
                 </div>
             </form>
 

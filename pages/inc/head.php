@@ -2,9 +2,9 @@
     <?php echo $settingactions->getSettingValue('google-analytics'); ?>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="<?php echo $settingactions->getSettingValue('page-description'); ?>">
+    <meta name="description" content="<?php echo htmlspecialchars((string)$settingactions->getSettingValue('page-description'), ENT_QUOTES, 'UTF-8'); ?>">
     <title><?php
-        echo $settingactions->getSettingValue('website-title');
+        echo htmlspecialchars((string)$settingactions->getSettingValue('website-title'), ENT_QUOTES, 'UTF-8');
         ?></title>
 
     <!-- Bootstrap core CSS -->

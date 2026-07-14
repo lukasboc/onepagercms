@@ -4,6 +4,11 @@ if (!isset($_SESSION['profile'])) {
     header('Location: ../core/opcms-login.php');
     die();
 }
+require_once '../system/csrf.php';
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && !opcms_csrf_verify()) {
+    header('Location: ../core/error.php?reason=csrf');
+    die();
+}
 include_once '../database/SQLSettingActions.php';
 
 // Drops all cached marketplace responses so the next page load fetches fresh data.

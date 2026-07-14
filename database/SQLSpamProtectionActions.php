@@ -69,7 +69,7 @@ class SQLSpamProtectionActions
             $count->execute();
             return ((int)$count->fetch()[0]) >= self::RATE_LIMIT;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return true;
         }
     }
@@ -84,7 +84,7 @@ class SQLSpamProtectionActions
             $insert->bindValue(':created', time());
             $insert->execute();
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -126,7 +126,7 @@ class SQLSpamProtectionActions
                 $insertSuccess->execute();
             }
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 

@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/inc/auth.php';
 $upload_folder = '../img/backgrounds/';
 $filename = pathinfo($_FILES['background-image']['name'], PATHINFO_FILENAME);
 $extension = strtolower(pathinfo($_FILES['background-image']['name'], PATHINFO_EXTENSION));
@@ -23,6 +24,10 @@ if (function_exists('exif_imagetype')) {
         header('Location: ../core/error.php?reason=wrongimageformat');
         die();
     }
+} else {
+    // exif extension unavailable — fail closed rather than skip content validation
+    header('Location: ../core/error.php?reason=wrongimageformat');
+    die();
 }
 
 $new_path = $upload_folder . $filename . '.' . $extension;
@@ -36,4 +41,6 @@ if (file_exists($new_path)) {
 }
 
 move_uploaded_file($_FILES['background-image']['tmp_name'], $new_path);
-header("Location: " . $_SERVER['HTTP_REFERER'] . "&background-image=" . $new_path);
+$redirect = opcms_safe_referer('../core/sections.php');
+$separator = (strpos($redirect, '?') === false) ? '?' : '&';
+header('Location: ' . $redirect . $separator . 'background-image=' . urlencode($new_path));

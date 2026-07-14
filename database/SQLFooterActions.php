@@ -105,6 +105,14 @@ class SQLFooterActions
     {
         include '../database/connect.php';
 
+        // $var is interpolated into the SQL as a column name, so it must be
+        // constrained to a known-good whitelist (never a bind parameter target).
+        $allowedColumns = array('fid', 'custom', 'facebook_page', 'twitter_page',
+            'linkedin_page', 'custom_page', 'copyright', 'custom_icon');
+        if (!in_array($var, $allowedColumns, true)) {
+            return null;
+        }
+
         try {
             $selval = $db->prepare("SELECT $var FROM footer WHERE fid =:fid;");
             $selval->bindValue(':fid', 0);
@@ -113,7 +121,7 @@ class SQLFooterActions
             return $val[$var];
 
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -133,7 +141,7 @@ class SQLFooterActions
             $update->bindValue(':own_icon', $ownIcon);
             return ($update->execute()) ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 

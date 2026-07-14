@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/inc/auth.php';
 include "../database/SQLSettingActions.php";
 $primaryColor = (isset($_POST['navigationtext-color']) && strlen($_POST['navigationtext-color']) > 0) ? $_POST['navigationtext-color'] : "";
 if ($primaryColor != "") {

@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/inc/auth.php';
 
 $custom = $_POST['custom'];
 $facebook = $_POST['facebook'];

@@ -33,12 +33,13 @@ $customrow = $headeractions->getCustomRow();
 <?php include_once "../core/inc/header.php" ?>
 
 <div class="container">
-            <h1><?php echo "$headline" ?> Header-Section</h1>
+            <h1><?php echo opcms_esc($headline) ?> Header-Section</h1>
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
+                <?php echo opcms_csrf_field(); ?>
                 <div class="mb-4">
                     <label class="label" for="image-upload">Background:</label>
                     <input type="hidden" id="id" name="id" readonly
-                           value="<?php echo $id ?>">
+                           value="<?php echo opcms_esc($id) ?>">
 
                     <input type="file" class="file-input w-full" id="image-upload"
                            name="background-image" <?php echo $disabled ?>>
@@ -53,16 +54,17 @@ $customrow = $headeractions->getCustomRow();
                 if ($backgroundimage != "" && file_exists($backgroundimage)) {
                     echo " <div class=\"mb-4\">";
                     echo "<label class=\"label\">Preview:</label>";
-                    echo "<img class=\"max-w-full rounded\" src=\"" . $backgroundimage . "\">";
+                    echo "<img class=\"max-w-full rounded\" src=\"" . opcms_esc($backgroundimage) . "\">";
                     echo "</div>";
                 } ?>
             </form>
 
             <form action="../misc/changeheader.php" method="post" id="changeform">
+                <?php echo opcms_csrf_field(); ?>
                 <input type="hidden" id="id" name="id" readonly value="<?php echo $sid ?>">
 
                 <input type="hidden" id="specialid" name="author" readonly>
-                <input type="hidden" value="<?php echo $backgroundimage ?>"
+                <input type="hidden" value="<?php echo opcms_esc($backgroundimage) ?>"
                        name="background-image">
 
                 <div class="mb-4">
@@ -92,7 +94,7 @@ $customrow = $headeractions->getCustomRow();
 
                 <div class="mb-4">
                     <input type='submit' class="btn btn-primary" name='action'
-                           id='change' value='<?php echo $headline ?>'>
+                           id='change' value='<?php echo opcms_esc($headline) ?>'>
                 </div>
             </form>
 

@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/inc/auth.php';
 include "../database/SQLSettingActions.php";
 
 $customcss = $_POST['customcss'] ?? "";

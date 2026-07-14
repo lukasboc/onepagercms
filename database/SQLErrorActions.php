@@ -20,7 +20,7 @@ class SQLErrorActions
             return $message['message'];
 
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
 
     }
@@ -37,7 +37,7 @@ class SQLErrorActions
             return $message['headline'];
 
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
 
     }

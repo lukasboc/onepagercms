@@ -276,12 +276,12 @@ class SQLSectionActions implements ISectionActions
     private function showStandardSection($i, $bgcolor, $sectionarray): void
     {
         echo '
-                  <section class="' . $bgcolor . 'page-section" id="' . $sectionarray[$i]->getTitle() . '" style="background-image: url(' . $sectionarray[$i]->getBackground() . ')">
+                  <section class="' . $bgcolor . 'page-section" id="' . opcms_esc($sectionarray[$i]->getTitle()) . '" style="background-image: url(' . opcms_esc($sectionarray[$i]->getBackground()) . ')">
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-uppercase">' . $sectionarray[$i]->getTitle() . '</h2>
-          <h3 class="section-subheading text-muted">' . $sectionarray[$i]->getMutedTitle() . '</h3>
+          <h2 class="section-heading text-uppercase">' . opcms_esc($sectionarray[$i]->getTitle()) . '</h2>
+          <h3 class="section-subheading text-muted">' . opcms_esc($sectionarray[$i]->getMutedTitle()) . '</h3>
         </div>
       </div>
       <div class="row" style="display:contents">' . $sectionarray[$i]->getText() . '
@@ -295,12 +295,12 @@ class SQLSectionActions implements ISectionActions
     private function showIconsSection($i, $bgcolor, $sectionarray): void
     {
         echo '
-                  <section class="' . $bgcolor . 'page-section" id="' . $sectionarray[$i]->getTitle() . '" style="background-image: url(' . $sectionarray[$i]->getBackground() . ')">
+                  <section class="' . $bgcolor . 'page-section" id="' . opcms_esc($sectionarray[$i]->getTitle()) . '" style="background-image: url(' . opcms_esc($sectionarray[$i]->getBackground()) . ')">
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-uppercase" >' . $sectionarray[$i]->getTitle() . '</h2>
-          <h3 class="section-subheading text-muted">' . $sectionarray[$i]->getMutedTitle() . '</h3>
+          <h2 class="section-heading text-uppercase" >' . opcms_esc($sectionarray[$i]->getTitle()) . '</h2>
+          <h3 class="section-subheading text-muted">' . opcms_esc($sectionarray[$i]->getMutedTitle()) . '</h3>
         </div>
       </div>
       <div class="row text-center">';
@@ -309,10 +309,10 @@ class SQLSectionActions implements ISectionActions
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
             <i class="fas fa-circle fa-stack-2x text-primary"></i>
-            <i class="' . $sectionarray[$i]->getIcons()[$h] . ' fa-stack-1x fa-inverse"></i>
+            <i class="' . opcms_esc($sectionarray[$i]->getIcons()[$h]) . ' fa-stack-1x fa-inverse"></i>
           </span>
-          <h4 class="service-heading">' . $sectionarray[$i]->getIconHeadline()[$h] . '</h4>
-          <p class="text-muted">' . $sectionarray[$i]->getIconTexts()[$h] . '</p>
+          <h4 class="service-heading">' . opcms_esc($sectionarray[$i]->getIconHeadline()[$h]) . '</h4>
+          <p class="text-muted">' . opcms_esc($sectionarray[$i]->getIconTexts()[$h]) . '</p>
         </div>
                     ';
         }
@@ -353,12 +353,12 @@ class SQLSectionActions implements ISectionActions
                             ';
         }
         echo '
-                  <section class="' . $bgcolor . 'page-section" id="' . $sectionarray[$i]->getTitle() . '" style="background-image: url(' . $sectionarray[$i]->getBackground() . ')">
+                  <section class="' . $bgcolor . 'page-section" id="' . opcms_esc($sectionarray[$i]->getTitle()) . '" style="background-image: url(' . opcms_esc($sectionarray[$i]->getBackground()) . ')">
                         <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading text-uppercase">' . $sectionarray[$i]->getTitle() . '</h2>
-                <h3 class="section-subheading text-muted">' . $sectionarray[$i]->getMutedTitle() . '</h3>
+                <h2 class="section-heading text-uppercase">' . opcms_esc($sectionarray[$i]->getTitle()) . '</h2>
+                <h3 class="section-subheading text-muted">' . opcms_esc($sectionarray[$i]->getMutedTitle()) . '</h3>
                 <div class="text-center mb-5">' . $sectionarray[$i]->getText() . '
 
       </div>
@@ -411,7 +411,7 @@ class SQLSectionActions implements ISectionActions
         echo '
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="index.php#page-top"><img alt="Logo" title="' . $title . '" style=" ' . $logoCSS . '" src="' . $logo . '"></a>
+        <a class="navbar-brand js-scroll-trigger" href="index.php#page-top"><img alt="Logo" title="' . opcms_esc($title) . '" style=" ' . opcms_esc($logoCSS) . '" src="' . opcms_esc($logo) . '"></a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
@@ -420,7 +420,7 @@ class SQLSectionActions implements ISectionActions
             <ul class="navbar-nav text-uppercase ml-auto">';
         foreach ($titles as $iValue) {
             echo '<li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="index.php#' . $iValue . '">' . $iValue . '</a>
+                    <a class="nav-link js-scroll-trigger" href="index.php#' . opcms_esc($iValue) . '">' . opcms_esc($iValue) . '</a>
                 </li>';
         }
         echo '</ul>
@@ -729,7 +729,7 @@ class SQLSectionActions implements ISectionActions
 
             return ($update->execute()) ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -780,7 +780,7 @@ class SQLSectionActions implements ISectionActions
             return ($update->execute()) ? true : false;
 
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -809,7 +809,7 @@ class SQLSectionActions implements ISectionActions
             return ($update->execute()) ? true : false;
 
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -922,7 +922,7 @@ class SQLSectionActions implements ISectionActions
             $update->bindValue(':position', $position);
             return $update->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -951,7 +951,7 @@ class SQLSectionActions implements ISectionActions
             $section->bindValue(':position', $newposition);
             return $section->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return false;
         }
     }
@@ -964,7 +964,7 @@ class SQLSectionActions implements ISectionActions
             $delete->bindValue(':id', $id);
             return $delete->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return false;
         }
     }
@@ -977,7 +977,7 @@ class SQLSectionActions implements ISectionActions
             $delete->bindValue(':type', $type);
             return $delete->execute() ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return false;
         }
     }
@@ -992,7 +992,7 @@ class SQLSectionActions implements ISectionActions
             $row = $select->fetch(PDO::FETCH_ASSOC);
             return ($row === false) ? null : $row;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return null;
         }
     }
@@ -1015,7 +1015,7 @@ class SQLSectionActions implements ISectionActions
             }
             return $orphans;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
             return array();
         }
     }

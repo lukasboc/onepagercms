@@ -18,7 +18,7 @@ class SQLAdditionalPagesActions
             $all = $pages->fetchAll();
             return $all;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -33,7 +33,7 @@ class SQLAdditionalPagesActions
             $all = $pages->fetchAll();
             return $all;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
 
     }
@@ -41,6 +41,13 @@ class SQLAdditionalPagesActions
     public function getPagesEntry($var, $id)
     {
         include '../database/connect.php';
+
+        // $var is interpolated into the SQL as a column name, so it must be
+        // constrained to a known-good whitelist (never a bind parameter target).
+        $allowedColumns = array('id', 'title', 'content', 'showInFooter');
+        if (!in_array($var, $allowedColumns, true)) {
+            return null;
+        }
 
         try {
             $selval = $db->prepare("SELECT $var FROM additionalPages WHERE id =:id;");
@@ -50,7 +57,7 @@ class SQLAdditionalPagesActions
             return $val[$var];
 
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -66,7 +73,7 @@ class SQLAdditionalPagesActions
             $update->bindValue(':showInFooter', $showInFooter);
             return ($update->execute()) ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -79,7 +86,7 @@ class SQLAdditionalPagesActions
             $delete->bindValue(':id', $id);
             return ($delete->execute()) ? true : false;
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
     }
 
@@ -102,7 +109,7 @@ class SQLAdditionalPagesActions
             return ($insert->execute()) ? true : false;
 
         } catch (Exception $exception) {
-            echo 'Something went wrong: ' . $exception->getMessage();
+            error_log('OPCMS DB error: ' . $exception->getMessage());
         }
 
 

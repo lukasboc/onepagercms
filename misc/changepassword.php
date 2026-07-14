@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/inc/auth.php';
 
 include '../database/SQLUserActions.php';
 $useractions = new SQLUserActions();
@@ -47,7 +48,7 @@ if ($useractions->changePassword($username, $newPasswordOne)) {
   <title>OPCMS - New Login Credentials</title>
 </head>
 <body>
-  <p>Hello ' . $username . ',</p>
+  <p>Hello ' . htmlspecialchars((string)$username, ENT_QUOTES, 'UTF-8') . ',</p>
   <p>this E-Mail was sent to you, because you changed your password. If you didn\'t cause this, your account may have been captured and you should reset your password.</p>
 </body>
 </html>';

@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/inc/auth.php';
 $upload_folder = '../img/logo/'; //Das Upload-Verzeichnis
 $filename = pathinfo($_FILES['logo']['name'], PATHINFO_FILENAME);
 $extension = strtolower(pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION));
@@ -12,7 +13,7 @@ if (!in_array($extension, $allowed_extensions)) {
 
 //Überprüfung der Dateigröße
 $max_size = 5000 * 1024; //5MB
-if ($_FILES['cinemaimage-upload']['size'] > $max_size) {
+if ($_FILES['logo']['size'] > $max_size) {
     header('Location: ../core/error.php?reason=logoimagetoobig');
     die();
 }
@@ -25,6 +26,10 @@ if (function_exists('exif_imagetype')) { //Die exif_imagetype-Funktion erfordert
         header('Location: ../core/error.php?reason=wrongimageformat');
         die();
     }
+} else {
+    // exif extension unavailable — fail closed rather than skip content validation
+    header('Location: ../core/error.php?reason=wrongimageformat');
+    die();
 }
 
 //Pfad zum Upload

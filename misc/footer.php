@@ -33,11 +33,12 @@ $customIcon = $footeractions->getFooterEntry('custom_icon');
 <?php include_once "../core/inc/header.php" ?>
 
 <div class="container">
-            <h1><?php echo "$headline" ?> Footer-Section</h1>
+            <h1><?php echo opcms_esc($headline) ?> Footer-Section</h1>
 
             <form enctype="multipart/form-data" action="../misc/backgroundupload.php" method="post" id="uploadform">
+                <?php echo opcms_csrf_field(); ?>
                 <div class="mb-4">
-                    <img class="max-w-full rounded" src="<?php echo $backgroundimage ?>"><br>
+                    <img class="max-w-full rounded" src="<?php echo opcms_esc($backgroundimage) ?>"><br>
                     <label class="label" for="image-upload">Background-Image:</label>
                     <input name="background-upload" class="file-input w-full" type="file" <?php echo $disabled ?>>
                 </div>
@@ -50,6 +51,7 @@ $customIcon = $footeractions->getFooterEntry('custom_icon');
             </form>
 
             <form action="../misc/changefooter.php" method="post" id="changeform">
+                <?php echo opcms_csrf_field(); ?>
                 <input type="hidden" id="specialid" readonly>
                 <h3>Text</h3>
                 <div class="mb-4">
@@ -105,7 +107,7 @@ $customIcon = $footeractions->getFooterEntry('custom_icon');
 
                 <div class="mb-4">
                     <input type='submit' class="btn btn-primary" name='action'
-                           id='change' value='<?php echo $headline ?>'>
+                           id='change' value='<?php echo opcms_esc($headline) ?>'>
                 </div>
             </form>
 

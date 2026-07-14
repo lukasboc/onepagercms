@@ -101,23 +101,27 @@ if ($activeTab === 'marketplace' && $httpAvailable) {
                             <td class="text-right">
                                 <?php if ($hasUpdate || $isPaid): ?>
                                     <form class="inline" method="post" action="../misc/extensionupdate.php">
+                <?php echo opcms_csrf_field(); ?>
                                         <input type="hidden" name="slug" value="<?php echo htmlspecialchars($slug) ?>">
                                         <input type="submit" class="btn btn-sm btn-warning" value="<?php echo $hasUpdate ? 'Update' : 'Check for update'; ?>">
                                     </form>
                                 <?php endif; ?>
                                 <?php if ($isActive): ?>
                                     <form class="inline" method="post" action="../misc/extensiondeactivate.php">
+                <?php echo opcms_csrf_field(); ?>
                                         <input type="hidden" name="slug" value="<?php echo htmlspecialchars($slug) ?>">
                                         <input type="submit" class="btn btn-sm btn-outline" value="Deactivate">
                                     </form>
                                 <?php else: ?>
                                     <form class="inline" method="post" action="../misc/extensionactivate.php">
+                <?php echo opcms_csrf_field(); ?>
                                         <input type="hidden" name="slug" value="<?php echo htmlspecialchars($slug) ?>">
                                         <input type="submit" class="btn btn-sm btn-primary" value="Activate">
                                     </form>
                                 <?php endif; ?>
                                 <form class="inline" method="post" action="../misc/extensiondelete.php"
                                       onsubmit="return confirm('Delete this extension? Its files will be removed.');">
+                <?php echo opcms_csrf_field(); ?>
                                     <input type="hidden" name="slug" value="<?php echo htmlspecialchars($slug) ?>">
                                     <input type="submit" class="btn btn-sm btn-outline btn-error" value="Delete">
                                 </form>
@@ -127,6 +131,7 @@ if ($activeTab === 'marketplace' && $httpAvailable) {
                             <tr>
                                 <td colspan="5" class="pt-0 border-0">
                                     <form class="flex items-center gap-2 flex-wrap" method="post" action="../misc/extensionlicense.php">
+                <?php echo opcms_csrf_field(); ?>
                                         <input type="hidden" name="slug" value="<?php echo htmlspecialchars($slug) ?>">
                                         <label class="text-base-content/60" for="license-<?php echo htmlspecialchars($slug) ?>"><small>License key:</small></label>
                                         <input type="text" class="input input-sm" style="min-width: 280px"
@@ -157,6 +162,7 @@ if ($activeTab === 'marketplace' && $httpAvailable) {
                 <input type="submit" class="btn btn-primary" value="Search">
             </form>
             <form class="mb-4 tooltip tooltip-left" data-tip="Marketplace results are cached for a few hours; refresh to fetch the latest listings." method="post" action="../misc/marketplacerefresh.php">
+                <?php echo opcms_csrf_field(); ?>
                 <input type="submit" class="btn btn-sm btn-outline" value="Refresh listings">
             </form>
 
@@ -198,12 +204,14 @@ if ($activeTab === 'marketplace' && $httpAvailable) {
                                     <span class="badge badge-success">Installed</span>
                                 <?php elseif ($hasUpdate): ?>
                                     <form method="post" action="../misc/extensionupdate.php">
+                <?php echo opcms_csrf_field(); ?>
                                         <input type="hidden" name="slug" value="<?php echo htmlspecialchars($slug) ?>">
                                         <input type="submit" class="btn btn-sm btn-warning"
                                                value="Update to <?php echo htmlspecialchars($marketplaceItem['latest_version']) ?>">
                                     </form>
                                 <?php else: ?>
                                     <form method="post" action="../misc/extensioninstallremote.php">
+                <?php echo opcms_csrf_field(); ?>
                                         <input type="hidden" name="slug" value="<?php echo htmlspecialchars($slug) ?>">
                                         <input type="submit" class="btn btn-sm btn-primary" value="Install"
                                             <?php if (!$zipAvailable) echo 'disabled'; ?>>
@@ -230,6 +238,7 @@ if ($activeTab === 'marketplace' && $httpAvailable) {
             <p class="text-base-content/60"><small>Only install extensions from sources you trust &mdash; extension code runs with
                 full access to your website.</small></p>
             <form method="post" action="../misc/extensionupload.php" enctype="multipart/form-data">
+                <?php echo opcms_csrf_field(); ?>
                 <div class="mb-4">
                     <input type="file" class="file-input" name="extension" accept=".zip" required <?php if (!$zipAvailable) echo 'disabled'; ?>>
                 </div>

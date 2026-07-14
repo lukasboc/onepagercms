@@ -18,6 +18,7 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
     <h1>Design</h1>
     <h2>Colors</h2>
     <form method="post" action="../misc/changeprimarycolor.php">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
             <label class="label" for="primaryColor">Primary:</label>
             <div class="join w-full">
@@ -29,6 +30,7 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
         </div>
     </form>
     <form method="post" action="../misc/changebuttoncolor.php">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
             <label class="label" for="buttonColor">Buttons:</label>
             <div class="join w-full">
@@ -41,6 +43,7 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
     </form>
 
     <form method="post" action="../misc/changenavbackgroundcolor.php">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
             <label class="label" for="navBackgroundColor">Navigation Background:</label>
             <div class="join w-full">
@@ -53,6 +56,7 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
     </form>
 
     <form method="post" action="../misc/changenavtextcolor.php">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
             <label class="label" for="navTextColor">Navigation Text:</label>
             <div class="join w-full">
@@ -66,6 +70,7 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
 
     <h2>Custom CSS</h2>
     <form method="post" action="../misc/changecustomcss.php">
+                <?php echo opcms_csrf_field(); ?>
         <div class="mb-4">
             <label class="label" for="customcss">CSS:</label>
             <textarea class="textarea w-full font-mono" id="customcss" name="customcss"
@@ -101,6 +106,7 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
                         <div><span class="badge badge-success">Active</span></div>
                     <?php else: ?>
                         <form method="post" action="../misc/activatetheme.php">
+                <?php echo opcms_csrf_field(); ?>
                             <input type="hidden" name="slug" value="<?php echo htmlspecialchars($themeSlug) ?>">
                             <input type="submit" class="btn btn-sm btn-primary" value="Activate">
                         </form>
@@ -120,6 +126,7 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
             <div class="card-body">
                 <p class="text-base-content/60"><small>Options provided by the active theme. Leave a field empty to use the theme default.</small></p>
                 <form method="post" action="../misc/savethemeoptions.php">
+                <?php echo opcms_csrf_field(); ?>
                     <input type="hidden" name="slug" value="<?php echo htmlspecialchars($activeThemeSlug) ?>">
                     <?php foreach ($activeThemeOptions as $themeOption):
                         $themeOptionSaved = $settingActions->getSettingValue('theme-option:' . $activeThemeSlug . ':' . $themeOption['key']);
@@ -151,6 +158,7 @@ $navtextcolor = ($settingActions->getSettingValue('navigationtext-color') !== nu
                     <input type="submit" class="btn btn-success" value="Save Options">
                 </form>
                 <form method="post" action="../misc/savethemeoptions.php" class="mt-2">
+                <?php echo opcms_csrf_field(); ?>
                     <input type="hidden" name="slug" value="<?php echo htmlspecialchars($activeThemeSlug) ?>">
                     <input type="hidden" name="reset" value="1">
                     <input type="submit" class="btn btn-sm btn-outline" value="Reset to Defaults">

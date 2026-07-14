@@ -206,6 +206,15 @@ if (!$alreadyRan) {
                 addResult($results, 'Tabelle error erstellen', 'skipped', 'Bereits vorhanden');
             }
 
+            // ── error message: CSRF (security fix) ─────────────────────────
+            if (tableExists($db, 'error')) {
+                runSQL($db, $results, 'Fehlermeldung csrf ergänzen', <<<'SQL'
+INSERT OR IGNORE INTO error (id, reason, headline, message) VALUES
+(17, 'csrf', 'Security check failed', 'Your session could not be verified (invalid or missing security token). Please reload the page and try again.')
+SQL
+                );
+            }
+
             // ── success table ──────────────────────────────────────────────
             if (!tableExists($db, 'success')) {
                 runSQL($db, $results, 'Tabelle success erstellen',

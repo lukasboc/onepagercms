@@ -6,6 +6,19 @@ define('OPCMS_BOOTSTRAPPED', true);
 define('OPCMS_ROOT', dirname(__DIR__));
 define('OPCMS_VERSION', '1.2.1');
 
+if (!function_exists('opcms_esc')) {
+    /**
+     * Escape a value for safe output in HTML text/attribute context.
+     * Use for any admin-controlled string that is not intentionally raw HTML
+     * (section titles, background paths, etc.). Rich-text bodies and the
+     * custom-css/analytics settings are raw by design and must NOT be passed here.
+     */
+    function opcms_esc($value): string
+    {
+        return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+    }
+}
+
 require_once __DIR__ . '/hooks.php';
 if (is_file(__DIR__ . '/ThemeEngine.php')) {
     require_once __DIR__ . '/ThemeEngine.php';

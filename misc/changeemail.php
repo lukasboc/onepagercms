@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/inc/auth.php';
 
 include '../database/SQLUserActions.php';
 $useractions = new SQLUserActions();
@@ -38,7 +39,7 @@ if ($useractions->changeEmail($username, $password, $newEmailOne)) {
   <title>OPCMS - New Login Credentials</title>
 </head>
 <body>
-  <p>Hello ' . $username . ',</p>
+  <p>Hello ' . htmlspecialchars((string)$username, ENT_QUOTES, 'UTF-8') . ',</p>
   <p>this E-Mail was sent to you, because you changed you successfully changed your E-Mail adress. This adress is now saved in the database.</p>
 </body>
 </html>';

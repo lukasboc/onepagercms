@@ -4,6 +4,11 @@ if (!isset($_SESSION['profile'])) {
     header('Location: ../core/opcms-login.php');
     die();
 }
+require_once '../system/csrf.php';
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && !opcms_csrf_verify()) {
+    header('Location: ../core/error.php?reason=csrf');
+    die();
+}
 require_once '../system/bootstrap.php';
 require_once '../system/Installer.php';
 require_once '../system/MarketplaceClient.php';
@@ -29,7 +34,7 @@ $marketplaceClient = new MarketplaceClient();
 if ((int)$extension['paid'] === 1) {
     // Paid extensions update from the developer's own server (EDD-style protocol).
     $updateEndpoint = $extension['update_endpoint'];
-    if ($updateEndpoint === null || $updateEndpoint === '' || !preg_match('#^https?://#i', $updateEndpoint)) {
+    if ($updateEndpoint === null || $updateEndpoint === '' || !preg_match('#^https://#i', $updateEndpoint)) {
         header('Location: ../core/error.php?reason=downloadfailed');
         die();
     }

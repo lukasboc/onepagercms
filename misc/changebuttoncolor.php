@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/inc/auth.php';
 include "../database/SQLSettingActions.php";
 $buttonColor = (isset($_POST['buttonColor']) && strlen($_POST['buttonColor']) > 0) ? $_POST['buttonColor'] : "";
 if ($buttonColor != "") {

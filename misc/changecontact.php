@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/inc/auth.php';
 
 if (isset($_POST['id'])) {
     $id = $_POST['id'];
@@ -11,12 +12,7 @@ $text = $_POST['text'];
 $receiverMail = $_POST['receiverMail'];
 $background = (isset($_POST['delete-background'])) ? "" : $_POST['background-image'];
 if (isset($_POST['delete-background'])) {
-    if (file_exists($_POST['background-image'])) {
-        try {
-            unlink($_POST['background-image']);
-        } catch (Exception $exception) {
-        }
-    }
+    opcms_delete_upload($_POST['background-image']);
 }
 
 (isset($_POST['name'])) ? $name = $_POST['name'] : $name = false;

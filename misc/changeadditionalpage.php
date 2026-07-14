@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/inc/auth.php';
 
 $id = $_POST['id'];
 $title = $_POST['title'];

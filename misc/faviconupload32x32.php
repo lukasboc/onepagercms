@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/inc/auth.php';
 $upload_folder = '../img/favicon/'; //Das Upload-Verzeichnis
 $filename = pathinfo($_FILES['32x32png']['name'], PATHINFO_FILENAME);
 $extension = strtolower(pathinfo($_FILES['32x32png']['name'], PATHINFO_EXTENSION));
@@ -10,7 +11,7 @@ if (!in_array($extension, $allowed_extensions)) {
 }
 
 $max_size = 5000 * 1024; //5MB
-if ($_FILES['cinemaimage-upload']['size'] > $max_size) {
+if ($_FILES['32x32png']['size'] > $max_size) {
     header('Location: ../core/error.php?reason=logoimagetoobig');
     die();
 }
@@ -22,6 +23,10 @@ if (function_exists('exif_imagetype')) { //Die exif_imagetype-Funktion erfordert
         header('Location: ../core/error.php?reason=wrongimageformat');
         die();
     }
+} else {
+    // exif extension unavailable — fail closed rather than skip content validation
+    header('Location: ../core/error.php?reason=wrongimageformat');
+    die();
 }
 
 $new_path = $upload_folder . 'favicon32x32' . '.' . $extension;
