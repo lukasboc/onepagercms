@@ -1,0 +1,192 @@
+<h1>Release Notes — v1.2.1</h1>
+<p class="release-subtitle">Spam Protection Update</p>
+
+<!-- Highlights -->
+<div class="release-section">
+  <h2>Highlights</h2>
+
+  <p>
+    Version 1.2.1 replaces the contact form's captcha with a
+    <strong>built-in, invisible spam protection</strong> — no configuration,
+    no external services, no puzzle for your visitors. It works out of the
+    box and is <strong>GDPR-friendly</strong>: no visitor data is sent to
+    third parties and no cookie consent is required.
+  </p>
+
+  <ul>
+    <li>Invisible <strong>honeypot</strong> field that traps form-filling bots</li>
+    <li><strong>Signed form tokens</strong> — bots posting directly to the form handler are blocked entirely</li>
+    <li><strong>Time trap</strong> — submissions faster than a human could type are rejected</li>
+    <li><strong>Rate limiting</strong> — at most 3 messages per 10 minutes per visitor</li>
+    <li>Strict <strong>server-side validation</strong> of every submission</li>
+    <li>Google reCAPTCHA has been <strong>removed</strong></li>
+  </ul>
+</div>
+
+<!-- Spam protection -->
+<div class="release-section">
+  <h2>New: Invisible Spam Protection</h2>
+
+  <p>
+    Previously, the contact form's only defense was an optional Google
+    reCAPTCHA — and its server-side check was broken, so bots could flood
+    your inbox by posting directly to the form handler. v1.2.1 closes this
+    completely with four layers that are invisible to real visitors:
+  </p>
+
+  <ul>
+    <li>
+      <strong>Signed form token:</strong>
+      every contact form embeds a cryptographically signed token bound to
+      the form and the time it was rendered. Requests without a valid token
+      — i.e. every bot that posts directly to the handler — are dropped
+      without sending a mail.
+    </li>
+
+    <li>
+      <strong>Honeypot:</strong>
+      an invisible extra field that humans never see. If it is filled in,
+      the sender was a bot and the message is discarded.
+    </li>
+
+    <li>
+      <strong>Time trap:</strong>
+      submissions arriving less than 3 seconds after the page was rendered
+      are treated as bots. Forms older than 24 hours ask the visitor to
+      reload the page.
+    </li>
+
+    <li>
+      <strong>Rate limiting:</strong>
+      a maximum of 3 messages per 10 minutes per visitor — even a bot with
+      a valid browser session can no longer flood your inbox.
+    </li>
+  </ul>
+
+  <p>
+    Blocked bots are shown a normal "message sent" page so they don't learn
+    how to adapt; real visitors who hit the rate limit or a validation error
+    see a clear message explaining what to do.
+  </p>
+</div>
+
+<!-- GDPR -->
+<div class="release-section">
+  <h2>GDPR / Privacy</h2>
+
+  <ul>
+    <li>
+      <strong>No external services:</strong>
+      the Google reCAPTCHA integration (including its script embed) has been
+      removed. Your one-pager no longer loads anything from Google for the
+      contact form, so no consent banner is needed for it.
+    </li>
+
+    <li>
+      <strong>No plain-text IP storage:</strong>
+      the rate limiter never stores visitor IP addresses. It only keeps a
+      keyed hash (HMAC with a secret generated on your own server), and
+      entries are deleted automatically after one hour.
+    </li>
+  </ul>
+</div>
+
+<!-- Security -->
+<div class="release-section">
+  <h2>Security &amp; Bug Fixes</h2>
+
+  <ul>
+    <li>
+      <strong>Mail header injection fixed:</strong>
+      the contact form's <code>Reply-To</code> header is now built only from
+      a validated e-mail address; line breaks are stripped. (This also fixes
+      a bug where <code>Reply-To</code> was never set at all — replying to
+      contact messages now works.)
+    </li>
+
+    <li>
+      <strong>Unauthenticated settings endpoint removed:</strong>
+      <code>misc/changecaptcha.php</code> accepted requests without an admin
+      session. The file has been deleted along with the reCAPTCHA feature.
+    </li>
+
+    <li>
+      <strong>Strict server-side validation:</strong>
+      the handler now validates required fields, e-mail format and input
+      lengths, and the notification mail contains only the actual form
+      fields (Name, Mail, Message) instead of the raw request data.
+    </li>
+
+    <li>
+      The success and error pages for the contact form now always show a
+      proper headline and message (previously they could be blank).
+    </li>
+  </ul>
+</div>
+
+<!-- Developers -->
+<div class="release-section">
+  <h2>For Theme Developers</h2>
+
+  <p>
+    If your theme overrides the <code>section-contact</code> template, it
+    must render the new protection fields inside the form — otherwise
+    submissions will be silently dropped by the handler. It is two lines of
+    code; see the "Contact form spam protection" section in
+    <code>docs/EXTENSIONS.md</code> and the reference implementation in
+    <code>themes/agency/templates/section-contact.php</code>. Themes using
+    the documented <code>class_exists()</code> guard remain compatible with
+    older CMS versions.
+  </p>
+</div>
+
+<!-- Migration -->
+<div class="release-section">
+  <h2>How to update — v1.2.1</h2>
+
+  <p>
+    <strong>No database migration is required.</strong> Everything the new
+    spam protection needs (its table, its secret key and its status
+    messages) is created automatically on first use.
+  </p>
+
+  <ol class="update-steps">
+    <li>
+      <strong>Save your database</strong> —
+      copy <code>database/SQLiteDatabase.db</code> to your computer.
+    </li>
+
+    <li>
+      <strong>Download v1.2.1</strong> from onepagercms.de.
+    </li>
+
+    <li>
+      <strong>Upload the new files</strong> to your webspace and override
+      all existing files. Then delete <code>misc/changecaptcha.php</code>
+      from your webspace if it is still there.
+    </li>
+
+    <li>
+      <strong>Restore your database</strong> —
+      upload the <code>SQLiteDatabase.db</code> you saved in step 1 back
+      into the <code>database/</code> folder.
+    </li>
+  </ol>
+
+  <p>
+    Updating from <strong>v1.1.0 or older</strong>? Run
+    <code>update.php</code> once after uploading (and delete it afterwards),
+    exactly as described in the v1.2.0 release notes — it applies all
+    missing migrations up to the current version.
+  </p>
+
+  <div class="note-box">
+    <strong>Note on the Captcha setting:</strong><br>
+    The reCAPTCHA option has been removed from the settings page and from
+    the Contact section editor. Existing contact sections keep working
+    unchanged — the captcha checkbox and API key are simply ignored. You
+    can delete your reCAPTCHA API key in your Google account; the CMS no
+    longer uses it.
+  </div>
+
+</div>

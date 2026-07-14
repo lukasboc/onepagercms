@@ -4,7 +4,7 @@ if (defined('OPCMS_BOOTSTRAPPED')) {
 }
 define('OPCMS_BOOTSTRAPPED', true);
 define('OPCMS_ROOT', dirname(__DIR__));
-define('OPCMS_VERSION', '1.2.0');
+define('OPCMS_VERSION', '1.2.1');
 
 require_once __DIR__ . '/hooks.php';
 if (is_file(__DIR__ . '/ThemeEngine.php')) {

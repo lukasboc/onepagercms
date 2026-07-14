@@ -1,9 +1,9 @@
 <?php
-$settingsActions = new SQLSettingActions();
 $namefield = '';
 $emailfield = '';
 $messagefield = '';
-$captchafield = '';
+$protectionFields = class_exists('SQLSpamProtectionActions')
+    ? (new SQLSpamProtectionActions())->getFormFieldsHtml($section->getId()) : '';
 
 if ($section->getName()) {
     $namefield = '
@@ -28,11 +28,6 @@ if ($section->getMessage()) {
                                 <p class="help-block text-danger"></p>
                             </div>
                             ';
-}
-if ($section->getCaptcha()) {
-    $captchafield = '
-                           <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                           <div class="g-recaptcha" data-sitekey="' . $settingsActions->getSettingValue('recaptcha_key') . '"></div>';
 }
 echo '
                   <section class="' . $bgcolor . 'page-section" id="' . $section->getTitle() . '" style="background-image: url(' . $section->getBackground() . ')">
@@ -59,8 +54,8 @@ echo '
                         </div>
                         <div class="clearfix"></div>
                         <input type="hidden" name="contactId" value="' . $section->getId() . '">
+                        ' . $protectionFields . '
                         <div class="col-lg-12 text-center">
-                            <div class="text-center mb-1" style="width:304px; margin: 0 auto">' . $captchafield . '</div>
                             <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Send Message</button>
                         </div>
                     </div>

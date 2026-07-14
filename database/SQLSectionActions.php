@@ -11,6 +11,7 @@ include_once "../database/Standard.php";
 include_once "../database/Icons.php";
 include_once "../database/Contact.php";
 include_once "../database/SQLSettingActions.php";
+include_once "../database/SQLSpamProtectionActions.php";
 
 class SQLSectionActions implements ISectionActions
 {
@@ -322,11 +323,10 @@ class SQLSectionActions implements ISectionActions
 
     private function showContactSection($i, $bgcolor, $sectionarray)
     {
-        $settingsActions = new SQLSettingActions();
+        $spamProtection = new SQLSpamProtectionActions();
         $namefield = '';
         $emailfield = '';
         $messagefield = '';
-        $captchafield = '';
 
         if ($sectionarray[$i]->getName()) {
             $namefield = '
@@ -351,11 +351,6 @@ class SQLSectionActions implements ISectionActions
                                 <p class="help-block text-danger"></p>
                             </div>
                             ';
-        }
-        if ($sectionarray[$i]->getCaptcha()) {
-            $captchafield = '
-                           <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                           <div class="g-recaptcha" data-sitekey="' . $settingsActions->getSettingValue('recaptcha_key') . '"></div>';
         }
         echo '
                   <section class="' . $bgcolor . 'page-section" id="' . $sectionarray[$i]->getTitle() . '" style="background-image: url(' . $sectionarray[$i]->getBackground() . ')">
@@ -382,8 +377,8 @@ class SQLSectionActions implements ISectionActions
                         </div>
                         <div class="clearfix"></div>
                         <input type="hidden" name="contactId" value="' . $sectionarray[$i]->getId() . '">
+                        ' . $spamProtection->getFormFieldsHtml($sectionarray[$i]->getId()) . '
                         <div class="col-lg-12 text-center">
-                            <div class="text-center mb-1" style="width:304px; margin: 0 auto">' . $captchafield . '</div>
                             <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Send Message</button>
                         </div>
                     </div>

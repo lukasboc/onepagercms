@@ -24,4 +24,21 @@ class SQLContactActions
         }
     }
 
+    public function getContactConfig($id): ?array
+    {
+        include '../database/connect.php';
+
+        try {
+            $select = $db->prepare('SELECT name, email, message, receiverMail FROM contact WHERE specialid = :specialid;');
+            $select->bindValue(':specialid', $id);
+            $select->execute();
+            $config = $select->fetch();
+            return ($config === false) ? null : $config;
+
+        } catch (Exception $exception) {
+            echo 'Something went wrong: ' . $exception->getMessage();
+            return null;
+        }
+    }
+
 }

@@ -14,7 +14,6 @@ $backgroundimage = (isset($_GET['background-image'])) ? $_GET['background-image'
 $name = "";
 $email = "";
 $message = "";
-$captcha = "";
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -28,7 +27,6 @@ if (isset($_GET['id'])) {
     $name = $section->getName();
     $email = $section->getEmail();
     $message = $section->getMessage();
-    $captcha = $section->getCaptcha();
     $receiverMail = $section->getReceiverMail();
     if ($section->getBackground() != "") {
         $backgroundimage = $section->getBackground();
@@ -130,19 +128,6 @@ if (isset($_GET['id'])) {
                     </label>
                 </div>
 
-                <div class="mb-3 flex items-center gap-2">
-                    <label class="label cursor-pointer justify-start gap-2" for="captcha">
-                        <input type="checkbox" class="toggle" id="captcha"
-                               name="captcha" <?php if ($captcha == 'on') {
-                            echo 'checked';
-                        } ?> <?php echo $disabled ?>>
-                        Captcha
-                    </label>
-                    <a href="../core/faq.php" class="tooltip text-warning"
-                       data-tip="API-Key has to be set. For more help read FAQ.">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </a>
-                </div>
                 <div class="mb-4">
                     <label class="label cursor-pointer justify-start gap-2" for="delete-background">
                         <input class="checkbox" type="checkbox" id="delete-background" name="delete-background">

@@ -3,8 +3,7 @@ include '../database/SQLSettingActions.php';
 include '../database/SQLUserActions.php';
 $settingActions = new SQLSettingActions();
 $userActions = new SQLUserActions();
-$captchaKey = ($settingActions->getSettingValue('recaptcha_key') !== null && $settingActions->getSettingValue('recaptcha_key') !== '') ? $settingActions->getSettingValue('recaptcha_key') : '';
-$logocss = ($settingActions->getSettingValue('logo_css') !== null && $settingActions->getSettingValue('logo_css') !== '') ? $settingActions->getSettingValue('logo_css') : '';
+$logocss =($settingActions->getSettingValue('logo_css') !== null && $settingActions->getSettingValue('logo_css') !== '') ? $settingActions->getSettingValue('logo_css') : '';
 $logo = ($settingActions->getSettingValue('logo') !== null && $settingActions->getSettingValue('logo') !== '') ? $settingActions->getSettingValue('logo') : '';
 $uploadedLogo = $_GET['logo'] ?? '';
 $websiteTitle = ($settingActions->getSettingValue('website-title') !== null && $settingActions->getSettingValue('website-title') !== '') ? $settingActions->getSettingValue('website-title') : '';
@@ -121,19 +120,6 @@ $metadescription = ($settingActions->getSettingValue('page-description') !== nul
             <div class="join w-full">
                 <input type='submit' class="btn btn-primary join-item" id='image-upload' value='Save'>
                 <input type="file" class="file-input join-item w-full" name="48x48ico">
-            </div>
-        </div>
-    </form>
-
-    <h2>reCAPTCHA</h2>
-    <form method="post" action="../misc/changecaptcha.php">
-        <div class="mb-4">
-            <label class="label" for="recaptcha_key">API Key:</label>
-            <div class="join w-full">
-                <input type="text" id="recaptcha_key" name="recaptcha_key" class="input join-item w-full"
-                       value="<?php echo $captchaKey ?>">
-                <input type='submit' class="btn btn-primary join-item" name='captchaKey'
-                       id='change' value='Save'>
             </div>
         </div>
     </form>

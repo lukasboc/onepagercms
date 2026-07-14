@@ -248,6 +248,36 @@ and `$opcmsData` plus the extracted data variables (see the default templates
 for what each receives). The active theme is switched on the Design page and
 stored in the `active-theme` setting.
 
+### Contact form spam protection (required since 1.2.1)
+
+Since v1.2.1 the contact form handler (`misc/contactform.php`) is protected by
+an invisible honeypot field and a signed form token. Submissions without a
+valid token are **silently dropped** — so if your theme overrides
+`section-contact`, it **must** render the protection fields inside the
+`<form>`, next to the hidden `contactId` input:
+
+```php
+$protectionFields = class_exists('SQLSpamProtectionActions')
+    ? (new SQLSpamProtectionActions())->getFormFieldsHtml($section->getId()) : '';
+```
+
+```php
+<input type="hidden" name="contactId" value="<?php echo $section->getId() ?>">
+<?php echo $protectionFields ?>
+```
+
+`getFormFieldsHtml()` returns a hidden `formToken` input (an HMAC-signed
+timestamp bound to the section id) plus an off-screen honeypot field. Do not
+style, rename or reposition the honeypot input (`name="website"`) — bots are
+expected to fill it, humans must never see it. The `class_exists()` guard
+keeps the theme installable on CMS versions before 1.2.1, where the handler
+does not require the token (same pattern as `opcms_theme_option()` below).
+
+See `themes/agency/templates/section-contact.php` for the reference
+implementation. Everything else (time trap, rate limiting, server-side
+validation) is enforced centrally in the handler — themes need nothing beyond
+these two lines.
+
 ### Theme options
 
 A theme can declare user-editable options in its `theme.json`. When the theme

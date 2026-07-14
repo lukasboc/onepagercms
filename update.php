@@ -242,7 +242,7 @@ if (!$alreadyRan) {
             if (tableExists($db, 'faq')) {
                 runSQL($db, $results, 'FAQ: Standardeinträge aktualisieren', <<<'SQL'
 INSERT OR REPLACE INTO faq (id, question, answer, category) VALUES
-(0, 'How do I use the Captcha?', 'To use the Captcha, you need to set a Google reCAPTCHA API key in the Settings area. You can get your key from <a href="https://developers.google.com/recaptcha/intro">google.com/recaptcha</a>. <strong>Important:</strong> while configuring reCAPTCHA, please select "reCAPTCHA Version 2" and "Checkbox".', 'Settings'),
+(0, 'How does the contact form protect against spam?', 'Spam protection is built in and requires no configuration. Every contact form is protected by an invisible honeypot field, a signed form token with a time trap, and rate limiting. No external services (like Google reCAPTCHA) are used, so no visitor data is shared with third parties and no cookie consent is required.', 'Settings'),
 (1, 'Is OPCMS free?', 'Yes. OPCMS is — and always will be — completely free. In the future, there may be optional premium themes or plugins available for purchase.', 'General'),
 (2, 'How do I log into the backend?', 'You can access the backend by visiting:<br><br>http://yourdomain.tld/opcms-login.php<br><br>For example, the login page for the OPCMS demo can be found here:<br><a href="http://demo.onepagercms.de/opcms-login.php">http://demo.onepagercms.de/opcms-login.php</a>', 'General'),
 (3, 'Can I support the project?', 'Absolutely. Reporting bugs helps us a lot. We would appreciate it if you created an issue on our GitHub page. You can also use the contact form on <a href="https://onepagercms.de">https://onepagercms.de</a>.', 'General'),
