@@ -5,8 +5,10 @@
  * Anleitung:
  * 1. Neue Repository-Dateien herunterladen
  * 2. Alle Dateien AUSSER database/SQLiteDatabase.db auf den Server laden
- * 3. Diese Datei im Browser aufrufen: https://ihre-domain.de/update.php
- * 4. Diese Datei nach erfolgreicher Ausführung vom Server löschen!
+ * 3. Nicht mehr enthaltene Altdateien vom Server löschen
+ *    (seit 1.2.1 entfernt: misc/changecaptcha.php)
+ * 4. Diese Datei im Browser aufrufen: https://ihre-domain.de/update.php
+ * 5. Diese Datei nach erfolgreicher Ausführung vom Server löschen!
  */
 
 $lockFile = __DIR__ . '/.update.lock';

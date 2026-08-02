@@ -247,9 +247,9 @@
   <p>
     <strong>No manual database migration is required.</strong> The new spam
     protection and the security fixes work as soon as the new files are in
-    place. Running <code>update.php</code> once (step 4 below) simply adds the
-    new "Security check failed" status message text; without it, blocked
-    requests are still stopped, they just show a generic page.
+    place, and the new "Security check failed" status message is created
+    automatically the first time it is needed. Running <code>update.php</code>
+    (step 4 below) is only required when updating from v1.1.0 or older.
   </p>
 
   <ol class="update-steps">
@@ -268,7 +268,9 @@
       the <code>misc/inc/auth.php</code> guard and the <code>.htaccess</code>
       files in the <code>img/</code> upload folders. Then delete
       <code>misc/changecaptcha.php</code> from your webspace if it is still
-      there.
+      there: v1.2.1 removed this file, but overriding files does not delete
+      it — a leftover copy keeps an unprotected endpoint from older
+      versions on your server.
     </li>
 
     <li>
@@ -276,7 +278,7 @@
       upload the <code>SQLiteDatabase.db</code> you saved in step 1 back
       into the <code>database/</code> folder. Then open
       <code>https://your-domain.tld/update.php</code> once in your browser
-      to add the new status message, and <strong>delete
+      to apply any missing database migrations, and <strong>delete
       <code>update.php</code></strong> from your webspace afterwards. This
       step is safe to run repeatedly and never touches your content.
     </li>
