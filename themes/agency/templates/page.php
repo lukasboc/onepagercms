@@ -20,6 +20,14 @@
         background: <?php echo $settingactions->getSettingValue("text-primary") ?>;
     }
 
+    #mainNav {
+        background-color: <?php echo $settingactions->getSettingValue("navigation-color") ?>;
+    }
+
+    #mainNav.navbar-shrink {
+        background-color: <?php echo $settingactions->getSettingValue("navigation-color") ?>;
+    }
+
     #mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
         color: <?php echo $settingactions->getSettingValue("text-primary") ?>;
     }
